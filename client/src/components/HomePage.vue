@@ -44,20 +44,8 @@
   </div>
 </template>
 
+<style scoped src="@/assets/css/style.css"></style>
 <style scoped>
-.name {
-  color: #313437;
-  font-weight: bold;
-  font-size: 16px;
-  margin-top: 20px;
-}
-
-.description {
-  color: #7d8285;
-  font-weight: bold;
-  font-size: 14px;
-}
-
 .container {
   padding: 20px;
   margin-top: 40px;

@@ -3,7 +3,7 @@
         <form method="post" style="padding-top: 0px;">
             <h2 class="sr-only">Login Form</h2>
             <div class="illustration">
-              <i class="fas fa-user-alt col-xl-5" style="color: rgb(140,138,138);"></i>
+              <i class="fas fa-user-alt col-xl-5"></i>
             </div>
             <div class="form-group">
               <input class="form-control" type="email" name="email" placeholder="Email">
@@ -23,7 +23,7 @@
 </template>
 
 <style scoped src="@/assets/css/style.css"></style>
-<style>
+<style scoped>
 .btn {
   margin-top: 1rem;
 }

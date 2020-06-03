@@ -22,7 +22,7 @@
   }
   .navbar {
     z-index: 5;
-    background-color: rgb(247,244,244);
+    background-color: rgb(240,240,240);
     position: fixed;
     top: 0;
     width: 100%;
