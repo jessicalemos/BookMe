@@ -12,7 +12,7 @@
       line-height: 50px;
       overflow: hidden;
       background: rgb(240,240,240);
-      position: absolute;
+      position: fixed;
       text-align: center;
       right: 0;
       left: 0;
@@ -20,6 +20,7 @@
   }
   .copyright {
     font-family: Avenir, Helvetica, Arial, sans-serif;
-    color: rgba(0,0,0,.5)
+    color: rgba(0,0,0,.5);
+    font-weight: bold;
   }
 </style>

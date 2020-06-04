@@ -3,7 +3,7 @@
     <div class="col-8 mx-auto my-5 py-5">
       <div class="row justify-center" id="Group">
         <div class="col-12 box">
-          <button type="button" class="btn btn-secondary" @click="$router.push('/admin/register-library')">
+          <button type="button" class="btn btn-secondary" @click="$router.push('/registar-biblioteca')">
             <i class="fa fa-plus"></i> Adicionar
           </button>
         </div>
@@ -14,10 +14,10 @@
                   Biblioteca Pública Municipal do Porto
                 </strong>
                 <div class="d-inline">
-                  <button class="btn btn-secondary config" type="button" @click="$router.push('/admin/edit-responsible')">
+                  <button class="btn btn-secondary config" type="button" @click="$router.push('/editar-responsavel')">
                     <i class="fas fa-cog"></i>
                   </button>
-                  <button class="btn remove" type="button">
+                  <button class="btn btn-danger remove" type="button">
                     <i class="far fa-trash-alt"></i>
                   </button>
                 </div>
@@ -30,7 +30,7 @@
                   <button class="btn btn-secondary config" type="button">
                     <i class="fas fa-cog"></i>
                   </button>
-                  <button class="btn remove" type="button">
+                  <button class="btn btn-danger remove" type="button">
                     <i class="far fa-trash-alt"></i>
                   </button>
                 </div>
@@ -42,7 +42,7 @@
                   <button class="btn btn-secondary config" type="button">
                     <i class="fas fa-cog"></i>
                   </button>
-                  <button class="btn remove" type="button">
+                  <button class="btn btn-danger remove" type="button">
                     <i class="far fa-trash-alt"></i>
                   </button>
                 </div>
@@ -55,19 +55,17 @@
 </template>
 
 <style scoped>
+.list-group-item {
+  height: 70px;
+}
+
 .btn.config {
   background-color: rgb(140, 138, 138);
   color: rgb(246,247,248);
 }
 
-.btn.remove {
-  background-color: rgb(213,5,17);
-  color: rgb(246,247,248);
+.btn.btn-danger.remove {
   margin-left: 5px;
-}
-
-.form-group {
-  height: 70px;
 }
 
 .list-group-item-action {

@@ -8,10 +8,10 @@
               <input class="form-control" type="email" name="email" placeholder="Email">
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" name="telemovel" placeholder="Telemóvel">
+                <input class="form-control" type="text" name="morada" placeholder="Morada">
             </div>
             <div class="form-group">
-              <input class="form-control" type="password" name="password" placeholder="Password">
+              <input class="form-control" type="text" name="telemovel" placeholder="Telemóvel">
             </div>
             <div class="row">
               <div class="col-sm-6">

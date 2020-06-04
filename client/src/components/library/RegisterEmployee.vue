@@ -14,7 +14,7 @@
               <input class="form-control" type="password" name="password" placeholder="Password" required>
               </div>
             <button class="btn btn-secondary btn-block" type="submit" style="background-color: rgb(140,138,138);">
-                Sign Up
+              Registar Funcionário
             </button>
         </form>
     </div>

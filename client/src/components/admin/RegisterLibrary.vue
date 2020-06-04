@@ -7,16 +7,16 @@
                     <strong>Dados Biblioteca</strong>
                   </span>
                     <div class="form-group first">
-                      <input class="form-control" type="email" placeholder="Nome" name="name">
+                      <input class="form-control" type="email" placeholder="Nome" name="name" required>
                     </div>
                     <div class="form-group">
-                      <input class="form-control" type="email" name="email" placeholder="Email">
+                      <input class="form-control" type="email" name="email" placeholder="Email" required>
                     </div>
                     <div class="form-group">
-                      <input class="form-control" type="email" name="morada" placeholder="Morada">
+                      <input class="form-control" type="email" name="morada" placeholder="Morada" required>
                     </div>
                     <div class="form-group">
-                      <input class="form-control" type="email" name="phone" placeholder="Telemóvel">
+                      <input class="form-control" type="email" name="phone" placeholder="Telemóvel" required>
                     </div>
                 </div>
                 <div class="col-md-6" style="padding-left: 25px;">
@@ -24,16 +24,16 @@
                     <strong>Dados Responsável</strong>
                   </span>
                   <div class="form-group first">
-                    <input class="form-control" type="email" placeholder="Nome" name="name">
+                    <input class="form-control" type="email" placeholder="Nome" name="name" required>
                   </div>
                   <div class="form-group">
-                    <input class="form-control" type="email" name="email" placeholder="Email">
+                    <input class="form-control" type="email" name="email" placeholder="Email" required>
                   </div>
                   <div class="form-group">
-                    <input class="form-control" type="email" name="Telemóvel" placeholder="Telemóvel">
+                    <input class="form-control" type="email" name="Telemóvel" placeholder="Telemóvel" required>
                   </div>
                   <div class="form-group">
-                    <input class="form-control" type="password" name="password" placeholder="Password">
+                    <input class="form-control" type="password" name="password" placeholder="Password" required>
                   </div>
                 </div>
             </div>

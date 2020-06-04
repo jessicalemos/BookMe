@@ -25,7 +25,6 @@ export default {
   text-align: center;
   height: 100%;
   position: relative;
-  font-weight: bold;
 }
 html, body {
   background-color: rgb(248,248,248) !important;

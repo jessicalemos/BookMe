@@ -1,15 +1,14 @@
 <template>
     <div class="login-clean">
         <form method="post" style="padding-top: 0px;">
-            <h2 class="sr-only">Login Form</h2>
             <div class="illustration">
               <i class="fas fa-user-alt col-xl-5"></i>
             </div>
             <div class="form-group">
-              <input class="form-control" type="email" name="email" placeholder="Email">
+              <input class="form-control" type="email" name="email" placeholder="Email" required>
             </div>
             <div class="form-group">
-              <input class="form-control" type="password" name="password" placeholder="Password">
+              <input class="form-control" type="password" name="password" placeholder="Password" required>
             </div>
             <div class="form-group">
               <button class="btn btn-secondary btn-block" type="submit" style="background-color: rgb(140,138,138);">
