@@ -10,8 +10,8 @@
             <div class="navbar-nav ml-auto">
               <router-link to="/registar" class="nav-item nav-link"><i class="fas fa-user"></i> Sign Up</router-link>
               <router-link to="/login" class="nav-item nav-link"><i class="fas fa-sign-in-alt"></i> Sign In</router-link>
-              <router-link to="/reservas" class="nav-item nav-link"><i class="fas fa-bookmark"></i> Reservas</router-link>
-              <router-link to="/requisicoes" class="nav-item nav-link"><i class="fas fa-book"></i> Requisições</router-link>
+              <!--<router-link to="/reservas" class="nav-item nav-link"><i class="fas fa-bookmark"></i> Reservas</router-link>
+              <router-link to="/requisicoes" class="nav-item nav-link"><i class="fas fa-book"></i> Requisições</router-link>-->
             </div>
         </div>
     </nav>

@@ -53,10 +53,11 @@
 <style scoped>
 .reservas {
   font-size: 18px;
+  color: rgb(29,33,37);
 }
 
 .list-group-item {
-  height: 90px;
+  min-height: 70px;
 }
 
 .list-group-item-action {

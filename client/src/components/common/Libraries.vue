@@ -3,7 +3,7 @@
     <div class="col-8 mx-auto my-5 py-5">
       <div class="row justify-center" id="Group">
         <div class="col-12 box">
-          <button type="button" class="btn btn-secondary" @click="$router.push('/registar-biblioteca')">
+          <button v-if="library()" type="button" class="btn btn-secondary" @click="$router.push('/registar-biblioteca')">
             <i class="fa fa-plus"></i> Adicionar
           </button>
         </div>
@@ -13,7 +13,7 @@
                 <strong>
                   Biblioteca Pública Municipal do Porto
                 </strong>
-                <div class="d-inline">
+                <div v-if="library()" class="d-inline">
                   <button class="btn btn-secondary config" type="button" @click="$router.push('/editar-responsavel')">
                     <i class="fas fa-cog"></i>
                   </button>
@@ -26,7 +26,7 @@
                 <strong>
                   Biblioteca Pública Municipal do Porto
                 </strong>
-                <div class="d-inline">
+                <div v-if="library()" class="d-inline">
                   <button class="btn btn-secondary config" type="button">
                     <i class="fas fa-cog"></i>
                   </button>
@@ -38,7 +38,7 @@
                 <strong>
                   Biblioteca Pública Municipal do Porto
                 </strong>
-                <div class="d-inline">
+                <div v-if="library()" class="d-inline">
                   <button class="btn btn-secondary config" type="button">
                     <i class="fas fa-cog"></i>
                   </button>
@@ -53,6 +53,16 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    library: function () {
+      return true
+    }
+  }
+}
+</script>
 
 <style scoped>
 .list-group-item {

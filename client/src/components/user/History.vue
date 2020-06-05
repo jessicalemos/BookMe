@@ -1,0 +1,109 @@
+<template>
+  <div style="min-height: 100%">
+    <div class="col-10 mx-auto my-5 py-5">
+      <div class="row justify-center" id="Group">
+        <div class="col-lg-4">
+          <div class="list-group">
+              <a class="list-group-item d-flex align-items-center justify-content-between list-group-item-action">
+                <div class="history text-left">
+                  <i class="fas fa-list-ul"></i><strong>&nbsp; Devolvidos</strong>
+                </div>
+              </a>
+              <a class="list-group-item list-group-item-action">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div class="text-left">
+                    <div class="date">20-04-2020 11:30h</div>
+                    <strong>Memorial do Convento</strong><br>
+                    Biblioteca Pública de Braga<br>
+                  </div>
+                </div>
+              </a>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="list-group">
+              <a class="list-group-item history d-flex align-items-center justify-content-between list-group-item-action">
+                <div class="history text-left">
+                  <i class="fas fa-list-ul"></i><strong>&nbsp; Requisitados</strong>
+                </div>
+              </a>
+              <a class="list-group-item list-group-item-action">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div class="text-left">
+                    <div class="date">20-04-2020 11:30h</div>
+                    <strong>Memorial do Convento</strong><br>
+                    Biblioteca Pública de Braga<br>
+                  </div>
+                  <div class="d-inline">
+                    <button class="btn btn-secondary" type="button">
+                      <i class="far fa-check-circle"></i>
+                    </button>
+                  </div>
+                </div>
+              </a>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="list-group">
+              <a class="list-group-item history d-flex align-items-center justify-content-between list-group-item-action">
+                <div class="history text-left">
+                  <i class="fas fa-list-ul"></i><strong>&nbsp; Reservados</strong>
+                </div>
+              </a>
+              <a class="list-group-item list-group-item-action">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div class="text-left">
+                    <div class="date">20-04-2020 11:30h</div>
+                    <strong>Memorial do Convento</strong><br>
+                    Biblioteca Pública de Braga<br>
+                  </div>
+                  <div class="d-inline">
+                    <button class="btn btn-danger" type="button">
+                      <i class="far fa-trash-alt"></i>
+                    </button>
+                  </div>
+                </div>
+              </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.date {
+  font-size: 14px;
+}
+
+.history {
+  font-size: 18px;
+  color: rgb(29,33,37);
+}
+
+.list-group-item {
+  min-height: 70px;
+}
+
+.btn.config {
+  background-color: rgb(140, 138, 138);
+  color: rgb(246,247,248);
+}
+
+.btn.btn-danger.remove {
+  margin-left: 5px;
+}
+
+.list-group-item-action {
+  color: #495057;
+}
+
+.btn.btn-secondary{
+  float: left;
+  background-color: rgb(140, 138, 138);
+}
+
+.box {
+  margin-bottom: 10px;
+}
+</style>

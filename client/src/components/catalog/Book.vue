@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="col-8 mx-auto my-5 py-5">
         <div class="row">
             <div class="col-md-6 align-self-center">
                 <img src="@/assets/img/lus.jpeg" class="img-responsive"/>
