@@ -92,7 +92,7 @@ const routes = [
     component: EditLibrary
   },
   {
-    path: '/editar-perfil',
+    path: '/perfil',
     name: 'EditProfile',
     component: EditProfile
   },
