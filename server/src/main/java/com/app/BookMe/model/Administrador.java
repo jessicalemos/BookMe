@@ -7,12 +7,7 @@ import javax.persistence.Id;
 import java.util.List;
 
 @Entity
-public class Administrador {
-    @Id
-    @GeneratedValue(strategy =  GenerationType.AUTO)
-    private int iD;
-	private String nome;
-	private String password;
+public class Administrador  extends Utilizador{
 
 	public Biblioteca removeBiblioteca(String nome) {
 		throw new UnsupportedOperationException();

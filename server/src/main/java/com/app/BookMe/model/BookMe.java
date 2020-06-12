@@ -1,12 +1,31 @@
 package com.app.BookMe.model;
 
+import com.app.BookMe.beans.RequisitanteBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.HashSet;
 import java.util.List;
 
+@Service
 public class BookMe {
+	private static RequisitanteBean rb;
 	public Administrador admin;
 	public HashSet<Biblioteca> bibliotecas = new HashSet<Biblioteca>();
 	public HashSet<Requisitante> requisitantes = new HashSet<Requisitante>();
+
+	@Autowired
+	public BookMe(RequisitanteBean reqb){
+		this.rb = reqb;
+	}
+
+    /**
+     * Regista requisitante no sistema
+     * @param r Requisitante
+     */
+    public static void registarRequisitante(Requisitante r) {
+        rb.registarRequisitante(r);
+    }
 
 	public Biblioteca removeBiblioteca(String nome) {
 		throw new UnsupportedOperationException();
