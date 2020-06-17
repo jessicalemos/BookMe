@@ -71,3 +71,9 @@
     font-weight: bold;
     font-size: 14px;
 }
+
+.error {
+    color: #dc3545;
+    font-size: 13px;
+    font-weight: bold;
+}

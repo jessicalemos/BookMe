@@ -8,26 +8,28 @@
 
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ml-auto">
-              <router-link to="/registar" class="nav-item nav-link"><i class="fas fa-user"></i> Sign Up</router-link>
-              <router-link to="/login" class="nav-item nav-link"><i class="fas fa-sign-in-alt"></i> Sign In</router-link>
+              <router-link v-if="!loggedIn" to="/registar" class="nav-item nav-link"><i class="fas fa-user"></i> Sign Up</router-link>
+              <router-link v-if="!loggedIn" to="/login" class="nav-item nav-link"><i class="fas fa-sign-in-alt"></i> Sign In</router-link>
               <!--<router-link to="/reservas" class="nav-item nav-link"><i class="fas fa-bookmark"></i> Reservas</router-link>
               <router-link to="/requisicoes" class="nav-item nav-link"><i class="fas fa-book"></i> Requisições</router-link>-->
-              <a class="dropdown-toggle nav-item nav-link" data-toggle="dropdown" aria-expanded="false" href="#">
-                <strong><i class="fas fa-user"></i> User</strong>
-              </a>
-              <div class="dropdown-menu">
-                  <router-link to="/perfil" class="dropdown-item nav-item">
-                    <i class="far fa-user-circle"></i>
-                    <strong>&nbsp;Perfil</strong>
-                  </router-link>
-                  <router-link to="/historico" class="dropdown-item nav-item">
-                    <i class="fas fa-history"></i>
-                    <strong>&nbsp;Histórico</strong>
-                  </router-link>
-                <a class="dropdown-item nav-item">
-                  <i class="fas fa-sign-out-alt"></i>
-                  <strong>&nbsp;Sign Out</strong>
+              <div v-if="user_type==='Requisitante'">
+                <a class="dropdown-toggle nav-item nav-link" data-toggle="dropdown" aria-expanded="false">
+                  <strong><i class="fas fa-user"></i> {{username}}</strong>
                 </a>
+                <div class="dropdown-menu">
+                    <router-link to="/perfil" class="dropdown-item nav-item">
+                      <i class="far fa-user-circle"></i>
+                      <strong>&nbsp;Perfil</strong>
+                    </router-link>
+                    <router-link to="/historico" class="dropdown-item nav-item">
+                      <i class="fas fa-history"></i>
+                      <strong>&nbsp;Histórico</strong>
+                    </router-link>
+                  <a class="dropdown-item nav-item" @click="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <strong>&nbsp;Sign Out</strong>
+                  </a>
+                </div>
               </div>
             </div>
         </div>
@@ -60,5 +62,35 @@
   }
   a {
     background-color:transparent !important;
+    cursor: pointer;
   }
 </style>
+
+<script>
+import UserHandler from '@/utils/UserHandler.js'
+
+export default {
+  name: 'Header',
+  data: () => ({
+    loggedIn: false,
+    user_type: null,
+    username: null
+  }),
+  mounted: function () {
+    const user = UserHandler.get()
+    if (user !== false) {
+      this.user_type = user.role
+      this.username = user.username
+      this.loggedIn = true
+    }
+  },
+  methods: {
+    logout () {
+      UserHandler.remove()
+      this.loggedIn = false
+      this.user_type = null
+      this.$router.push('/')
+    }
+  }
+}
+</script>
