@@ -58,7 +58,7 @@
                     Biblioteca Pública de Braga<br>
                   </div>
                   <div class="d-inline">
-                    <button class="btn btn-danger" type="button">
+                    <button class="btn btn-danger" @click="$bvModal.show('modal-scoped')" type="button">
                       <i class="far fa-trash-alt"></i>
                     </button>
                   </div>
@@ -67,6 +67,22 @@
           </div>
         </div>
       </div>
+    </div>
+    <div>
+      <b-modal id="modal-scoped">
+        <template v-slot:modal-header>
+          <b>Remover Reserva</b>
+        </template>
+        <template v-slot:default>Tem a certeza que pretende remover esta reserva?</template>
+        <template v-slot:modal-footer>
+          <b-button size="sm" variant="outline-danger" @click="$bvModal.hide('modal-scoped')">
+            <i class="fas fa-times"></i> Não
+          </b-button>
+          <b-button size="sm" variant="outline-success" @click="remove()">
+            <i class="fas fa-check"></i> Sim
+          </b-button>
+        </template>
+      </b-modal>
     </div>
   </div>
 </template>

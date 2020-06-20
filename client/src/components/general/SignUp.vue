@@ -13,10 +13,21 @@
             <div class="form-group">
               <input class="form-control" v-model="user.password" type="password" placeholder="Password" required>
             </div>
-            <span class="error" v-if="error === 1"><i class="fas fa-exclamation-triangle"></i> Email já em uso</span>
             <button class="btn btn-secondary btn-block" type="submit" style="background-color: rgb(140,138,138);">
                 Sign Up
             </button>
+            <div v-if="error === 1">
+              <b-alert class="alert" variant="danger" show dismissible>
+                <b>Error</b><br/>
+                <span class="alert-text">Email já em uso</span>
+              </b-alert>
+            </div>
+            <div v-if="error === -1">
+              <b-alert class="alert" variant="success" show dismissible>
+                <b>Sucesso</b><br/>
+                <span class="alert-text">Registado com sucesso</span>
+              </b-alert>
+            </div>
         </form>
     </div>
 </template>
@@ -47,6 +58,8 @@ export default {
       const req = await ApiUsers.register(this.user)
       if (req.success && req.token === 'Username already exists') {
         this.error = 1
+      } else if (req.success) {
+        this.error = -1
       }
     }
   }

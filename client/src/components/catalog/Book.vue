@@ -13,7 +13,7 @@
               <strong>Categoria </strong>Romance</p>
               <div v-if="library()">
                 <button
-                  class="btn btn-secondary remove" type="button">
+                  class="btn btn-danger remove" @click="$bvModal.show('modal-scoped')" type="button">
                   <i class="far fa-trash-alt"></i>
                 </button>
               </div>
@@ -40,6 +40,22 @@
             </div>
             </div>
       </div>
+      <div>
+        <b-modal id="modal-scoped">
+          <template v-slot:modal-header>
+            <b>Remover Livro</b>
+          </template>
+          <template v-slot:default>Tem a certeza que pretende remover este livro?</template>
+          <template v-slot:modal-footer>
+            <b-button size="sm" variant="outline-danger" @click="$bvModal.hide('modal-scoped')">
+              <i class="fas fa-times"></i> Não
+            </b-button>
+            <b-button size="sm" variant="outline-success" @click="remove()">
+              <i class="fas fa-check"></i> Sim
+            </b-button>
+          </template>
+        </b-modal>
+      </div>
     </div>
 </template>
 
@@ -56,7 +72,10 @@ export default {
       this.branchid = evt.target.value
     },
     library: function () {
-      return false
+      return true
+    },
+    remove () {
+      this.$router.push('/catalogo')
     }
   }
 }
