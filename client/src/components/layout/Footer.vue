@@ -1,11 +1,8 @@
 <template>
-    <footer class="phone-viewport">
-      <p class="copyright" style="color: #aaa">Made with <i class="fa fa-heart pulse"></i> Book Me © 2020</p>
+    <footer class="phone-viewport" style="background: rgb(225, 224, 225);">
+      <p class="copyright">Made with <i class="fa fa-heart pulse"></i> Book Me © 2020</p>
     </footer>
 </template>
-
-<script>
-</script>
 
 <style scoped>
   .phone-viewport {
@@ -14,12 +11,16 @@
       height: 1.5cm;
       line-height: 50px;
       overflow: hidden;
-      background: rgb(247,244,244);
-      position: absolute;
-      bottom: 0;
+      background: rgb(240,240,240);
+      position: fixed;
       text-align: center;
       right: 0;
       left: 0;
       background-repeat: no-repeat;
+  }
+  .copyright {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    color: rgba(0,0,0,.5);
+    font-weight: bold;
   }
 </style>
