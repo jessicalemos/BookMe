@@ -8,6 +8,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -53,6 +54,10 @@ public class AdministradorBean {
         responsavel.setNome(nome);
         rr.save(responsavel);
         return responsavel;
+    }
+
+    public List<Biblioteca> consultaBibliotecas(){
+        return br.findAll();
     }
 
     /**

@@ -78,6 +78,8 @@ public class BookMe {
 
 	public static Livro consultarLivroId(long idLivro) {return rb.consultarLivroId(idLivro);}
 
+    public static List<Biblioteca> consultaBiliotecas(){return ab.consultaBibliotecas();}
+
 	public static Biblioteca consultarBibliotecaId(long idBiblioteca) {return ab.consultarBibliotecaId(idBiblioteca);}
 
 	public static Responsavel consultarBibliotecaResponsavel(long idBiblioteca) {return ab.consultarBibliotecaResponsavel(idBiblioteca);}

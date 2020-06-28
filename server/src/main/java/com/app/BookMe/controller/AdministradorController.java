@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -54,6 +55,11 @@ public class AdministradorController {
                 return null ;
             }
             return BookMe.editarResponsavel(r.getiD(), r.getEmail(),passwordEncoder.encode(r.getPassword()),r.getNome());
+    }
+
+    @GetMapping("/bibliotecas")
+    public List<Biblioteca> consultaBibliotecas(){
+        System.out.println(BookMe.consultaBiliotecas());return BookMe.consultaBiliotecas();
     }
 
     @GetMapping("/biblioteca/{bibliotecaID}")
