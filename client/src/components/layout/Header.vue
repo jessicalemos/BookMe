@@ -31,6 +31,12 @@
                   </a>
                 </div>
               </div>
+              <div v-if="user_type==='Administrador'">
+                <a class="nav-item nav-link" @click="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <strong>&nbsp;Sign Out</strong>
+                  </a>
+              </div>
             </div>
         </div>
     </nav>
@@ -44,6 +50,7 @@
   .navbar {
     z-index: 5;
     background-color: rgb(240,240,240);
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 10px 0px;
     position: fixed;
     top: 0;
     width: 100%;

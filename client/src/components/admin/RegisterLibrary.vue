@@ -1,22 +1,22 @@
 <template>
   <div class="login-clean">
-        <form method="post" style="max-width: 850px">
+        <form @submit.prevent="register" style="max-width: 850px">
             <div class="form-row">
                 <div class="col-md-6">
                   <span class="data">
                     <strong>Dados Biblioteca</strong>
                   </span>
                     <div class="form-group first">
-                      <input class="form-control" type="email" placeholder="Nome" name="name" required>
+                      <input class="form-control" v-model="library.nome" type="text" placeholder="Nome" required>
                     </div>
                     <div class="form-group">
-                      <input class="form-control" type="email" name="email" placeholder="Email" required>
+                      <input class="form-control" v-model="library.email" type="email" placeholder="Email" required>
                     </div>
                     <div class="form-group">
-                      <input class="form-control" type="email" name="morada" placeholder="Morada" required>
+                      <input class="form-control" v-model="library.morada" type="text" placeholder="Morada" required>
                     </div>
                     <div class="form-group">
-                      <input class="form-control" type="email" name="phone" placeholder="Telemóvel" required>
+                      <input class="form-control" v-model="library.telemovel" type="text" placeholder="Telemóvel" required>
                     </div>
                 </div>
                 <div class="col-md-6" style="padding-left: 25px;">
@@ -24,16 +24,13 @@
                     <strong>Dados Responsável</strong>
                   </span>
                   <div class="form-group first">
-                    <input class="form-control" type="email" placeholder="Nome" name="name" required>
+                    <input class="form-control" v-model="employee.nome" type="text" placeholder="Nome" required>
                   </div>
                   <div class="form-group">
-                    <input class="form-control" type="email" name="email" placeholder="Email" required>
+                    <input class="form-control" v-model="employee.email" type="email" placeholder="Email" required>
                   </div>
                   <div class="form-group">
-                    <input class="form-control" type="email" name="Telemóvel" placeholder="Telemóvel" required>
-                  </div>
-                  <div class="form-group">
-                    <input class="form-control" type="password" name="password" placeholder="Password" required>
+                    <input class="form-control" v-model="employee.password" type="password" placeholder="Password" required>
                   </div>
                 </div>
             </div>
@@ -43,6 +40,33 @@
         </form>
     </div>
 </template>
+
+<script>
+import ApiAdmin from '@/api/ApiAdmin'
+
+export default {
+  name: 'RegisterLibrary',
+  data: () => ({
+    library: {
+      type: 'responsavel'
+    },
+    employee: {
+      type: 'responsavel'
+    }
+  }),
+  mounted: function () {
+
+  },
+  methods: {
+    async register () {
+      const req = await ApiAdmin.registerLibrary(this.library)
+      console.log(req)
+      const reqe = await ApiAdmin.registerEmployee(this.employee)
+      console.log(reqe)
+    }
+  }
+}
+</script>
 
 <style scoped src="@/assets/css/style.css"></style>
 <style scoped>

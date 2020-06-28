@@ -3,43 +3,18 @@
     <div class="col-8 mx-auto my-5 py-5">
       <div class="row justify-center" id="Group">
         <div class="col-12 box">
-          <button v-if="library()" type="button" class="btn btn-secondary" @click="$router.push('/registar-biblioteca')">
+          <button v-if="user_type == 'Administrador'" type="button" class="btn btn-secondary" @click="$router.push('/registar-biblioteca')">
             <i class="fa fa-plus"></i> Adicionar
           </button>
         </div>
         <div class="col-12">
           <div class="list-group">
-              <a class="list-group-item d-flex align-items-center justify-content-between list-group-item-action">
+              <a v-for="g in libraries" :key="g.id" class="list-group-item d-flex align-items-center justify-content-between list-group-item-action">
                 <strong>
-                  Biblioteca Pública Municipal do Porto
+                  {{g.nome}}
                 </strong>
-                <div v-if="library()" class="d-inline">
+                <div v-if="user_type == 'Administrador'" class="d-inline">
                   <button class="btn btn-secondary config" type="button" @click="$router.push('/editar-responsavel')">
-                    <i class="fas fa-cog"></i>
-                  </button>
-                  <button class="btn btn-danger remove" @click="$bvModal.show('modal-scoped')" type="button">
-                    <i class="far fa-trash-alt"></i>
-                  </button>
-                </div>
-              </a>
-              <a class="list-group-item d-flex align-items-center justify-content-between list-group-item-action">
-                <strong>
-                  Biblioteca Pública Municipal do Porto
-                </strong>
-                <div v-if="library()" class="d-inline">
-                  <button class="btn btn-secondary config" type="button">
-                    <i class="fas fa-cog"></i>
-                  </button>
-                  <button class="btn btn-danger remove" @click="$bvModal.show('modal-scoped')" type="button">
-                    <i class="far fa-trash-alt"></i>
-                  </button>
-                </div>
-              </a><a class="list-group-item d-flex align-items-center justify-content-between list-group-item-action">
-                <strong>
-                  Biblioteca Pública Municipal do Porto
-                </strong>
-                <div v-if="library()" class="d-inline">
-                  <button class="btn btn-secondary config" type="button">
                     <i class="fas fa-cog"></i>
                   </button>
                   <button class="btn btn-danger remove" @click="$bvModal.show('modal-scoped')" type="button">
@@ -71,10 +46,26 @@
 </template>
 
 <script>
+import UserHandler from '@/utils/UserHandler.js'
+import ApiAdmin from '@/api/ApiAdmin'
+
 export default {
+  name: 'Libraries',
+  data: () => ({
+    user_type: null,
+    libraries: {}
+  }),
+  mounted: function () {
+    const user = UserHandler.get()
+    if (user !== false) {
+      this.user_type = user.role
+    }
+    this.getLibraries()
+  },
   methods: {
-    library: function () {
-      return true
+    async getLibraries () {
+      this.libraries = await ApiAdmin.libraries()
+      console.log(this.libraries)
     }
   }
 }
