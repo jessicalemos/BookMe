@@ -20,18 +20,16 @@ public class AdministradorController {
     private BCryptPasswordEncoder passwordEncoder;
 
     @PostMapping("/registarBiblioteca")
-    public String registarBiblioteca(@RequestBody Biblioteca b) {
+    public long registarBiblioteca(@RequestBody Biblioteca b) {
         Optional<Biblioteca> findByEmail = br.findByEmail(b.getEmail());
         if(findByEmail.isPresent()){
-            return "Already exists" ;
+            return -1 ;
         }
 
         Biblioteca newB = new Biblioteca(b.getMorada(), b.getNome(), b.getTelemovel(),
                 b.getEmail());
 
-        BookMe.registaBiblioteca(newB);
-
-        return "Sucessfully registered!";
+        return BookMe.registaBiblioteca(newB);
     }
 
 

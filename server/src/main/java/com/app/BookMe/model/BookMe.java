@@ -34,8 +34,8 @@ public class BookMe {
 		throw new UnsupportedOperationException();
 	}
 
-	public static void registaBiblioteca(Biblioteca b) {
-		ab.registaBiblioteca(b);
+	public static long registaBiblioteca(Biblioteca b) {
+		return ab.registaBiblioteca(b);
 	}
 
 	public static void registaResponsavel(Responsavel r) {ab.registaResponsavel(r);}
