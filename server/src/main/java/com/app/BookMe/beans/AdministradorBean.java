@@ -27,8 +27,9 @@ public class AdministradorBean {
      * Regista biblioteca no sistema
      * @param b
      */
-    public void registaBiblioteca(Biblioteca b) {
+    public long registaBiblioteca(Biblioteca b) {
         br.save(b);
+        return b.getID();
     }
 
     /**
