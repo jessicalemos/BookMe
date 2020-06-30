@@ -40,6 +40,9 @@
             </div>
         </div>
     </nav>
+    <div class="nav-container">
+      <b-breadcrumb :items="breadcrumbList"></b-breadcrumb>
+    </div>
 </div>
 </template>
 
@@ -71,6 +74,17 @@
     background-color:transparent !important;
     cursor: pointer;
   }
+    ::v-deep .breadcrumb {
+    background-color: transparent;
+    margin-top: 60px;
+  }
+  ::v-deep a {
+    color: #7d8285;
+    font-weight: bold;
+  }
+  ::v-deep a:hover {
+    color: rgba(0, 0, 0, 0.7);
+  }
 </style>
 
 <script>
@@ -81,9 +95,16 @@ export default {
   data: () => ({
     loggedIn: false,
     user_type: null,
-    username: null
+    username: null,
+    breadcrumbList: []
   }),
+  watch: {
+    '$route' () {
+      this.updateList()
+    }
+  },
   mounted: function () {
+    this.updateList()
     const user = UserHandler.get()
     if (user !== false) {
       this.user_type = user.role
@@ -97,6 +118,14 @@ export default {
       this.loggedIn = false
       this.user_type = null
       this.$router.push('/')
+    },
+    routeTo (pRouteTo) {
+      if (this.breadcrumbList[pRouteTo].link) {
+        this.$router.push(this.breadcrumbList[pRouteTo].link)
+      }
+    },
+    updateList () {
+      this.breadcrumbList = this.$route.meta.breadcrumb
     }
   }
 }

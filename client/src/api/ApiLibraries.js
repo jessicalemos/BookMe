@@ -2,7 +2,7 @@ import axios from 'axios'
 import UserHandler from '@/utils/UserHandler.js'
 
 const HOST = 'http://localhost:9000/'
-const ApiAdmin = {}
+const ApiLibraries = {}
 
 const token = {
   headers: {
@@ -10,7 +10,7 @@ const token = {
   }
 }
 
-ApiAdmin.libraries = async () => {
+ApiLibraries.libraries = async () => {
   try {
     const req = await axios.get(`${HOST}` + 'bibliotecas', token)
     console.log(req)
@@ -23,7 +23,7 @@ ApiAdmin.libraries = async () => {
   }
 }
 
-ApiAdmin.registerLibrary = async (credentials) => {
+ApiLibraries.registerLibrary = async (credentials) => {
   try {
     const req = await axios.post(`${HOST}` + 'registarBiblioteca', credentials, token)
     console.log(req)
@@ -36,7 +36,7 @@ ApiAdmin.registerLibrary = async (credentials) => {
   }
 }
 
-ApiAdmin.registerEmployee = async (credentials) => {
+ApiLibraries.registerEmployee = async (credentials) => {
   try {
     const req = await axios.post(`${HOST}` + 'registarResponsavel', credentials, token)
     console.log(req)
@@ -49,4 +49,30 @@ ApiAdmin.registerEmployee = async (credentials) => {
   }
 }
 
-export default ApiAdmin
+ApiLibraries.responsibleInfo = async (idBiblioteca) => {
+  try {
+    const req = await axios.get(`${HOST}` + 'biblioteca/' + idBiblioteca + '/responsavel', token)
+    console.log(req)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
+ApiLibraries.editResponsible = async (credentials) => {
+  try {
+    const req = await axios.post(`${HOST}` + 'editarResponsavel', credentials, token)
+    console.log(req)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
+export default ApiLibraries

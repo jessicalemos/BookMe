@@ -1,5 +1,5 @@
 <template>
-    <div class="col-8 mx-auto my-5 py-5">
+    <div class="col-8 mx-auto my-5">
         <div class="row">
             <div class="col-md-6 align-self-center">
                 <img src="@/assets/img/lus.jpeg" class="img-responsive"/>
@@ -11,7 +11,7 @@
               <strong>Edição ou reimpressão </strong>2019<br/>
               <strong>Editor </strong>Porto Editora<br/>
               <strong>Categoria </strong>Romance</p>
-              <div v-if="library()">
+              <div v-if="user_type!=='Requisitante'">
                 <button
                   class="btn btn-danger remove" @click="$bvModal.show('modal-scoped')" type="button">
                   <i class="far fa-trash-alt"></i>
@@ -60,12 +60,20 @@
 </template>
 
 <script>
+import UserHandler from '@/utils/UserHandler.js'
+
 export default {
+  name: 'Book',
   data () {
     return {
       branchid: 0,
-      success: 0
+      success: 0,
+      user_type: null
     }
+  },
+  mounted: function () {
+    const user = UserHandler.get()
+    this.user_type = user.role
   },
   methods: {
     select: function (evt) {

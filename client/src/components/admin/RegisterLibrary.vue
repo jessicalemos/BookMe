@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import ApiAdmin from '@/api/ApiAdmin'
+import ApiLibraries from '@/api/ApiLibraries'
 
 export default {
   name: 'RegisterLibrary',
@@ -59,9 +59,9 @@ export default {
   },
   methods: {
     async register () {
-      const req = await ApiAdmin.registerLibrary(this.library)
+      const req = await ApiLibraries.registerLibrary(this.library)
       console.log(req)
-      const reqe = await ApiAdmin.registerEmployee(this.employee)
+      const reqe = await ApiLibraries.registerEmployee(this.employee)
       console.log(reqe)
     }
   }

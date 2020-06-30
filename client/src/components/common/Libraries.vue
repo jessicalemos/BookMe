@@ -14,7 +14,7 @@
                   {{g.nome}}
                 </strong>
                 <div v-if="user_type == 'Administrador'" class="d-inline">
-                  <button class="btn btn-secondary config" type="button" @click="$router.push('/editar-responsavel')">
+                  <button class="btn btn-secondary config" type="button" @click="$router.push({ name: 'EditResponsible', params: { id: g.id } })">
                     <i class="fas fa-cog"></i>
                   </button>
                   <button class="btn btn-danger remove" @click="$bvModal.show('modal-scoped')" type="button">
@@ -47,7 +47,7 @@
 
 <script>
 import UserHandler from '@/utils/UserHandler.js'
-import ApiAdmin from '@/api/ApiAdmin'
+import ApiLibraries from '@/api/ApiLibraries'
 
 export default {
   name: 'Libraries',
@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     async getLibraries () {
-      this.libraries = await ApiAdmin.libraries()
+      this.libraries = await ApiLibraries.libraries()
       console.log(this.libraries)
     }
   }

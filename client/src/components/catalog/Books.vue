@@ -1,14 +1,14 @@
 <template>
-<div class="col-8 mx-auto my-5 py-5">
+<div class="col-8 mx-auto my-5">
   <div class="row justify-center">
-    <div v-if="library()" class="col-12 box">
+    <div v-if="user_type!='Requisitante'" class="col-12 box">
       <button type="button" class="btn btn-secondary" @click="$router.push('/registar-livro')">
         <i class="fa fa-plus"></i>
         Adicionar
       </button>
     </div>
     <div class="col-12 col-sm-6 col-lg-3 info">
-      <router-link to="/livro">
+      <router-link :to="user_type==='Requisitante' ? { name: 'Book-user' } : { name: 'Book-library' }">
         <img class="book" src="@/assets/img/lus.jpeg">
         <h3 class="name">Ensaio sobre a lucidez</h3>
         <p class="description">
@@ -19,18 +19,7 @@
       </router-link>
     </div>
     <div class="col-12 col-sm-6 col-lg-3 info">
-      <router-link to="/login">
-        <img class="book" src="@/assets/img/lus.jpeg">
-        <h3 class="name">Ensaio sobre a lucidez</h3>
-        <p class="description">
-          <strong>&nbsp;</strong>
-          <i class="fas fa-pencil-alt"></i>
-          <strong>&nbsp;José Saramago</strong>
-        </p>
-      </router-link>
-    </div>
-    <div class="col-12 col-sm-6 col-lg-3 info">
-      <router-link to="/login">
+      <router-link v-if="user_type==='Requisitante'" to="/livro">
         <img class="book" src="@/assets/img/lus.jpeg">
         <h3 class="name">Ensaio sobre a lucidez</h3>
         <p class="description">
@@ -54,12 +43,18 @@
 </template>
 
 <script>
+import UserHandler from '@/utils/UserHandler.js'
+
 export default {
-  methods: {
-    library: function () {
-      return true
-    }
-  }
+  name: 'Books',
+  data: () => ({
+    user_type: null
+  }),
+  mounted: function () {
+    const user = UserHandler.get()
+    this.user_type = user.role
+  },
+  methods: {}
 }
 </script>
 

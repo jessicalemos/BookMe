@@ -10,9 +10,6 @@
             <div class="form-group">
                 <input class="form-control" type="text" name="morada" placeholder="Morada">
             </div>
-            <div class="form-group">
-              <input class="form-control" type="text" name="telemovel" placeholder="Telemóvel">
-            </div>
             <div class="row">
               <div class="col-sm-6">
                 <button class="btn btn-secondary btn-block" type="submit" style="background-color: rgb(140,138,138);">

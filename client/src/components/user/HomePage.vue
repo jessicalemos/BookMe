@@ -10,7 +10,7 @@
                   <i class="fas fa-list-ul"></i><strong>&nbsp; Bibliotecas</strong>
                 </div>
                 <div class="d-inline">
-                  <button class="btn btn-outline-secondary" @click="$router.push('/bibliotecas')">
+                  <button class="btn btn-outline-secondary" @click="$router.push({ name: 'Libraries-user' })">
                     Ver mais <i class="fa fa-plus-circle"></i>
                   </button>
                 </div>
