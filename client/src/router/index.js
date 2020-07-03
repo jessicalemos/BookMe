@@ -64,7 +64,7 @@ const routes = [
     }
   },
   {
-    path: '/editar-responsavel/:id',
+    path: '/editar-responsavel/',
     name: 'EditResponsible',
     component: EditResponsible,
     meta: {

@@ -42,7 +42,9 @@ export default {
   },
   methods: {
     async getResponsibleInfo () {
-      this.responsible = await ApiLibraries.responsibleInfo(this.$route.params.id)
+      const idLibrary = localStorage.getItem('Library')
+      console.log(idLibrary)
+      this.responsible = await ApiLibraries.responsibleInfo(idLibrary)
       this.responsible.password = ''
     },
     async editResponsible () {

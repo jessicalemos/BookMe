@@ -14,7 +14,7 @@
                   {{g.nome}}
                 </strong>
                 <div v-if="user_type == 'Administrador'" class="d-inline">
-                  <button class="btn btn-secondary config" type="button" @click="$router.push({ name: 'EditResponsible', params: { id: g.id } })">
+                  <button class="btn btn-secondary config" type="button" @click="setLibrary(g.id)">
                     <i class="fas fa-cog"></i>
                   </button>
                   <button class="btn btn-danger remove" @click="$bvModal.show('modal-scoped')" type="button">
@@ -110,11 +110,14 @@ export default {
     },
     range (start, end) {
       return Array(end - start + 1).fill().map((_, idx) => start + idx)
+    },
+    setLibrary (idLibrary) {
+      localStorage.setItem('Library', idLibrary)
+      console.log(idLibrary)
+      this.$router.push({ name: 'EditResponsible' })
     }
   },
-  computed: {
-
-  }
+  computed: {}
 }
 </script>
 

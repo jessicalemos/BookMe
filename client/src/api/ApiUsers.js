@@ -126,4 +126,16 @@ ApiUsers.getBooks = async () => {
   }
 }
 
+ApiUsers.getBook = async (idBook) => {
+  try {
+    const req = await axios.get(`${HOST}` + 'livro/' + idBook, token)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
 export default ApiUsers

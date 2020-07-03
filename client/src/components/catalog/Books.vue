@@ -8,7 +8,7 @@
       </button>
     </div>
     <div v-for="g in books" :key="g.id" class="col-12 col-sm-6 col-lg-3 info">
-      <router-link :to="user_type==='Requisitante' ? { name: 'Book-user' } : { name: 'Book-library' }">
+      <a @click="setBook(g.id)">
         <img class="book" src="@/assets/img/lus.jpeg">
         <h3 class="name">{{g.titulo}}</h3>
         <p class="description">
@@ -16,7 +16,7 @@
           <i class="fas fa-pencil-alt"></i>
           <strong>&nbsp;{{g.autor}}</strong>
         </p>
-      </router-link>
+      </a>
     </div>
   </div>
 </div>
@@ -43,6 +43,14 @@ export default {
     async getBooks () {
       this.books = await ApiUsers.getBooks()
       console.log(this.books)
+    },
+    setBook (idBook) {
+      localStorage.setItem('Book', idBook)
+      if (this.user_type === 'Requisitante') {
+        this.$router.push({ name: 'Book-user' })
+      } else {
+        this.$router.push({ name: 'Book-library' })
+      }
     }
   }
 }
