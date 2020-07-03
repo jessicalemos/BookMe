@@ -13,6 +13,7 @@ const token = {
 ApiLibraries.libraries = async () => {
   try {
     const req = await axios.get(`${HOST}` + 'bibliotecas', token)
+    console.log(token)
     console.log(req)
     return req.data
   } catch (e) {

@@ -59,10 +59,11 @@ export default {
   },
   methods: {
     async register () {
-      const req = await ApiLibraries.registerLibrary(this.library)
+      const idLibrary = await ApiLibraries.registerLibrary(this.library)
+      this.employee.biblioteca_id = idLibrary
+      console.log(this.employee)
+      const req = await ApiLibraries.registerEmployee(this.employee)
       console.log(req)
-      const reqe = await ApiLibraries.registerEmployee(this.employee)
-      console.log(reqe)
     }
   }
 }

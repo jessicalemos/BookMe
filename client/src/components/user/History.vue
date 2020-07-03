@@ -10,7 +10,7 @@
                 </div>
               </a>
               <a v-if="returned.length!=0" class="list-group-item list-group-item-action">
-                <div class="text-left">
+                <div v-for="g in returned" :key="g.id" class="text-left">
                   <div class="date">
                     {{moment(g.dataInicio).format('DD/MM/YYYY')}}
                     <i class="fas fa-arrows-alt-h"></i>
@@ -116,8 +116,11 @@ export default {
     async getUserInfo () {
       const user = UserHandler.get()
       this.reserved = await ApiUsers.getReserved(user.id)
+      console.log(this.reserved)
       this.returned = await ApiUsers.getReturned(user.id)
+      console.log(this.returned)
       this.requested = await ApiUsers.getRequested(user.id)
+      console.log(this.requested)
     },
     moment
   }

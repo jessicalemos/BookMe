@@ -7,36 +7,16 @@
         Adicionar
       </button>
     </div>
-    <div class="col-12 col-sm-6 col-lg-3 info">
+    <div v-for="g in books" :key="g.id" class="col-12 col-sm-6 col-lg-3 info">
       <router-link :to="user_type==='Requisitante' ? { name: 'Book-user' } : { name: 'Book-library' }">
         <img class="book" src="@/assets/img/lus.jpeg">
-        <h3 class="name">Ensaio sobre a lucidez</h3>
+        <h3 class="name">{{g.titulo}}</h3>
         <p class="description">
           <strong>&nbsp;</strong>
           <i class="fas fa-pencil-alt"></i>
-          <strong>&nbsp;José Saramago</strong>
+          <strong>&nbsp;{{g.autor}}</strong>
         </p>
       </router-link>
-    </div>
-    <div class="col-12 col-sm-6 col-lg-3 info">
-      <router-link v-if="user_type==='Requisitante'" to="/livro">
-        <img class="book" src="@/assets/img/lus.jpeg">
-        <h3 class="name">Ensaio sobre a lucidez</h3>
-        <p class="description">
-          <strong>&nbsp;</strong>
-          <i class="fas fa-pencil-alt"></i>
-          <strong>&nbsp;José Saramago</strong>
-        </p>
-      </router-link>
-    </div>
-    <div class="col-12 col-sm-6 col-lg-3 info">
-      <img class="book" src="@/assets/img/lus.jpeg">
-    </div>
-    <div class="col-12 col-sm-6 col-lg-3 info">
-      <img class="book" src="@/assets/img/lus.jpeg">
-    </div>
-    <div class="col-12 col-sm-6 col-lg-3 info">
-      <img class="book" src="@/assets/img/lus.jpeg">
     </div>
   </div>
 </div>
@@ -44,17 +24,27 @@
 
 <script>
 import UserHandler from '@/utils/UserHandler.js'
+import ApiUsers from '@/api/ApiUsers'
 
 export default {
   name: 'Books',
   data: () => ({
-    user_type: null
+    user_type: null,
+    books: {}
   }),
   mounted: function () {
     const user = UserHandler.get()
-    this.user_type = user.role
+    if (user !== false) {
+      this.user_type = user.role
+    }
+    this.getBooks()
   },
-  methods: {}
+  methods: {
+    async getBooks () {
+      this.books = await ApiUsers.getBooks()
+      console.log(this.books)
+    }
+  }
 }
 </script>
 

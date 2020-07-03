@@ -75,6 +75,15 @@
 </div>
 </template>
 
+<script>
+export default {
+  name: 'HomePage',
+  data: () => ({
+    history: {}
+  })
+}
+</script>
+
 <style scoped>
 .col-lg-6 {
   min-height: 200px;

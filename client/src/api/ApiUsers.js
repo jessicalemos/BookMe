@@ -45,7 +45,6 @@ ApiUsers.register = async (user) => {
 ApiUsers.editRequester = async (credentials) => {
   try {
     const req = await axios.post(`${HOST}` + 'editar', credentials, token)
-    console.log(req)
     return req.data
   } catch (e) {
     console.error(e)
@@ -58,7 +57,6 @@ ApiUsers.editRequester = async (credentials) => {
 ApiUsers.getRequester = async (idRequistante) => {
   try {
     const req = await axios.get(`${HOST}` + 'requisitante/' + idRequistante, token)
-    console.log(req)
     return req.data
   } catch (e) {
     console.error(e)
@@ -71,7 +69,6 @@ ApiUsers.getRequester = async (idRequistante) => {
 ApiUsers.getReserved = async (idRequistante) => {
   try {
     const req = await axios.get(`${HOST}` + 'reservados/' + idRequistante, token)
-    console.log(req.data)
     return req.data
   } catch (e) {
     console.error(e)
@@ -84,7 +81,6 @@ ApiUsers.getReserved = async (idRequistante) => {
 ApiUsers.getReturned = async (idRequistante) => {
   try {
     const req = await axios.get(`${HOST}` + 'devolvidos/' + idRequistante, token)
-    console.log(req.data)
     return req.data
   } catch (e) {
     console.error(e)
@@ -97,7 +93,30 @@ ApiUsers.getReturned = async (idRequistante) => {
 ApiUsers.getRequested = async (idRequistante) => {
   try {
     const req = await axios.get(`${HOST}` + 'requisitados/' + idRequistante, token)
-    console.log(req.data)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
+ApiUsers.getRequested = async (idRequistante) => {
+  try {
+    const req = await axios.get(`${HOST}` + 'requisitados/' + idRequistante, token)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
+ApiUsers.getBooks = async () => {
+  try {
+    const req = await axios.get(`${HOST}` + 'livros/', token)
     return req.data
   } catch (e) {
     console.error(e)
