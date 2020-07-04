@@ -7,9 +7,9 @@
         Adicionar
       </button>
     </div>
-    <div v-for="g in books" :key="g.id" class="col-12 col-sm-6 col-lg-3 info">
+    <div v-for="g in booksFilter[page]" :key="g.id" class="col-12 col-sm-6 col-lg-3 info">
       <a @click="setBook(g.id)">
-        <img class="book" src="@/assets/img/lus.jpeg">
+        <img class="book" :src="g.imagem">
         <h3 class="name">{{g.titulo}}</h3>
         <p class="description">
           <strong>&nbsp;</strong>
@@ -19,6 +19,25 @@
       </a>
     </div>
   </div>
+  <nav v-if="books.length > nrPerPage" class="pagination justify-content-center">
+      <ul class="pagination">
+        <li class="page-item">
+          <a class="page-link" v-bind:disabled="page==0" v-on:click="page = 0" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Previous</span>
+          </a>
+        </li>
+        <li v-for="p in range(0,booksFilter.length-1)" :key="p" v-on:click="page = p" class="page-item">
+          <a class="page-link">{{p+1}}</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" v-bind:disabled="page==Math.floor(booksFilter.length/nrPerPage)-1" v-on:click="page = booksFilter.length - 1" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Next</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
 </div>
 </template>
 
@@ -30,7 +49,10 @@ export default {
   name: 'Books',
   data: () => ({
     user_type: null,
-    books: {}
+    books: {},
+    page: 0,
+    nrPerPage: 8,
+    booksFilter: []
   }),
   mounted: function () {
     const user = UserHandler.get()
@@ -43,6 +65,26 @@ export default {
     async getBooks () {
       this.books = await ApiUsers.getBooks()
       console.log(this.books)
+      var i = 0
+      var p = 0
+      var page = []
+      page[p] = []
+      var nrPerPage = this.nrPerPage
+      this.books.forEach(function (c) {
+        if (i < nrPerPage) {
+          page[p].push(c)
+          i++
+        } else {
+          p++
+          page[p] = []
+          i = 1
+          page[p].push(c)
+        }
+      })
+      this.booksFilter = page
+    },
+    range (start, end) {
+      return Array(end - start + 1).fill().map((_, idx) => start + idx)
     },
     setBook (idBook) {
       localStorage.setItem('Book', idBook)
@@ -71,5 +113,8 @@ export default {
 .book {
   height: 226px;
   width: 163px;
+}
+a {
+  cursor: pointer;
 }
 </style>

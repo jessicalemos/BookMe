@@ -26,7 +26,7 @@
         </div>
       </div>
     </div>
-    <nav class="pagination justify-content-center">
+    <nav v-if="libraries.length > nrPerPage" class="pagination justify-content-center">
       <ul class="pagination">
         <li class="page-item">
           <a class="page-link" v-bind:disabled="page==0" v-on:click="page = 0" aria-label="Previous">
@@ -88,14 +88,12 @@ export default {
     async getLibraries () {
       this.libraries = await ApiLibraries.libraries()
       console.log(this.libraries)
-      var libraries = this.libraries
       var i = 0
       var p = 0
       var page = []
       page[p] = []
       var nrPerPage = this.nrPerPage
-      console.log(libraries)
-      libraries.forEach(function (c) {
+      this.libraries.forEach(function (c) {
         if (i < nrPerPage) {
           page[p].push(c)
           i++
@@ -113,7 +111,6 @@ export default {
     },
     setLibrary (idLibrary) {
       localStorage.setItem('Library', idLibrary)
-      console.log(idLibrary)
       this.$router.push({ name: 'EditResponsible' })
     }
   },

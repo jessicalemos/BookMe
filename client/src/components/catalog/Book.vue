@@ -2,7 +2,7 @@
     <div class="col-8 mx-auto my-5">
         <div class="row">
             <div class="col-md-6 align-self-center">
-                <img src="@/assets/img/lus.jpeg" class="img-responsive"/>
+                <img :src="book.imagem" class="img-responsive"/>
             </div>
             <div class="col-md-6 text-left align-self-center">
               <h1 class="title">{{book.titulo}}</h1>
