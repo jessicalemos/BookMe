@@ -31,9 +31,18 @@
                   </a>
                 </div>
               </div>
+              <div v-if="user_type==='Administrador'">
+                <a class="nav-item nav-link" @click="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <strong>&nbsp;Sign Out</strong>
+                  </a>
+              </div>
             </div>
         </div>
     </nav>
+    <div class="nav-container">
+      <b-breadcrumb :items="breadcrumbList"></b-breadcrumb>
+    </div>
 </div>
 </template>
 
@@ -44,6 +53,7 @@
   .navbar {
     z-index: 5;
     background-color: rgb(240,240,240);
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 10px 0px;
     position: fixed;
     top: 0;
     width: 100%;
@@ -64,6 +74,17 @@
     background-color:transparent !important;
     cursor: pointer;
   }
+    ::v-deep .breadcrumb {
+    background-color: transparent;
+    margin-top: 60px;
+  }
+  ::v-deep a {
+    color: #7d8285;
+    font-weight: bold;
+  }
+  ::v-deep a:hover {
+    color: rgba(0, 0, 0, 0.7);
+  }
 </style>
 
 <script>
@@ -74,9 +95,16 @@ export default {
   data: () => ({
     loggedIn: false,
     user_type: null,
-    username: null
+    username: null,
+    breadcrumbList: []
   }),
+  watch: {
+    '$route' () {
+      this.updateList()
+    }
+  },
   mounted: function () {
+    this.updateList()
     const user = UserHandler.get()
     if (user !== false) {
       this.user_type = user.role
@@ -90,6 +118,14 @@ export default {
       this.loggedIn = false
       this.user_type = null
       this.$router.push('/')
+    },
+    routeTo (pRouteTo) {
+      if (this.breadcrumbList[pRouteTo].link) {
+        this.$router.push(this.breadcrumbList[pRouteTo].link)
+      }
+    },
+    updateList () {
+      this.breadcrumbList = this.$route.meta.breadcrumb
     }
   }
 }

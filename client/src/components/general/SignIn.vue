@@ -10,13 +10,18 @@
             <div class="form-group">
               <input class="form-control" v-model="credentials.password" type="password" placeholder="Password" required>
             </div>
-            <span class="error" v-if="error === 1"><i class="fas fa-exclamation-triangle"></i> Credenciais inválidas</span>
             <div class="form-group">
               <button class="btn btn-secondary btn-block" type="submit" style="background-color: rgb(140,138,138);">
                 Sign In
               </button>
             </div>
             <div class="modal-footer">Ainda não tens conta?<router-link to="/registar">Cria aqui</router-link>
+              <div v-if="error === 1">
+                <b-alert class="alert" variant="danger" show dismissible>
+                  <b>Error</b><br/>
+                  <span class="alert-text">Credenciais inválidas</span>
+                </b-alert>
+              </div>
             </div>
         </form>
     </div>
@@ -37,7 +42,7 @@ export default {
   data: () => ({
     error: 0,
     credentials: {
-      type: 'requisitante'
+      type: 'responsavel'
     }
   }),
   methods: {
@@ -49,6 +54,12 @@ export default {
         console.log(user)
         if (user.role === 'Requisitante') {
           this.$router.push('/Home')
+        }
+        if (user.role === 'Administrador') {
+          this.$router.push({ name: 'Libraries-admin' })
+        }
+        if (user.role === 'Responsavel') {
+          this.$router.push('/Catalogo')
         }
       } else {
         this.error = 1

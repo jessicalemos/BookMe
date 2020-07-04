@@ -1,17 +1,18 @@
 <template>
-    <div class="col-8 mx-auto my-5 py-5">
+    <div class="col-8 mx-auto my-5">
         <div class="row">
             <div class="col-md-6 align-self-center">
-                <img src="@/assets/img/lus.jpeg" class="img-responsive"/>
+                <img :src="book.imagem" class="img-responsive"/>
             </div>
             <div class="col-md-6 text-left align-self-center">
-              <h1 class="title">Ensaio sobre a lucidez</h1>
-              <p class="author"><i class="fas fa-pencil-alt"></i>&nbsp; José Saramago<p>
-              <p><strong>ISBN </strong>978-972-0-04652-9<br/>
-              <strong>Edição ou reimpressão </strong>2019<br/>
-              <strong>Editor </strong>Porto Editora<br/>
-              <strong>Categoria </strong>Romance</p>
-              <div v-if="library()">
+              <h1 class="title">{{book.titulo}}</h1>
+              <p class="author"><i class="fas fa-pencil-alt"></i>&nbsp; {{book.autor}}<p>
+              <p><strong>ISBN </strong>{{book.isbn}}<br/>
+              <strong>Edição ou reimpressão </strong>{{book.edicao}}<br/>
+              <strong>Editor </strong>{{book.editor}}<br/>
+              <strong>Categoria </strong>{{book.categoria}}<br/>
+              <strong>Descrição </strong>{{book.descricao}}</p>
+              <div v-if="user_type!=='Requisitante'">
                 <button
                   class="btn btn-danger remove" @click="$bvModal.show('modal-scoped')" type="button">
                   <i class="far fa-trash-alt"></i>
@@ -60,19 +61,32 @@
 </template>
 
 <script>
+import UserHandler from '@/utils/UserHandler.js'
+import ApiUsers from '@/api/ApiUsers'
+
 export default {
+  name: 'Book',
   data () {
     return {
       branchid: 0,
-      success: 0
+      success: 0,
+      user_type: null,
+      book: {}
     }
+  },
+  mounted: function () {
+    const user = UserHandler.get()
+    this.user_type = user.role
+    this.getBook()
   },
   methods: {
     select: function (evt) {
       this.branchid = evt.target.value
     },
-    library: function () {
-      return true
+    async getBook () {
+      const idBook = localStorage.getItem('Book')
+      this.book = await ApiUsers.getBook(idBook)
+      console.log(this.book)
     },
     remove () {
       this.$router.push('/catalogo')

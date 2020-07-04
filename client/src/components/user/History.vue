@@ -1,6 +1,6 @@
 <template>
   <div style="min-height: 100%">
-    <div class="col-10 mx-auto my-5 py-5">
+    <div class="col-10 mx-auto">
       <div class="row justify-center" id="Group">
         <div class="col-lg-4">
           <div class="list-group">
@@ -9,13 +9,15 @@
                   <i class="fas fa-list-ul"></i><strong>&nbsp; Devolvidos</strong>
                 </div>
               </a>
-              <a class="list-group-item list-group-item-action">
-                <div class="d-flex align-items-center justify-content-between">
-                  <div class="text-left">
-                    <div class="date">20-04-2020 11:30h</div>
-                    <strong>Memorial do Convento</strong><br>
-                    Biblioteca Pública de Braga<br>
+              <a v-if="returned.length!=0" class="list-group-item list-group-item-action">
+                <div v-for="g in returned" :key="g.id" class="text-left">
+                  <div class="date">
+                    {{moment(g.dataInicio).format('DD/MM/YYYY')}}
+                    <i class="fas fa-arrows-alt-h"></i>
+                    {{moment(g.dataFim).format('DD/MM/YYYY')}}
                   </div>
+                  <strong>{{g.livro.titulo}}</strong><br>
+                  Biblioteca Pública de Braga<br>
                 </div>
               </a>
           </div>
@@ -27,11 +29,15 @@
                   <i class="fas fa-list-ul"></i><strong>&nbsp; Requisitados</strong>
                 </div>
               </a>
-              <a class="list-group-item list-group-item-action">
-                <div class="d-flex align-items-center justify-content-between">
+              <a v-if="reserved.length!=0" class="list-group-item list-group-item-action">
+                <div v-for="g in reserved" :key="g.id" class="d-flex align-items-center justify-content-between">
                   <div class="text-left">
-                    <div class="date">20-04-2020 11:30h</div>
-                    <strong>Memorial do Convento</strong><br>
+                    <div class="date">
+                      {{moment(g.dataInicio).format('DD/MM/YYYY')}}
+                      <i class="fas fa-arrows-alt-h"></i>
+                      {{moment(g.dataFim).format('DD/MM/YYYY')}}
+                    </div>
+                    <strong>{{g.livro.titulo}}</strong><br>
                     Biblioteca Pública de Braga<br>
                   </div>
                   <div class="d-inline">
@@ -50,11 +56,15 @@
                   <i class="fas fa-list-ul"></i><strong>&nbsp; Reservados</strong>
                 </div>
               </a>
-              <a class="list-group-item list-group-item-action">
-                <div class="d-flex align-items-center justify-content-between">
+              <a v-if="requested.length!=0" class="list-group-item list-group-item-action">
+                <div v-for="g in requested" :key="g.id" class="d-flex align-items-center justify-content-between">
                   <div class="text-left">
-                    <div class="date">20-04-2020 11:30h</div>
-                    <strong>Memorial do Convento</strong><br>
+                    <div class="date">
+                      {{moment(g.dataInicio).format('DD/MM/YYYY')}}
+                      <i class="fas fa-arrows-alt-h"></i>
+                      {{moment(g.dataFim).format('DD/MM/YYYY')}}
+                    </div>
+                    <strong>{{g.livro.titulo}}</strong><br>
                     Biblioteca Pública de Braga<br>
                   </div>
                   <div class="d-inline">
@@ -86,6 +96,36 @@
     </div>
   </div>
 </template>
+
+<script>
+import ApiUsers from '@/api/ApiUsers'
+import UserHandler from '@/utils/UserHandler.js'
+import moment from 'moment'
+
+export default {
+  name: 'History',
+  data: () => ({
+    reserved: {},
+    returned: {},
+    requested: {}
+  }),
+  mounted: function () {
+    this.getUserInfo()
+  },
+  methods: {
+    async getUserInfo () {
+      const user = UserHandler.get()
+      this.reserved = await ApiUsers.getReserved(user.id)
+      console.log(this.reserved)
+      this.returned = await ApiUsers.getReturned(user.id)
+      console.log(this.returned)
+      this.requested = await ApiUsers.getRequested(user.id)
+      console.log(this.requested)
+    },
+    moment
+  }
+}
+</script>
 
 <style scoped>
 .date {

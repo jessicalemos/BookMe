@@ -37,34 +37,87 @@ const routes = [
     component: SignUp
   },
   {
-    path: '/bibliotecas',
-    name: 'Libraries',
+    path: '/gerir-bibliotecas',
+    name: 'Libraries-admin',
     component: Libraries
+  },
+  {
+    path: '/bibliotecas',
+    name: 'Libraries-user',
+    component: Libraries,
+    meta: {
+      breadcrumb: [
+        { text: 'Home', href: '/home' },
+        { text: 'Bibliotecas', active: true }
+      ]
+    }
   },
   {
     path: '/registar-biblioteca',
     name: 'RegisterLibrary',
-    component: RegisterLibrary
+    component: RegisterLibrary,
+    meta: {
+      breadcrumb: [
+        { text: 'Bibliotecas', href: '/bibliotecas' },
+        { text: 'Registar Biblioteca', active: true }
+      ]
+    }
   },
   {
-    path: '/editar-responsavel',
+    path: '/editar-responsavel/',
     name: 'EditResponsible',
-    component: EditResponsible
+    component: EditResponsible,
+    meta: {
+      breadcrumb: [
+        { text: 'Bibliotecas', href: '/bibliotecas' },
+        { text: 'Editar Responsável', active: true }
+      ]
+    }
   },
   {
-    path: '/catalogo',
-    name: 'Books',
+    path: '/catalogo-biblioteca',
+    name: 'Books-library',
     component: Books
   },
   {
-    path: '/livro',
-    name: 'Book',
+    path: '/catalogo',
+    name: 'Books-user',
+    component: Books,
+    meta: {
+      breadcrumb: [
+        { text: 'Home', href: '/home' },
+        { text: 'Livros', active: true }
+      ]
+    }
+  },
+  {
+    path: '/editar-livro',
+    name: 'Book-library',
     component: Book
+  },
+  {
+    path: '/livro',
+    name: 'Book-user',
+    component: Book,
+    meta: {
+      breadcrumb: [
+        { text: 'Home', href: '/home' },
+        { text: 'Catálogo', href: '/catalogo' },
+        { text: 'Livro', active: true }
+      ]
+    }
   },
   {
     path: '/registar-livro',
     name: 'RegisterBook',
-    component: RegisterBook
+    component: RegisterBook,
+    meta: {
+      breadcrumb: [
+        { text: 'Home', href: '/home' },
+        { text: 'Catálogo', href: '/catalogo' },
+        { text: 'Registar Livro', active: true }
+      ]
+    }
   },
   {
     path: '/funcionarios',
@@ -94,15 +147,27 @@ const routes = [
   {
     path: '/perfil',
     name: 'EditProfile',
-    component: EditProfile
+    component: EditProfile,
+    meta: {
+      breadcrumb: [
+        { text: 'Home', href: '/home' },
+        { text: 'Editar Perfil', active: true }
+      ]
+    }
   },
   {
     path: '/historico',
     name: 'History',
-    component: History
+    component: History,
+    meta: {
+      breadcrumb: [
+        { text: 'Home', href: '/home' },
+        { text: 'Histórico', active: true }
+      ]
+    }
   },
   {
-    path: '/Home',
+    path: '/home',
     name: 'UserHomePage',
     component: UserHome
   }

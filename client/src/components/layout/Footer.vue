@@ -1,5 +1,5 @@
 <template>
-    <footer class="phone-viewport" style="background: rgb(225, 224, 225);">
+    <footer class="phone-viewport">
       <p class="copyright">Made with <i class="fa fa-heart pulse"></i> Book Me © 2020</p>
     </footer>
 </template>
@@ -12,6 +12,7 @@
       line-height: 50px;
       overflow: hidden;
       background: rgb(240,240,240);
+      box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 10px 0px;
       position: fixed;
       text-align: center;
       right: 0;
