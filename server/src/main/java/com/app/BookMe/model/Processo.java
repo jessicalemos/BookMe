@@ -16,6 +16,15 @@ public class Processo {
     @OneToOne
 	public Livro livro;
 
+    public Processo(){}
+
+    public Processo(String estado, Date dataInicio, Date dataFim, Livro livro) {
+        this.estado = estado;
+        this.dataInicio = dataInicio;
+        this.dataFim = dataFim;
+        this.livro = livro;
+    }
+
     public long getID() {
         return ID;
     }

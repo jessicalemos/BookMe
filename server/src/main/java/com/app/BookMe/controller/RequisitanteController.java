@@ -3,12 +3,14 @@ package com.app.BookMe.controller;
 import com.app.BookMe.model.*;
 import com.app.BookMe.repositories.RequisitanteRep;
 import com.app.BookMe.repositories.UtilizadorRep;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 public class RequisitanteController {
@@ -57,6 +59,12 @@ public class RequisitanteController {
         return BookMe.editarRequisitante(r.getiD(), r.getEmail(),passwordEncoder.encode(r.getPassword()),r.getNome(), r.getTelemovel());
     }
 
+    @GetMapping("/processos/requisitante/{requisitanteID}")
+    public List<Processo> conslutarProcessos(@PathVariable long requisitanteID) {
+        return BookMe.conslutarProcessos(requisitanteID);
+
+    }
+
     @GetMapping("/reservados/{requisitanteID}")
     public List<Processo> getReservados(@PathVariable long requisitanteID) {
         return BookMe.getProcessosEstado(requisitanteID,"reservado");
@@ -67,9 +75,41 @@ public class RequisitanteController {
         return BookMe.getProcessosEstado(requisitanteID,"devolvido");
     }
 
+    @GetMapping("/atrasados/{requisitanteID}")
+    public List<Processo> getAtrasados(@PathVariable long requisitanteID) {
+        return BookMe.getProcessosEstado(requisitanteID,"atrasado");
+    }
+
     @GetMapping("/requisitados/{requisitanteID}")
     public List<Processo> getRequisitados(@PathVariable long requisitanteID) {
         return BookMe.getProcessosEstado(requisitanteID,"requisitado");
     }
+
+    @GetMapping("/processo/biblioteca/{processoID}")
+    public Biblioteca conslutarBibliotecaProcesso(@PathVariable long processoID) {
+        return BookMe.conslutarBibliotecaProcesso(processoID);
+    }
+
+    @PostMapping("/reservar")
+    public String reservar(@RequestBody ObjectNode info){
+        long idReq = info.get("idRequisitante").asLong();
+        String nome = info.get("biblioteca").asText();
+        String livro = info.get("livro").asText();
+        return BookMe.reservaLivro(idReq, nome, livro);
+    }
+
+    @PostMapping("/cancelar/reserva")
+    public String cancelarReserva(@RequestBody ObjectNode info){
+        long idReq = info.get("idRequisitante").asLong();
+        long idProc = info.get("idProcesso").asLong();
+        String biblioteca = info.get("biblioteca").asText();
+        return BookMe.cancelarReserva(idReq, idProc, biblioteca);
+    }
+
+    @GetMapping("/notificacoes/requisitante/{requisitanteID}")
+    public List<Notificacao> conslutarNotificacoes(@PathVariable long requisitanteID) {
+        return BookMe.conslutarNotificacoes(requisitanteID);
+    }
+
 
 }

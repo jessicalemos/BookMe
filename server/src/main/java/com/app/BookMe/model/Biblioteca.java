@@ -91,6 +91,14 @@ public class Biblioteca {
 		this.processos = processos;
 	}
 
+	public void addProcesso(Processo p){
+		processos.add(p);
+	}
+
+	public void removeProcesso(Processo p){
+		processos.remove(p);
+	}
+
 	public Set<Funcionario> getFuncionarios() {
 		return funcionarios;
 	}
