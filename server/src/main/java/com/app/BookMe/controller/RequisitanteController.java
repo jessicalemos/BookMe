@@ -98,6 +98,13 @@ public class RequisitanteController {
         return BookMe.reservaLivro(idReq, nome, livro);
     }
 
+    @PostMapping("/renovar/reserva")
+    public String renovar(@RequestBody ObjectNode info){
+        long idReq = info.get("idRequisitante").asLong();
+        long idProcesso = info.get("idProcesso").asLong();
+        return BookMe.renovaReserva(idReq, idProcesso);
+    }
+
     @PostMapping("/cancelar/reserva")
     public String cancelarReserva(@RequestBody ObjectNode info){
         long idReq = info.get("idRequisitante").asLong();

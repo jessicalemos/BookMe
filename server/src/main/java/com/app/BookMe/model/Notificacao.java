@@ -10,7 +10,7 @@ import java.util.Date;
 public class Notificacao {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private long ID;
 
     private String aviso;
     private Date data;
@@ -22,11 +22,11 @@ public class Notificacao {
     }
 
     public long getId() {
-        return id;
+        return ID;
     }
 
     public void setId(long id) {
-        this.id = id;
+        this.ID = id;
     }
 
     public String getAviso() {

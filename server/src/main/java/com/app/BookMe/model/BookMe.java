@@ -43,7 +43,7 @@ public class BookMe {
 		return ab.registaBiblioteca(b);
 	}
 
-	public static void registaResponsavel(Responsavel r) {ab.registaResponsavel(r);}
+	public static void registaResponsavel(Responsavel r, long bibliotecaID) {ab.registaResponsavel(r,bibliotecaID);}
 
 	public static String reservaLivro(long idReq, String biblioteca, String livro) {
 		return rb.reservaLivro(idReq, biblioteca, livro);
@@ -53,8 +53,8 @@ public class BookMe {
 		return rb.cancelarReserva(idReq,idProc,biblioteca);
 	}
 
-	public void renovaReserva(Requisitante r, int idProcesso) {
-		throw new UnsupportedOperationException();
+	public static String renovaReserva(long idReq, long idProcesso) {
+		return rb.renovaReserva(idReq, idProcesso);
 	}
 
 	public static List<Processo> getProcessosEstado(long requisitanteID, String estado){return rb.getProcessosEstado(requisitanteID,estado);}
