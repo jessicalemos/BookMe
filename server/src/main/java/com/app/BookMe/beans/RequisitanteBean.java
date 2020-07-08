@@ -146,6 +146,25 @@ public class RequisitanteBean {
         return "Para requistar tem de regularizar os livros em atraso";
     }
 
+    public String renovaReserva(long idReq, long idProcesso) {
+        Requisitante req = rp.findById(idReq).get();
+        if(pr.findByEstadoReq(req.getiD(),"atrasado").size()<1) {
+            Processo p = pr.findById(idProcesso).get();
+            Livro l = p.getLivro();
+            if(pr.findProcessoByLivroAndEstado(p.getLivro(), "reservado").isEmpty()){
+                Date now = new Date(System.currentTimeMillis());
+                p.setDataInicio(now);
+                long DAY_IN_MS = 1000 * 60 * 60 * 24;
+                Date data_fim = new Date(System.currentTimeMillis() + (15 * DAY_IN_MS));
+                p.setDataFim(data_fim);
+                pr.save(p);
+                return "A renovação foi efetuada com sucesso";
+            }
+            return "Não é possível renovar este livro";
+        }
+        return "Para renovar tem de regularizar os livros em atraso";
+    }
+
     public void notificaAgendamentos(Processo n){
         Requisitante r = rp.findByProcessosContains(n).get();
         long milis = System.currentTimeMillis();

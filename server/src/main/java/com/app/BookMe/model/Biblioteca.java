@@ -16,6 +16,8 @@ public class Biblioteca {
 	private String nome;
 	private String telemovel;
 	private String email;
+	@OneToOne
+	public Responsavel responsavel;
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "biblioteca_id")
 	@JsonIgnore
@@ -83,7 +85,15 @@ public class Biblioteca {
 		this.email = email;
 	}
 
-	public Set<Processo> getProcessos() {
+    public Responsavel getResponsavel() {
+        return responsavel;
+    }
+
+    public void setResponsavel(Responsavel responsavel) {
+        this.responsavel = responsavel;
+    }
+
+    public Set<Processo> getProcessos() {
 		return processos;
 	}
 

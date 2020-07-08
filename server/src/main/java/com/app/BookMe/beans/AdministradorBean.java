@@ -35,9 +35,13 @@ public class AdministradorBean {
     /**
      * Regista responsavel de biblioteca no sistema
      * @param r
+     * @param bibliotecaID
      */
-    public void registaResponsavel(Responsavel r) {
+    public void registaResponsavel(Responsavel r, long bibliotecaID) {
+        Biblioteca b = br.findById(bibliotecaID).get();
+        b.setResponsavel(r);
         rr.save(r);
+        br.save(b);
     }
 
     /**
@@ -78,7 +82,7 @@ public class AdministradorBean {
      * @return
      */
     public Responsavel consultarBibliotecaResponsavel(long idBiblioteca){
-        Responsavel r = rr.findByBiblioteca(idBiblioteca);
-        return r;
+        Biblioteca b = br.findById(idBiblioteca).get();
+        return b.getResponsavel();
     }
 }

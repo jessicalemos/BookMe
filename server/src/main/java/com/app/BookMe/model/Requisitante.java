@@ -27,6 +27,8 @@ public class Requisitante extends Utilizador{
     @JsonIgnore
     private List<Notificacao> notificacoes;
 
+
+
     public Requisitante() {
         super();
         this.processos = new ArrayList<>();

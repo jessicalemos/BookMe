@@ -33,26 +33,24 @@ public class AdministradorController {
     }
 
 
-    @PostMapping("/registarResponsavel")
-    public String registarResponsavel(@RequestBody Responsavel r) {
+    @PostMapping("/registarResponsavel/{bibliotecaID}")
+    public String registarResponsavel(@PathVariable long bibliotecaID, @RequestBody Responsavel r) {
         Optional<Utilizador> findByEmail = ur.findByEmail(r.getEmail());
         if(findByEmail.isPresent()){
             return "Username already exists" ;
         }
-
-        Responsavel newR = new Responsavel(r.getEmail(), passwordEncoder.encode(r.getPassword()),r.getNome());
-
-        BookMe.registaResponsavel(newR);
+        r.setPassword(passwordEncoder.encode(r.getPassword()));
+        BookMe.registaResponsavel(r,bibliotecaID);
         return "Sucessfully registered!";
     }
 
     @PostMapping("/editarResponsavel")
     public Responsavel editarResponsavel(@RequestBody Responsavel r) {
-            Optional<Utilizador> findByEmail = ur.findByEmail(r.getEmail());
-            if(findByEmail.isPresent() && findByEmail.get().getiD()!= r.getiD()){
-                return null ;
-            }
-            return BookMe.editarResponsavel(r.getiD(), r.getEmail(),passwordEncoder.encode(r.getPassword()),r.getNome());
+        Optional<Utilizador> findByEmail = ur.findByEmail(r.getEmail());
+        if(findByEmail.isPresent() && findByEmail.get().getiD()!= r.getiD()){
+            return null ;
+        }
+        return BookMe.editarResponsavel(r.getiD(), r.getEmail(),passwordEncoder.encode(r.getPassword()),r.getNome());
     }
 
     @GetMapping("/bibliotecas")
@@ -67,7 +65,6 @@ public class AdministradorController {
 
     @GetMapping("/biblioteca/{bibliotecaID}/responsavel")
     public Responsavel conslutarBiliotecaResponsavel(@PathVariable long bibliotecaID) {
-        System.out.println("BibliotecaID" + bibliotecaID);
         return BookMe.consultarBibliotecaResponsavel(bibliotecaID);
 
     }
