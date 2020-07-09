@@ -310,4 +310,9 @@ public class RequisitanteBean {
         }
         return lr.findLivrosByIDInAndTituloContains(ids,titulo);
     }
+
+    public  List<Livro> consultaLivrosFiltro(List<String> autores, List<String> editores, List<Long> bibliotecas) {
+        List<Long> ids = lr.findLivrosByDintinctIsbnAndBiblioteca(bibliotecas);
+        return lr.findLivrosByAutorInAndEditorInAndIDIn(autores, editores, ids);
+    }
 }

@@ -220,6 +220,10 @@ public class BookMe {
         return rb.consultaLivroTitulo(titulo);
     }
 
+    public static List<Livro> consultaLivrosFiltro(List<String> autores, List<String> editores, List<Long> bibliotecas) {
+        return rb.consultaLivrosFiltro(autores, editores, bibliotecas);
+    }
+
     @Scheduled(cron="0 0 0 * * *")
     public void vericaReservas(){
         bb.cancelaReservaAutomatica();

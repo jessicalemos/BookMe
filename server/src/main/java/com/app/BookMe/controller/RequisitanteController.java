@@ -1,5 +1,6 @@
 package com.app.BookMe.controller;
 
+import com.app.BookMe.controller.model.Filtro;
 import com.app.BookMe.controller.model.Historico;
 import com.app.BookMe.model.*;
 import com.app.BookMe.repositories.RequisitanteRep;
@@ -179,5 +180,9 @@ public class RequisitanteController {
         return BookMe.consultaLivroTitulo(titulo);
     }
 
+    @PostMapping("/livros/filtro")
+    public List<Livro> consultaLivrosFiltro(@RequestBody Filtro f) {
+        return BookMe.consultaLivrosFiltro(f.getAutores(), f.getEditores(), f.getBibliotecas());
+    }
 
 }
