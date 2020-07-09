@@ -294,14 +294,27 @@ public class RequisitanteBean {
         return n;
     }
 
+    /**
+     * Obtem os autores dos livros registados no sistema
+     * @return
+     */
     public List<String> consultaAutores() {
         return lr.findDistinctAutor();
     }
 
+    /**
+     * Obtem os editores dos livros registados no sistema
+     * @return
+     */
     public List<String> consultaEditores() {
         return lr.findDistinctEditor();
     }
 
+    /**
+     * Permite procurar os livros por titulo
+     * @Param titulo
+     * @return
+     */
     public List<Livro> consultaLivroTitulo(String titulo) {
         List<Livro> livrosDiferentes = lr.findDistinctIsbn();
         List<Long> ids = new ArrayList<>();

@@ -182,6 +182,11 @@ public class BookMe {
      */
 	public static Responsavel consultarBibliotecaResponsavel(long idBiblioteca) {return ab.consultarBibliotecaResponsavel(idBiblioteca);}
 
+    /**
+     * Filtra as bilbiotecas pelo nome
+     * @param nome Biblioteca nome filtro
+     * @return Bibliotecas
+     */
     public static List<Biblioteca> consultaBibliotecaNome(String nome) {
         return ab.consultaBibliotecaNome(nome);
     }
@@ -208,14 +213,27 @@ public class BookMe {
 		return rb.conslutarNotificacoes(requisitanteID);
 	}
 
+    /**
+     * Obtem os autores dos livros registados no sistema
+     * @return Autores
+     */
     public static List<String> consultaAutores() {
         return rb.consultaAutores();
     }
 
+    /**
+     * Obtem os editores dos livros registados no sistema
+     * @return Editores
+     */
     public static List<String> consultaEditores() {
         return rb.consultaEditores();
     }
 
+    /**
+     * Permite procurar os livros por titulo
+     * @Param titulo Livro
+     * @return Livros
+     */
     public static List<Livro> consultaLivroTitulo(String titulo) {
         return rb.consultaLivroTitulo(titulo);
     }

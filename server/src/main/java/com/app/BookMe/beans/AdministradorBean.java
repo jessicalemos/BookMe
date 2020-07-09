@@ -59,7 +59,7 @@ public class AdministradorBean {
         Biblioteca b = br.findById(bibliotecaID).get();
         Responsavel r = b.getResponsavel();
         b.setResponsavel(null);
-        //rr.delete(r);
+        rr.delete(r);
         Set<Funcionario> funcionarios = b.getFuncionarios();
         for(Funcionario f: funcionarios) {
             System.out.println(f.getiD());
@@ -115,6 +115,12 @@ public class AdministradorBean {
         return b.getResponsavel();
     }
 
+
+    /**
+     * Filtra as bilbiotecas pelo nome
+     * @param nome
+     * @return
+     */
     public List<Biblioteca> consultaBibliotecaNome(String nome) {
         return br.findBibliotecasByNomeContainsAndAtivaTrue(nome);
     }
