@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.sql.Date;
 import java.util.*;
@@ -108,6 +109,16 @@ public class RequisitanteBean {
         return b;
     }
 
+    public List<String> consultarBibliotecasLivro(@PathVariable String isbn){
+        return br.findDistinctFirstByLivroIsbn(isbn);
+    }
+
+    /**
+     * Efetuar a reserva de um livro
+     * @param idReq
+     * @param p
+     * @return
+     */
     public String reservaLivro(long idReq, Processo p) {
         Requisitante req = rp.findById(idReq).get();
         if(pr.findByEstadoReq(req.getiD(),"atrasado").size()<1) {
@@ -163,6 +174,13 @@ public class RequisitanteBean {
         return "Para reservar terá de regularizar os livros em atraso";
     }
 
+
+    /**
+     * Obter a disponibilidade para a reserva de um livro numa biblioteca.
+     * @param biblioteca
+     * @Param livro
+     * @return
+     */
     public Processo conslutarDisponibilidadeReserva(String biblioteca, String livro){
         Biblioteca biblio = br.findByNome(biblioteca).get();
         List<Livro> livros = lr.findByIsbnAndBibliotecaAndDisponiblidade(livro, biblio.getID(),true);
@@ -193,6 +211,13 @@ public class RequisitanteBean {
         }
     }
 
+
+    /**
+     * Efetuar a renovação de um livro
+     * @param idReq
+     * @param idProcesso
+     * @return
+     */
     public String renovaReserva(long idReq, long idProcesso) {
         Requisitante req = rp.findById(idReq).get();
         if(pr.findByEstadoReq(req.getiD(),"atrasado").size()<1) {
@@ -229,6 +254,14 @@ public class RequisitanteBean {
         pr.save(n);
     }
 
+
+    /**
+     * Cancelar uma reserva
+     * @param idReq
+     * @param idProc
+     * @param biblioteca
+     * @return
+     */
     public String cancelarReserva(long idReq, long idProc, String biblioteca) {
         Processo p = pr.findById(idProc).get();
         Requisitante r = rp.findById(idReq).get();
@@ -248,10 +281,33 @@ public class RequisitanteBean {
         return "Reserva cancelada com sucesso";
     }
 
+
+    /**
+     * Obter as notificações de um requisitante ordenadas
+     * @param requisitanteID
+     * @return
+     */
     public List<Notificacao> conslutarNotificacoes(long requisitanteID){
         Requisitante r = rp.findById(requisitanteID).get();
         List<Notificacao> n = r.getNotificacoes();
         Collections.reverse(n);
         return n;
+    }
+
+    public List<String> consultaAutores() {
+        return lr.findDistinctAutor();
+    }
+
+    public List<String> consultaEditores() {
+        return lr.findDistinctEditor();
+    }
+
+    public List<Livro> consultaLivroTitulo(String titulo) {
+        List<Livro> livrosDiferentes = lr.findDistinctIsbn();
+        List<Long> ids = new ArrayList<>();
+        for(Livro l: livrosDiferentes){
+            ids.add(l.getID());
+        }
+        return lr.findLivrosByIDInAndTituloContains(ids,titulo);
     }
 }
