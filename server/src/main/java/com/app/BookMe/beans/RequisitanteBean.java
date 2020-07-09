@@ -108,42 +108,89 @@ public class RequisitanteBean {
         return b;
     }
 
-    public String reservaLivro(long idReq, String biblioteca, String livro) {
-        Biblioteca biblio = br.findByNome(biblioteca).get();
+    public String reservaLivro(long idReq, Processo p) {
         Requisitante req = rp.findById(idReq).get();
         if(pr.findByEstadoReq(req.getiD(),"atrasado").size()<1) {
-            Livro l = lr.findByTituloAndBiblioteca(livro, biblio.getID()).get();
-            long milis = System.currentTimeMillis();
-            Date data_inicio = new Date(milis);
+            Livro l = p.getLivro();
+            Biblioteca biblio = br.findBibliotecaByLivrosContains(l).get();
             long DAY_IN_MS = 1000 * 60 * 60 * 24;
-            if (l.getDisponibilidade()) {
+            long milis = System.currentTimeMillis();
+            if(l.getDisponibilidade()){
+                Date data_inicio = new Date(milis);
                 Date data_fim = new Date(System.currentTimeMillis() + (15 * DAY_IN_MS));
-                Processo p = new Processo("reservado", data_inicio, data_fim, l);
-                req.addProcesso(p);
-                biblio.addProcesso(p);
+                Processo proc = new Processo("reservado", data_inicio, data_fim, l);
+                req.addProcesso(proc);
+                biblio.addProcesso(proc);
                 l.setDisponibilidade(false);
-                pr.save(p);
+                pr.save(proc);
                 lr.save(l);
                 rp.save(req);
                 br.save(biblio);
                 return "Livro reservado";
-            } else if(pr.findProcessoByLivroAndEstado(l,"reservado").size()<2) {
-                Processo e = pr.findProcessoByLivroAndEstadoIsNotAndDataInicioLessThan(l, "devolvido", data_inicio).get();
-                if(rp.findByProcessosContains(e).get().getiD() != req.getiD()) {
-                    Processo p = new Processo("reservado", e.getDataFim(), null, l);
-                    req.addProcesso(p);
-                    biblio.addProcesso(p);
-                    pr.save(p);
+
+            }
+            else if((pr.findProcessoByLivroAndEstadoIsNot(l, "devolvido")).size()<2 && p.getID()!=0){
+                Processo proc = new Processo("reservado", p.getDataFim(), null, l);
+                req.addProcesso(proc);
+                biblio.addProcesso(proc);
+                pr.save(proc);
+                lr.save(l);
+                rp.save(req);
+                br.save(biblio);
+                return "Pre reserva realizada";
+            }
+            else {
+                List<Livro> livros = lr.findByIsbnAndBibliotecaAndDisponiblidade(l.getIsbn(), biblio.getID(),true);
+                if(livros.isEmpty())
+                    return "Confirme a disponibilidade do livro";
+                else{
+                    Livro livro = livros.get(0);
+                    Date data_inicio = new Date(milis);
+                    Date data_fim = new Date(System.currentTimeMillis() + (15 * DAY_IN_MS));
+                    Processo proc = new Processo("reservado", data_inicio, data_fim, livro);
+                    req.addProcesso(proc);
+                    biblio.addProcesso(proc);
+                    l.setDisponibilidade(false);
+                    pr.save(proc);
                     lr.save(l);
                     rp.save(req);
                     br.save(biblio);
-                    return "Pre reserva realizada";
+                    return "Livro reservado";
                 }
-                else return "Já tem uma reserva feita para este livro";
+
             }
-            else return "Este livro não estará disponível em breve";
         }
-        return "Para requistar tem de regularizar os livros em atraso";
+        return "Para reservar terá de regularizar os livros em atraso";
+    }
+
+    public Processo conslutarDisponibilidadeReserva(String biblioteca, String livro){
+        Biblioteca biblio = br.findByNome(biblioteca).get();
+        List<Livro> livros = lr.findByIsbnAndBibliotecaAndDisponiblidade(livro, biblio.getID(),true);
+        if(livros.isEmpty()){
+            List<Livro> livrofNotDisponivel = lr.findByIsbnAndBibliotecaAndDisponiblidade(livro, biblio.getID(),false);
+            long DAY_IN_MS = 1000 * 60 * 60 * 24;
+            Date max = new Date(System.currentTimeMillis() + (31 * DAY_IN_MS));
+            Livro aReservar=null;
+            Processo p = null;
+            for(Livro li: livrofNotDisponivel) {
+                List<Processo> reservas = pr.findProcessoByLivroAndEstadoIsNot(li, "devolvido");
+                if (reservas.size() < 2) {
+                    Processo r = reservas.get(0);
+                    if (r.getDataFim().before(max)) {
+                        aReservar = li;
+                        max = r.getDataFim();
+                        p = reservas.get(0);
+                    }
+                }
+            }
+            return p;
+        }
+        else{
+            Livro l = livros.get(0);
+            Date inicio = new Date(System.currentTimeMillis());
+            Processo p = new Processo("disponivel",inicio,null,l);
+            return p;
+        }
     }
 
     public String renovaReserva(long idReq, long idProcesso) {

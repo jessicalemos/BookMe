@@ -35,8 +35,8 @@ public class BookMe {
         rb.registarRequisitante(r);
     }
 
-	public Biblioteca removeBiblioteca(String nome) {
-		throw new UnsupportedOperationException();
+	public static Biblioteca removeBiblioteca(long idBiblioteca) {
+		return ab.removeBiblioteca(idBiblioteca);
 	}
 
 	public static long registaBiblioteca(Biblioteca b) {
@@ -45,9 +45,12 @@ public class BookMe {
 
 	public static void registaResponsavel(Responsavel r, long bibliotecaID) {ab.registaResponsavel(r,bibliotecaID);}
 
-	public static String reservaLivro(long idReq, String biblioteca, String livro) {
-		return rb.reservaLivro(idReq, biblioteca, livro);
+	public static String reservaLivro(long idReq, Processo p) {
+		return rb.reservaLivro(idReq, p);
 	}
+	public static Processo conslutarDisponibilidadeReserva(String nome, String livro){
+        return rb.conslutarDisponibilidadeReserva(nome, livro);
+    }
 
 	public static String cancelarReserva(long idReq, long idProc, String biblioteca) {
 		return rb.cancelarReserva(idReq,idProc,biblioteca);

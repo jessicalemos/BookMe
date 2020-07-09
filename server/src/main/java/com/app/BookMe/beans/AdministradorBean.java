@@ -2,6 +2,7 @@ package com.app.BookMe.beans;
 
 import com.app.BookMe.model.*;
 import com.app.BookMe.repositories.BibliotecaRep;
+import com.app.BookMe.repositories.FuncionarioRep;
 import com.app.BookMe.repositories.ResponsavelRep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -10,17 +11,20 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class AdministradorBean {
     private BibliotecaRep br;
     private ResponsavelRep rr;
+    private FuncionarioRep fr;
 
     @Autowired
-    public AdministradorBean(BibliotecaRep bibliorep, ResponsavelRep respr){
+    public AdministradorBean(BibliotecaRep bibliorep, ResponsavelRep respr, FuncionarioRep funcr){
         this.br = bibliorep;
         this.rr = respr;
+        this.fr = funcr;
     }
 
     /**
@@ -42,6 +46,23 @@ public class AdministradorBean {
         b.setResponsavel(r);
         rr.save(r);
         br.save(b);
+    }
+
+    public Biblioteca removeBiblioteca(long bibliotecaID){
+        Biblioteca b = br.findById(bibliotecaID).get();
+        Responsavel r = b.getResponsavel();
+        b.setResponsavel(null);
+        //rr.delete(r);
+        Set<Funcionario> funcionarios = b.getFuncionarios();
+        for(Funcionario f: funcionarios) {
+            System.out.println(f.getiD());
+            b.removeFuncionario(f);
+            fr.delete(f);
+        }
+        b.setAtiva(false);
+        br.save(b);
+        System.out.println(b.getFuncionarios());
+        return b;
     }
 
     /**

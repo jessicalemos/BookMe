@@ -12,10 +12,11 @@ import java.util.Optional;
 
 public interface ProcessoRep extends JpaRepository<Processo, Long> {
     @Query(" FROM Processo WHERE requisitante_id = :rId AND estado = :e ")
-    List<Processo> findByEstadoReq(@Param("rId") long bibliotecaId, @Param("e") String estado);
+    List<Processo> findByEstadoReq(@Param("rId") long requisitanteId, @Param("e") String estado);
     Optional<Processo> findProcessoByLivroAndEstadoIsNotAndDataInicioLessThan(Livro l, String estado, Date now);
     List<Processo> findProcessoByLivroAndEstadoAndIDIsNot(Livro l, String estado, long id);
     List<Processo> findProcessoByLivroAndEstado(Livro l, String estado);
     List<Processo> findByDataInicioLessThanEqualAndEstado(Date now, String estado);
     List<Processo> findByDataFimGreaterThanEqualAndDataFimIsLessThanAndEstado(Date yesterday,Date now, String estado);
+    List<Processo> findProcessoByLivroAndEstadoIsNot(Livro l, String estado);
 }

@@ -90,12 +90,16 @@ public class RequisitanteController {
         return BookMe.conslutarBibliotecaProcesso(processoID);
     }
 
-    @PostMapping("/reservar")
-    public String reservar(@RequestBody ObjectNode info){
-        long idReq = info.get("idRequisitante").asLong();
+    @PostMapping("/reservar/{requisitanteID}")
+    public String reservar(@PathVariable long requisitanteID,@RequestBody Processo p){
+        return BookMe.reservaLivro(requisitanteID, p);
+    }
+
+    @PostMapping("/disponibilidade/reservar")
+    public Processo conslutarDisponibilidadeReserva(@RequestBody ObjectNode info) {
         String nome = info.get("biblioteca").asText();
         String livro = info.get("livro").asText();
-        return BookMe.reservaLivro(idReq, nome, livro);
+        return BookMe.conslutarDisponibilidadeReserva(nome, livro);
     }
 
     @PostMapping("/renovar/reserva")

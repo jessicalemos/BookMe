@@ -25,13 +25,20 @@ public class AdministradorController {
         if(findByEmail.isPresent()){
             return -1 ;
         }
-
+        Optional<Biblioteca> findByNome = br.findByNome(b.getNome());
+        if(findByNome.isPresent()){
+            return -2;
+        }
         Biblioteca newB = new Biblioteca(b.getMorada(), b.getNome(), b.getTelemovel(),
                 b.getEmail());
 
         return BookMe.registaBiblioteca(newB);
     }
 
+    @PostMapping("/delete/biblioteca/{bibliotecaID}")
+    public Biblioteca removeBiblioteca(@PathVariable long bibliotecaID) {
+        return BookMe.removeBiblioteca(bibliotecaID);
+    }
 
     @PostMapping("/registarResponsavel/{bibliotecaID}")
     public String registarResponsavel(@PathVariable long bibliotecaID, @RequestBody Responsavel r) {
