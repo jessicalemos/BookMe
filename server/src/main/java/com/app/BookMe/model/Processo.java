@@ -3,7 +3,7 @@ package com.app.BookMe.model;
 import com.app.BookMe.model.Livro;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
 
 @Entity
 public class Processo {

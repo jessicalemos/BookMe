@@ -12,10 +12,13 @@ public class Biblioteca {
     @Id
     @GeneratedValue(strategy =  GenerationType.AUTO)
     private long ID;
+	@Column(unique = true)
 	private String morada;
 	private String nome;
 	private String telemovel;
+	@Column(unique = true)
 	private String email;
+	private boolean ativa;
 	@OneToOne
 	public Responsavel responsavel;
     @OneToMany(fetch = FetchType.EAGER)
@@ -40,6 +43,7 @@ public class Biblioteca {
 		this.nome = nome;
 		this.telemovel = telemovel;
 		this.email = email;
+		this.ativa = true;
 		this.processos = new HashSet<>();
 		this.funcionarios = new HashSet<>();
 		this.livros = new HashSet<>();
@@ -85,7 +89,15 @@ public class Biblioteca {
 		this.email = email;
 	}
 
-    public Responsavel getResponsavel() {
+	public boolean isAtiva() {
+		return ativa;
+	}
+
+	public void setAtiva(boolean ativa) {
+		this.ativa = ativa;
+	}
+
+	public Responsavel getResponsavel() {
         return responsavel;
     }
 
@@ -101,13 +113,13 @@ public class Biblioteca {
 		this.processos = processos;
 	}
 
-	public void addProcesso(Processo p){
-		processos.add(p);
-	}
+    public void addProcesso(Processo p){
+        processos.add(p);
+    }
 
-	public void removeProcesso(Processo p){
-		processos.remove(p);
-	}
+    public void removeProcesso(Processo p){
+        processos.remove(p);
+    }
 
 	public Set<Funcionario> getFuncionarios() {
 		return funcionarios;
@@ -116,6 +128,14 @@ public class Biblioteca {
 	public void setFuncionarios(Set<Funcionario> funcionarios) {
 		this.funcionarios = funcionarios;
 	}
+
+    public void addFuncionario(Funcionario f){
+        funcionarios.add(f);
+    }
+
+    public void removeFuncionario(Funcionario f){
+        funcionarios.remove(f);
+    }
 
 	public Set<Livro> getLivros() {
 		return livros;

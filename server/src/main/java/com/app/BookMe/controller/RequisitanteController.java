@@ -1,5 +1,6 @@
 package com.app.BookMe.controller;
 
+import com.app.BookMe.controller.model.Historico;
 import com.app.BookMe.model.*;
 import com.app.BookMe.repositories.RequisitanteRep;
 import com.app.BookMe.repositories.UtilizadorRep;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -60,8 +62,15 @@ public class RequisitanteController {
     }
 
     @GetMapping("/processos/requisitante/{requisitanteID}")
-    public List<Processo> conslutarProcessos(@PathVariable long requisitanteID) {
-        return BookMe.conslutarProcessos(requisitanteID);
+    public List<Historico> conslutarProcessos(@PathVariable long requisitanteID) {
+        List<Processo> processos = BookMe.conslutarProcessos(requisitanteID);
+        List<Historico> historico = new ArrayList<>();
+        for(Processo p : processos){
+            Biblioteca b = BookMe.conslutarBibliotecaProcesso(p.getID());
+            Historico h = new Historico(b,p);
+            historico.add(h);
+        }
+        return historico;
 
     }
 
@@ -90,12 +99,16 @@ public class RequisitanteController {
         return BookMe.conslutarBibliotecaProcesso(processoID);
     }
 
-    @PostMapping("/reservar")
-    public String reservar(@RequestBody ObjectNode info){
-        long idReq = info.get("idRequisitante").asLong();
+    @PostMapping("/reservar/{requisitanteID}")
+    public String reservar(@PathVariable long requisitanteID,@RequestBody Processo p){
+        return BookMe.reservaLivro(requisitanteID, p);
+    }
+
+    @PostMapping("/disponibilidade/reservar")
+    public Processo conslutarDisponibilidadeReserva(@RequestBody ObjectNode info) {
         String nome = info.get("biblioteca").asText();
         String livro = info.get("livro").asText();
-        return BookMe.reservaLivro(idReq, nome, livro);
+        return BookMe.conslutarDisponibilidadeReserva(nome, livro);
     }
 
     @PostMapping("/renovar/reserva")
