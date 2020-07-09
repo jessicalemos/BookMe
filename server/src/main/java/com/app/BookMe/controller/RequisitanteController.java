@@ -1,5 +1,6 @@
 package com.app.BookMe.controller;
 
+import com.app.BookMe.controller.model.Filtro;
 import com.app.BookMe.controller.model.Historico;
 import com.app.BookMe.model.*;
 import com.app.BookMe.repositories.RequisitanteRep;
@@ -75,23 +76,51 @@ public class RequisitanteController {
     }
 
     @GetMapping("/reservados/{requisitanteID}")
-    public List<Processo> getReservados(@PathVariable long requisitanteID) {
-        return BookMe.getProcessosEstado(requisitanteID,"reservado");
+    public List<Historico> getReservados(@PathVariable long requisitanteID) {
+        List<Processo> processos = BookMe.getProcessosEstado(requisitanteID,"reservado");
+        List<Historico> historico = new ArrayList<>();
+        for(Processo p : processos){
+            Biblioteca b = BookMe.conslutarBibliotecaProcesso(p.getID());
+            Historico h = new Historico(b,p);
+            historico.add(h);
+        }
+        return historico;
     }
 
     @GetMapping("/devolvidos/{requisitanteID}")
-    public List<Processo> getDevolvidos(@PathVariable long requisitanteID) {
-        return BookMe.getProcessosEstado(requisitanteID,"devolvido");
+    public List<Historico> getDevolvidos(@PathVariable long requisitanteID) {
+        List<Processo> processos = BookMe.getProcessosEstado(requisitanteID,"devolvido");
+        List<Historico> historico = new ArrayList<>();
+        for(Processo p : processos){
+            Biblioteca b = BookMe.conslutarBibliotecaProcesso(p.getID());
+            Historico h = new Historico(b,p);
+            historico.add(h);
+        }
+        return historico;
     }
 
     @GetMapping("/atrasados/{requisitanteID}")
-    public List<Processo> getAtrasados(@PathVariable long requisitanteID) {
-        return BookMe.getProcessosEstado(requisitanteID,"atrasado");
+    public List<Historico> getAtrasados(@PathVariable long requisitanteID) {
+        List<Processo> processos = BookMe.getProcessosEstado(requisitanteID,"atrasado");
+        List<Historico> historico = new ArrayList<>();
+        for(Processo p : processos){
+            Biblioteca b = BookMe.conslutarBibliotecaProcesso(p.getID());
+            Historico h = new Historico(b,p);
+            historico.add(h);
+        }
+        return historico;
     }
 
     @GetMapping("/requisitados/{requisitanteID}")
-    public List<Processo> getRequisitados(@PathVariable long requisitanteID) {
-        return BookMe.getProcessosEstado(requisitanteID,"requisitado");
+    public List<Historico> getRequisitados(@PathVariable long requisitanteID) {
+        List<Processo> processos = BookMe.getProcessosEstado(requisitanteID,"requisitado");
+        List<Historico> historico = new ArrayList<>();
+        for(Processo p : processos){
+            Biblioteca b = BookMe.conslutarBibliotecaProcesso(p.getID());
+            Historico h = new Historico(b,p);
+            historico.add(h);
+        }
+        return historico;
     }
 
     @GetMapping("/processo/biblioteca/{processoID}")
@@ -102,6 +131,11 @@ public class RequisitanteController {
     @PostMapping("/reservar/{requisitanteID}")
     public String reservar(@PathVariable long requisitanteID,@RequestBody Processo p){
         return BookMe.reservaLivro(requisitanteID, p);
+    }
+
+    @GetMapping("/bibliotecas/livro/{isbn}")
+    public List<String> consultarBibliotecasLivro(@PathVariable String isbn){
+        return BookMe.consultarBibliotecasLivro(isbn);
     }
 
     @PostMapping("/disponibilidade/reservar")
@@ -131,5 +165,24 @@ public class RequisitanteController {
         return BookMe.conslutarNotificacoes(requisitanteID);
     }
 
+    @GetMapping("/Autores")
+    public List<String> consultaAutores() {
+        return BookMe.consultaAutores();
+    }
+
+    @GetMapping("/Editores")
+    public List<String> consultaEditores() {
+        return BookMe.consultaEditores();
+    }
+
+    @GetMapping("/livros/{titulo}")
+    public List<Livro> consultaLivroTitulo(@PathVariable String titulo) {
+        return BookMe.consultaLivroTitulo(titulo);
+    }
+
+    @PostMapping("/livros/filtro")
+    public List<Livro> consultaLivrosFiltro(@RequestBody Filtro f) {
+        return BookMe.consultaLivrosFiltro(f.getAutores(), f.getEditores(), f.getBibliotecas());
+    }
 
 }

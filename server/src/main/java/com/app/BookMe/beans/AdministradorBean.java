@@ -30,6 +30,7 @@ public class AdministradorBean {
     /**
      * Regista biblioteca no sistema
      * @param b
+     * @return
      */
     public long registaBiblioteca(Biblioteca b) {
         br.save(b);
@@ -48,11 +49,17 @@ public class AdministradorBean {
         br.save(b);
     }
 
+
+    /**
+     * Coloca uma biblioteca inativa, removendo os seus funcionários.
+     * @param bibliotecaID
+     * @return
+     */
     public Biblioteca removeBiblioteca(long bibliotecaID){
         Biblioteca b = br.findById(bibliotecaID).get();
         Responsavel r = b.getResponsavel();
         b.setResponsavel(null);
-        //rr.delete(r);
+        rr.delete(r);
         Set<Funcionario> funcionarios = b.getFuncionarios();
         for(Funcionario f: funcionarios) {
             System.out.println(f.getiD());
@@ -66,11 +73,12 @@ public class AdministradorBean {
     }
 
     /**
-     * Edita as infromações de um responsavel
+     * Edita as informações de um responsavel
      * @param id
      * @param email
      * @param password
      * @param nome
+     * @return
      */
     public Responsavel editarResponsavel(long id, String email, String password, String nome) {
         Optional<Responsavel> resp = rr.findById(id);
@@ -83,7 +91,7 @@ public class AdministradorBean {
     }
 
     public List<Biblioteca> consultaBibliotecas(){
-        return br.findAll();
+        return br.findBibliotecasByAtiva(true);
     }
 
     /**
@@ -105,5 +113,15 @@ public class AdministradorBean {
     public Responsavel consultarBibliotecaResponsavel(long idBiblioteca){
         Biblioteca b = br.findById(idBiblioteca).get();
         return b.getResponsavel();
+    }
+
+
+    /**
+     * Filtra as bilbiotecas pelo nome
+     * @param nome
+     * @return
+     */
+    public List<Biblioteca> consultaBibliotecaNome(String nome) {
+        return br.findBibliotecasByNomeContainsAndAtivaTrue(nome);
     }
 }

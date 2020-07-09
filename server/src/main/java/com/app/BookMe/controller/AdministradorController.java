@@ -75,4 +75,9 @@ public class AdministradorController {
         return BookMe.consultarBibliotecaResponsavel(bibliotecaID);
 
     }
+
+    @GetMapping("/bibliotecas/{nome}")
+    public List<Biblioteca> consultaBibliotecaNome(@PathVariable String nome) {
+        return BookMe.consultaBibliotecaNome(nome);
+    }
 }
