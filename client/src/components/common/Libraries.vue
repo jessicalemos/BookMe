@@ -1,6 +1,16 @@
 <template>
   <div style="min-height: 100%">
     <div class="col-8 mx-auto my-5">
+      <form action="">
+        <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
+          <div class="input-group">
+            <input type="search" placeholder="Qual a biblioteca que procura?" aria-describedby="button-addon1" class="form-control border-0 bg-light">
+            <div class="input-group-append">
+              <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
+            </div>
+          </div>
+          </div>
+      </form>
       <div class="row justify-center" id="Group">
         <div class="col-12 box">
           <button v-if="user_type == 'Administrador'" type="button" class="btn btn-secondary" @click="$router.push('/registar-biblioteca')">
@@ -17,7 +27,7 @@
                   <button class="btn btn-secondary config" type="button" @click="setLibrary(g.id)">
                     <i class="fas fa-cog"></i>
                   </button>
-                  <button class="btn btn-danger remove" @click="$bvModal.show('modal-scoped')" type="button">
+                  <button class="btn btn-danger remove" @click="$bvModal.show('modal-scoped'); itemToRemove(g.id)" type="button">
                     <i class="far fa-trash-alt"></i>
                   </button>
                 </div>
@@ -27,7 +37,7 @@
       </div>
     </div>
     <nav v-if="libraries.length > nrPerPage" class="pagination justify-content-center">
-      <ul class="pagination">
+      <ul class="pagination pagination-circle pg-blue">
         <li class="page-item">
           <a class="page-link" v-bind:disabled="page==0" v-on:click="page = 0" aria-label="Previous">
             <span aria-hidden="true">&laquo;</span>
@@ -46,16 +56,16 @@
       </ul>
     </nav>
     <div>
-      <b-modal id="modal-scoped">
+      <b-modal id="modal-scoped" centered>
         <template v-slot:modal-header>
           <b>Remover Biblioteca</b>
         </template>
         <template v-slot:default>Tem a certeza que pretende remover esta biblioteca?</template>
-        <template v-slot:modal-footer="{ remove }">
+        <template v-slot:modal-footer="{}">
           <b-button size="sm" variant="outline-danger" @click="$bvModal.hide('modal-scoped')">
             <i class="fas fa-times"></i> Não
           </b-button>
-          <b-button size="sm" variant="outline-success" @click="remove()">
+          <b-button size="sm" variant="outline-success" @click="removeLibrary()">
             <i class="fas fa-check"></i> Sim
           </b-button>
         </template>
@@ -75,7 +85,8 @@ export default {
     libraries: {},
     page: 0,
     nrPerPage: 4,
-    librariesFilter: []
+    librariesFilter: [],
+    selected: null
   }),
   mounted: function () {
     const user = UserHandler.get()
@@ -112,6 +123,16 @@ export default {
     setLibrary (idLibrary) {
       localStorage.setItem('Library', idLibrary)
       this.$router.push({ name: 'EditResponsible' })
+    },
+    itemToRemove (library) {
+      this.selected = library
+      console.log(this.selected)
+    },
+    async removeLibrary () {
+      const req = await ApiLibraries.removeLibrary(this.selected)
+      console.log(req)
+      this.getLibraries()
+      this.$bvModal.hide('modal-scoped')
     }
   },
   computed: {}
@@ -119,6 +140,14 @@ export default {
 </script>
 
 <style scoped>
+input {
+  border-radius: 50rem !important;
+}
+
+.text-primary {
+  color: #7d8285 !important;
+}
+
 a {
   cursor: pointer;
 }

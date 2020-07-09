@@ -138,4 +138,28 @@ ApiUsers.getBook = async (idBook) => {
   }
 }
 
+ApiUsers.getProcesses = async (idRequistante) => {
+  try {
+    const req = await axios.get(`${HOST}` + 'processos/requisitante/' + idRequistante, token)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
+ApiUsers.removeReservation = async (info) => {
+  try {
+    const req = await axios.post(`${HOST}` + 'cancelar/reserva', info, token)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
 export default ApiUsers

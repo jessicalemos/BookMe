@@ -1,12 +1,79 @@
 <template>
+<div>
+    <div>
+    <b-sidebar id="sidebar-1" right>
+      <div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" data-parent="#accordion" class="filter" href="#collapse2">
+              Biblioteca <i class="fas fa-angle-down"></i></a>
+            </h4>
+          </div>
+          <div id="collapse2" class="panel-collapse collapse">
+            <div class="panel-body">
+              <div class="custom-control custom-radio">
+                <input type="radio" class="custom-control-input" id="defaultUnchecked" name="defaultExampleRadios">
+                <label class="custom-control-label" for="defaultUnchecked">Default unchecked</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" data-parent="#accordion" class="filter" href="#collapse3">
+              Autor <i class="fas fa-angle-down"></i></a>
+            </h4>
+          </div>
+          <div id="collapse3" class="panel-collapse collapse">
+            <div class="panel-body">
+              <div class="custom-control custom-radio">
+                <input type="radio" class="custom-control-input" id="defaultUnchecked" name="defaultExampleRadios">
+                <label class="custom-control-label" for="defaultUnchecked">Default unchecked</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </b-sidebar>
+  </div>
 <div class="col-8 mx-auto my-5">
-  <div class="row justify-center">
-    <div v-if="user_type!='Requisitante'" class="col-12 box">
-      <button type="button" class="btn btn-secondary" @click="$router.push('/registar-livro')">
-        <i class="fa fa-plus"></i>
-        Adicionar
-      </button>
+  <div v-if="user_type=='Responsavel'" class="row">
+    <div class="col-10">
+      <form action="">
+        <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
+          <div class="input-group">
+            <input type="search" placeholder="Qual o livro que procura?" aria-describedby="button-addon1" class="form-control border-0 bg-light">
+            <div class="input-group-append">
+              <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
+    <div class="col-2">
+      <div class="col-16 box">
+        <button type="button" class="btn btn-secondary" @click="$router.push('/registar-livro')">
+          <i class="fa fa-plus"></i>
+          Adicionar
+        </button>
+      </div>
+    </div>
+  </div>
+  <div v-else>
+    <form action="">
+        <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
+          <div class="input-group">
+            <input type="search" placeholder="Qual o livro que procura?" aria-describedby="button-addon1" class="form-control border-0 bg-light">
+            <div class="input-group-append">
+              <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
+            </div>
+          </div>
+        </div>
+      </form>
+  </div>
+  <div class="row justify-center">
     <div v-for="g in booksFilter[page]" :key="g.id" class="col-12 col-sm-6 col-lg-3 info">
       <a @click="setBook(g.id)">
         <img class="book" :src="g.imagem">
@@ -38,6 +105,7 @@
         </li>
       </ul>
     </nav>
+  </div>
 </div>
 </template>
 
@@ -100,6 +168,12 @@ export default {
 
 <style scoped src="@/assets/css/style.css"></style>
 <style scoped>
+input {
+  border-radius: 50rem !important;
+}
+.text-primary {
+  color: #7d8285 !important;
+}
 .btn.btn-secondary{
   float: left;
   background-color: rgb(140, 138, 138);
@@ -116,5 +190,32 @@ export default {
 }
 a {
   cursor: pointer;
+}
+::v-deep .b-sidebar-body {
+  background-color: rgb(240, 240, 240);
+}
+::v-deep .b-sidebar-header {
+  background-color: rgb(240, 240, 240);
+}
+::v-deep .b-sidebar {
+  margin-top: 60px !important;
+  width: 200px;
+}
+::v-deep .b-sidebar:not(.b-sidebar-right) {
+  left: auto;
+  right: 0;
+}
+.sidebar-1 {
+  position: relative;
+  z-index: 8;
+}
+.filter {
+  color: #7d8285;
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 20px;
+}
+.btn {
+  margin-top: 5px;
 }
 </style>

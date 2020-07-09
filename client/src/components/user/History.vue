@@ -68,7 +68,7 @@
                     Biblioteca Pública de Braga<br>
                   </div>
                   <div class="d-inline">
-                    <button class="btn btn-danger" @click="$bvModal.show('modal-scoped')" type="button">
+                    <button class="btn btn-danger" @click="$bvModal.show('modal-scoped'); itemToRemove(g)" type="button">
                       <i class="far fa-trash-alt"></i>
                     </button>
                   </div>
@@ -79,11 +79,11 @@
       </div>
     </div>
     <div>
-      <b-modal id="modal-scoped">
+      <b-modal id="modal-scoped" centered>
         <template v-slot:modal-header>
           <b>Remover Reserva</b>
         </template>
-        <template v-slot:default>Tem a certeza que pretende remover esta reserva?</template>
+        <template v-slot:default>Tem a certeza que pretende remover a reserva do livro <b>{{select.livro.titulo}}</b>?</template>
         <template v-slot:modal-footer>
           <b-button size="sm" variant="outline-danger" @click="$bvModal.hide('modal-scoped')">
             <i class="fas fa-times"></i> Não
@@ -105,22 +105,36 @@ import moment from 'moment'
 export default {
   name: 'History',
   data: () => ({
+    user: null,
     reserved: {},
     returned: {},
-    requested: {}
+    requested: {},
+    select: null
   }),
   mounted: function () {
     this.getUserInfo()
   },
   methods: {
     async getUserInfo () {
-      const user = UserHandler.get()
-      this.reserved = await ApiUsers.getReserved(user.id)
+      this.user = UserHandler.get()
+      this.reserved = await ApiUsers.getReserved(this.user.id)
       console.log(this.reserved)
-      this.returned = await ApiUsers.getReturned(user.id)
+      this.returned = await ApiUsers.getReturned(this.user.id)
       console.log(this.returned)
-      this.requested = await ApiUsers.getRequested(user.id)
+      this.requested = await ApiUsers.getRequested(this.user.id)
       console.log(this.requested)
+    },
+    itemToRemove (reservation) {
+      this.select = reservation
+      console.log(this.select)
+    },
+    async remove () {
+      const info = {}
+      info.idRequisitante = this.user.id
+      info.idProcesso = this.select.id
+      console.log(info)
+      const req = await ApiUsers.removeReservation(info)
+      console.log(req)
     },
     moment
   }

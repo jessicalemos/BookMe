@@ -37,9 +37,9 @@ ApiLibraries.registerLibrary = async (credentials) => {
   }
 }
 
-ApiLibraries.registerEmployee = async (credentials) => {
+ApiLibraries.registerEmployee = async (idLibrary, credentials) => {
   try {
-    const req = await axios.post(`${HOST}` + 'registarResponsavel', credentials, token)
+    const req = await axios.post(`${HOST}` + 'registarResponsavel/' + idLibrary, credentials, token)
     console.log(req)
     return req.data
   } catch (e) {
@@ -66,6 +66,32 @@ ApiLibraries.responsibleInfo = async (idBiblioteca) => {
 ApiLibraries.editResponsible = async (credentials) => {
   try {
     const req = await axios.post(`${HOST}` + 'editarResponsavel', credentials, token)
+    console.log(req)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
+ApiLibraries.getProcessLibrary = async (idProcess) => {
+  try {
+    const req = await axios.get(`${HOST}` + 'processo/biblioteca/' + idProcess, token)
+    console.log(req)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
+ApiLibraries.removeLibrary = async (idLibrary) => {
+  try {
+    const req = await axios.post(`${HOST}` + 'delete/biblioteca/' + idLibrary, {}, token)
     console.log(req)
     return req.data
   } catch (e) {

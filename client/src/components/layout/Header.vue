@@ -12,16 +12,20 @@
               <router-link v-if="!loggedIn" to="/login" class="nav-item nav-link"><i class="fas fa-sign-in-alt"></i> Sign In</router-link>
               <!--<router-link to="/reservas" class="nav-item nav-link"><i class="fas fa-bookmark"></i> Reservas</router-link>
               <router-link to="/requisicoes" class="nav-item nav-link"><i class="fas fa-book"></i> Requisições</router-link>-->
-              <div v-if="user_type==='Requisitante'">
+              <div v-if="loggedIn && user_type!='Administrador'">
                 <a class="dropdown-toggle nav-item nav-link" data-toggle="dropdown" aria-expanded="false">
                   <strong><i class="fas fa-user"></i> {{username}}</strong>
                 </a>
                 <div class="dropdown-menu">
+                    <router-link v-if="user_type==='Requisitante'" to="" class="dropdown-item nav-item">
+                      <i class="far fa-bell"></i>
+                      <strong>&nbsp;Notificações</strong>
+                    </router-link>
                     <router-link to="/perfil" class="dropdown-item nav-item">
                       <i class="far fa-user-circle"></i>
                       <strong>&nbsp;Perfil</strong>
                     </router-link>
-                    <router-link to="/historico" class="dropdown-item nav-item">
+                    <router-link v-if="user_type==='Requisitante'" to="/historico" class="dropdown-item nav-item">
                       <i class="fas fa-history"></i>
                       <strong>&nbsp;Histórico</strong>
                     </router-link>
@@ -31,7 +35,7 @@
                   </a>
                 </div>
               </div>
-              <div v-if="user_type==='Administrador'">
+              <div v-if="loggedIn && user_type==='Administrador'">
                 <a class="nav-item nav-link" @click="logout()">
                     <i class="fas fa-sign-out-alt"></i>
                     <strong>&nbsp;Sign Out</strong>
@@ -42,21 +46,35 @@
     </nav>
     <div class="nav-container">
       <b-breadcrumb :items="breadcrumbList"></b-breadcrumb>
+      <a v-if="this.$route.name === 'Books-user' || this.$route.name === 'Books-library'" class="sidebar" v-b-toggle.sidebar-1>
+        Filtrar
+      </a>
     </div>
 </div>
 </template>
 
 <style scoped>
+  .sidebar {
+    position:absolute;
+    right:1rem;
+    top:50%;
+    transform:translateY(-50%);
+    color: #7d8285;
+    font-weight: bold;
+  }
+  .nav-container {
+    position:relative;
+  }
   .logo {
     width: 90px;
   }
   .navbar {
-    z-index: 5;
+    z-index: 1111;
     background-color: rgb(240,240,240);
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 10px 0px;
     position: fixed;
     top: 0;
     width: 100%;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 10px 0px;
   }
   .nav-item {
     font-style: normal;
@@ -71,10 +89,10 @@
     background-color: rgb(240,240,240);
   }
   a {
-    background-color:transparent !important;
+    background-color: transparent !important;
     cursor: pointer;
   }
-    ::v-deep .breadcrumb {
+  ::v-deep .breadcrumb {
     background-color: transparent;
     margin-top: 60px;
   }

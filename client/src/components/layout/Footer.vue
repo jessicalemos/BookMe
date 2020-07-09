@@ -18,6 +18,7 @@
       right: 0;
       left: 0;
       background-repeat: no-repeat;
+      z-index: 1111;
   }
   .copyright {
     font-family: Avenir, Helvetica, Arial, sans-serif;
