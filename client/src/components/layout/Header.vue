@@ -12,23 +12,30 @@
               <router-link v-if="!loggedIn" to="/login" class="nav-item nav-link"><i class="fas fa-sign-in-alt"></i> Sign In</router-link>
               <!--<router-link to="/reservas" class="nav-item nav-link"><i class="fas fa-bookmark"></i> Reservas</router-link>
               <router-link to="/requisicoes" class="nav-item nav-link"><i class="fas fa-book"></i> Requisições</router-link>-->
-              <div v-if="loggedIn && user_type!='Administrador'">
-                <a class="dropdown-toggle nav-item nav-link" data-toggle="dropdown" aria-expanded="false">
+              <div v-if="loggedIn && user_type==='Requisitante'" class="btn-group">
+                <a class="dropdown-toggle nav-item nav-link info-number" data-toggle="dropdown">
+                  <strong><i class="far fa-bell"></i></strong>
+                  <span class="badge bg-green">{{notifications.length}}</span>
+                </a>
+                <ul v-if="notifications.length!=0" class="dropdown-menu" role="menu">
+                  <li v-for="g in notifications" :key="g.id">
+                  <a>{{g}}</a>
+                </li>
+              </ul>
+              </div>
+              <div v-if="loggedIn && user_type!='Administrador'" class="btn-group">
+                <a class="dropdown-toggle nav-item nav-link" data-toggle="dropdown">
                   <strong><i class="fas fa-user"></i> {{username}}</strong>
                 </a>
                 <div class="dropdown-menu">
-                    <router-link v-if="user_type==='Requisitante'" to="" class="dropdown-item nav-item">
-                      <i class="far fa-bell"></i>
-                      <strong>&nbsp;Notificações</strong>
-                    </router-link>
-                    <router-link to="/perfil" class="dropdown-item nav-item">
-                      <i class="far fa-user-circle"></i>
-                      <strong>&nbsp;Perfil</strong>
-                    </router-link>
-                    <router-link v-if="user_type==='Requisitante'" to="/historico" class="dropdown-item nav-item">
-                      <i class="fas fa-history"></i>
-                      <strong>&nbsp;Histórico</strong>
-                    </router-link>
+                  <router-link to="/perfil" class="dropdown-item nav-item">
+                    <i class="far fa-user-circle"></i>
+                    <strong>&nbsp;Perfil</strong>
+                  </router-link>
+                  <router-link v-if="user_type==='Requisitante'" to="/historico" class="dropdown-item nav-item">
+                    <i class="fas fa-history"></i>
+                    <strong>&nbsp;Histórico</strong>
+                  </router-link>
                   <a class="dropdown-item nav-item" @click="logout()">
                     <i class="fas fa-sign-out-alt"></i>
                     <strong>&nbsp;Sign Out</strong>
@@ -36,12 +43,12 @@
                 </div>
               </div>
               <div v-if="loggedIn && user_type==='Administrador'">
-                <a class="nav-item nav-link" @click="logout()">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <strong>&nbsp;Sign Out</strong>
-                  </a>
+                  <a class="nav-item nav-link" @click="logout()">
+                      <i class="fas fa-sign-out-alt"></i>
+                      <strong>&nbsp;Sign Out</strong>
+                    </a>
+                </div>
               </div>
-            </div>
         </div>
     </nav>
     <div class="nav-container">
@@ -81,7 +88,7 @@
     font-size: 15px;
     font-weight: bold;
     text-decoration: none;
-    color: #465765;
+    color: #7d8285;
   }
   .ml-auto .dropdown-menu {
     left: auto !important;
@@ -103,10 +110,25 @@
   ::v-deep a:hover {
     color: rgba(0, 0, 0, 0.7);
   }
+  .info-number .badge {
+    font-size: 10px;
+    font-weight: normal;
+    line-height: 13px;
+    padding: 2px 6px;
+    position: absolute;
+    right: 2px;
+    top: 8px;
+  }
+  .bg-green {
+      background: #32CD32 !important;
+      border: 1px solid #32CD32 !important;
+      color: #fff;
+  }
 </style>
 
 <script>
 import UserHandler from '@/utils/UserHandler.js'
+import ApiUsers from '@/api/ApiUsers'
 
 export default {
   name: 'Header',
@@ -114,7 +136,9 @@ export default {
     loggedIn: false,
     user_type: null,
     username: null,
-    breadcrumbList: []
+    breadcrumbList: [],
+    user: null,
+    notifications: {}
   }),
   watch: {
     '$route' () {
@@ -127,8 +151,10 @@ export default {
     if (user !== false) {
       this.user_type = user.role
       this.username = user.username
+      this.user = user.id
       this.loggedIn = true
     }
+    this.getNotifications()
   },
   methods: {
     logout () {
@@ -144,6 +170,10 @@ export default {
     },
     updateList () {
       this.breadcrumbList = this.$route.meta.breadcrumb
+    },
+    async getNotifications () {
+      this.notifications = await ApiUsers.getNotifications(this.user)
+      console.log(this.notifications)
     }
   }
 }

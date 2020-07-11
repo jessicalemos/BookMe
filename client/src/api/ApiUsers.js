@@ -162,4 +162,52 @@ ApiUsers.removeReservation = async (info) => {
   }
 }
 
+ApiUsers.renewRequest = async (info) => {
+  try {
+    const req = await axios.post(`${HOST}` + 'renovar/reserva', info, token)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
+ApiUsers.getAutores = async () => {
+  try {
+    const req = await axios.get(`${HOST}` + 'Autores', token)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
+ApiUsers.getEditores = async () => {
+  try {
+    const req = await axios.get(`${HOST}` + 'Editores', token)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
+ApiUsers.getNotifications = async (idRequistante) => {
+  try {
+    const req = await axios.get(`${HOST}` + 'notificacoes/requisitante/' + idRequistante, token)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
 export default ApiUsers

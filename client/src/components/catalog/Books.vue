@@ -6,14 +6,14 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title">
-              <a data-toggle="collapse" data-parent="#accordion" class="filter" href="#collapse2">
+              <a data-toggle="collapse" data-parent="#accordion" class="filter" href="#collapse">
               Biblioteca <i class="fas fa-angle-down"></i></a>
             </h4>
           </div>
-          <div id="collapse2" class="panel-collapse collapse">
+          <div id="collapse" class="panel-collapse collapse">
             <div class="panel-body">
               <div class="custom-control custom-radio">
-                <input type="radio" class="custom-control-input" id="defaultUnchecked" name="defaultExampleRadios">
+                <input type="radio" class="custom-control-input" id="defaultUnchecked" name="biblioteca">
                 <label class="custom-control-label" for="defaultUnchecked">Default unchecked</label>
               </div>
             </div>
@@ -22,15 +22,31 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title">
-              <a data-toggle="collapse" data-parent="#accordion" class="filter" href="#collapse3">
+              <a data-toggle="collapse" data-parent="#accordion" class="filter" href="#collapse2">
               Autor <i class="fas fa-angle-down"></i></a>
+            </h4>
+          </div>
+          <div id="collapse2" class="panel-collapse collapse">
+            <div class="panel-body">
+              <div v-for="g in autores" :key="g" class="custom-control custom-radio">
+                <input type="radio" class="custom-control-input" :id="g" name="autor">
+                <label class="custom-control-label" :for="g">{{g}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" data-parent="#accordion" class="filter" href="#collapse3">
+              Editores <i class="fas fa-angle-down"></i></a>
             </h4>
           </div>
           <div id="collapse3" class="panel-collapse collapse">
             <div class="panel-body">
-              <div class="custom-control custom-radio">
-                <input type="radio" class="custom-control-input" id="defaultUnchecked" name="defaultExampleRadios">
-                <label class="custom-control-label" for="defaultUnchecked">Default unchecked</label>
+              <div v-for="g in editores" :key="g" class="custom-control custom-radio">
+                <input type="radio" class="custom-control-input" :id="g" name="editor">
+                <label class="custom-control-label" :for="g">{{g}}</label>
               </div>
             </div>
           </div>
@@ -120,7 +136,9 @@ export default {
     books: {},
     page: 0,
     nrPerPage: 8,
-    booksFilter: []
+    booksFilter: [],
+    autores: {},
+    editores: {}
   }),
   mounted: function () {
     const user = UserHandler.get()
@@ -128,6 +146,8 @@ export default {
       this.user_type = user.role
     }
     this.getBooks()
+    this.getAutores()
+    this.getEditores()
   },
   methods: {
     async getBooks () {
@@ -150,6 +170,14 @@ export default {
         }
       })
       this.booksFilter = page
+    },
+    async getAutores () {
+      this.autores = await ApiUsers.getAutores()
+      console.log(this.editores)
+    },
+    async getEditores () {
+      this.editores = await ApiUsers.getEditores()
+      console.log(this.editores)
     },
     range (start, end) {
       return Array(end - start + 1).fill().map((_, idx) => start + idx)

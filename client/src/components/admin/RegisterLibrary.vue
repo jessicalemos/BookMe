@@ -73,7 +73,6 @@ export default {
   methods: {
     async register () {
       const idLibrary = await ApiLibraries.registerLibrary(this.library)
-      console.log(idLibrary)
       const req = await ApiLibraries.registerEmployee(idLibrary, this.employee)
       console.log(req)
       this.error = -1
