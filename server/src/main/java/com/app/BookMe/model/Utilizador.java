@@ -25,7 +25,7 @@ import java.util.Collection;
 public abstract class Utilizador implements UserDetails {
     @Id
     @GeneratedValue(strategy =  GenerationType.AUTO)
-	private int iD;
+	private long iD;
     @Column(unique = true)
 	private String email;
 	private String password;
@@ -37,6 +37,14 @@ public abstract class Utilizador implements UserDetails {
     public Utilizador(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+
+    public long getiD() {
+        return iD;
+    }
+
+    public void setiD(long iD) {
+        this.iD = iD;
     }
 
     public String getEmail() {
@@ -61,6 +69,7 @@ public abstract class Utilizador implements UserDetails {
 	}
 
     @Override
+    @JsonIgnore
     public String getUsername(){
         return email;
     }
