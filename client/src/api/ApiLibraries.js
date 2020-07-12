@@ -102,4 +102,17 @@ ApiLibraries.removeLibrary = async (idLibrary) => {
   }
 }
 
+ApiLibraries.searchLibrary = async (library) => {
+  try {
+    const req = await axios.get(`${HOST}` + 'bibliotecas/' + library, token)
+    console.log(req)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
 export default ApiLibraries

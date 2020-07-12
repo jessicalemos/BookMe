@@ -20,8 +20,8 @@
                 <ul v-if="notifications.length!=0" class="dropdown-menu" role="menu">
                   <li v-for="g in notifications" :key="g.id">
                   <a>{{g}}</a>
-                </li>
-              </ul>
+                  </li>
+                </ul>
               </div>
               <div v-if="loggedIn && user_type!='Administrador'" class="btn-group">
                 <a class="dropdown-toggle nav-item nav-link" data-toggle="dropdown">
@@ -172,8 +172,10 @@ export default {
       this.breadcrumbList = this.$route.meta.breadcrumb
     },
     async getNotifications () {
-      this.notifications = await ApiUsers.getNotifications(this.user)
-      console.log(this.notifications)
+      if (this.loggedIn === true && this.user_type === 'Requisitante') {
+        this.notifications = await ApiUsers.getNotifications(this.user)
+        console.log(this.notifications)
+      }
     }
   }
 }

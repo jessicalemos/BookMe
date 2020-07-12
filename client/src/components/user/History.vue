@@ -9,15 +9,17 @@
                   <i class="fas fa-list-ul"></i><strong>&nbsp; Devolvidos</strong>
                 </div>
               </a>
-              <a v-if="returned.length!=0" class="list-group-item list-group-item-action">
-                <div v-for="g in returned" :key="g.id" class="text-left">
-                  <div class="date">
+              <a v-for="g in returned" :key="g.id" class="list-group-item list-group-item-action">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div class="text-left">
+                    <div class="date">
                     {{moment(g.processo.dataInicio).format('DD/MM/YYYY')}}
                     <i class="fas fa-arrows-alt-h"></i>
                     {{moment(g.processo.dataFim).format('DD/MM/YYYY')}}
+                    </div>
+                    <strong>{{g.processo.livro.titulo}}</strong><br>
+                    {{g.biblioteca.nome}}<br>
                   </div>
-                  <strong>{{g.processo.livro.titulo}}</strong><br>
-                  {{g.biblioteca.nome}}<br>
                 </div>
               </a>
           </div>
@@ -29,13 +31,13 @@
                   <i class="fas fa-list-ul"></i><strong>&nbsp; Requisitados</strong>
                 </div>
               </a>
-              <a v-if="requested.length!=0" class="list-group-item list-group-item-action">
-                <div v-for="g in requested" :key="g.id" class="d-flex align-items-center justify-content-between">
+              <a v-for="g in requested" :key="g.id" class="list-group-item list-group-item-action">
+                <div class="d-flex align-items-center justify-content-between">
                   <div class="text-left">
                     <div class="date">
-                      {{moment(g.processo.dataInicio).format('DD/MM/YYYY')}}
-                      <i class="fas fa-arrows-alt-h"></i>
-                      {{moment(g.processo.dataFim).format('DD/MM/YYYY')}}
+                    {{moment(g.processo.dataInicio).format('DD/MM/YYYY')}}
+                    <i class="fas fa-arrows-alt-h"></i>
+                    {{moment(g.processo.dataFim).format('DD/MM/YYYY')}}
                     </div>
                     <strong>{{g.processo.livro.titulo}}</strong><br>
                     {{g.biblioteca.nome}}<br>
@@ -56,13 +58,13 @@
                   <i class="fas fa-list-ul"></i><strong>&nbsp; Reservados</strong>
                 </div>
               </a>
-              <a v-if="reserved.length!=0" class="list-group-item list-group-item-action">
-                <div v-for="g in reserved" :key="g.id" class="d-flex align-items-center justify-content-between">
+              <a v-for="g in reserved" :key="g.id" class="list-group-item list-group-item-action">
+                <div class="d-flex align-items-center justify-content-between">
                   <div class="text-left">
                     <div class="date">
-                      {{moment(g.processo.dataInicio).format('DD/MM/YYYY')}}
-                      <i class="fas fa-arrows-alt-h"></i>
-                      {{moment(g.processo.dataFim).format('DD/MM/YYYY')}}
+                    {{moment(g.processo.dataInicio).format('DD/MM/YYYY')}}
+                    <i class="fas fa-arrows-alt-h"></i>
+                    {{moment(g.processo.dataFim).format('DD/MM/YYYY')}}
                     </div>
                     <strong>{{g.processo.livro.titulo}}</strong><br>
                     {{g.biblioteca.nome}}<br>

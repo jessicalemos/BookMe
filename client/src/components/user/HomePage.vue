@@ -36,11 +36,11 @@
                   </button>
                 </div>
               </a>
-              <a class="list-group-item list-group-item-action">
+              <a v-for="g in books" :key="g.id" class="list-group-item list-group-item-action">
                 <div class="d-flex align-items-center justify-content-between">
                   <div class="text-left">
-                    <strong>Memorial do Convento</strong><br>
-                    <div class="author">José Saramago</div>
+                    <strong>{{g.titulo}}</strong><br>
+                    <div class="author">{{g.autor}}</div>
                   </div>
                 </div>
               </a>
@@ -88,16 +88,23 @@ import moment from 'moment'
 export default {
   name: 'HomePage',
   data: () => ({
-    processes: {}
+    processes: {},
+    books: {}
   }),
   mounted: function () {
     this.getProcesses()
+    this.getBooks()
   },
   methods: {
     async getProcesses () {
       const user = UserHandler.get()
-      this.processes = await ApiUsers.getProcesses(user.id)
+      const req = await ApiUsers.getProcesses(user.id)
+      this.processes = req.slice(0, 4)
       console.log(this.processes)
+    },
+    async getBooks () {
+      const req = await ApiUsers.getBooks()
+      this.books = req.slice(0, 2)
     },
     moment
   }

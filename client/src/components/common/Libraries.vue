@@ -1,15 +1,15 @@
 <template>
   <div style="min-height: 100%">
     <div class="col-8 mx-auto my-5">
-      <form action="">
+      <form @submit.prevent="searchLibrary">
         <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
           <div class="input-group">
-            <input type="search" placeholder="Qual a biblioteca que procura?" aria-describedby="button-addon1" class="form-control border-0 bg-light">
+            <input type="search" placeholder="Qual o livro que procura?" v-model="search" aria-describedby="button-addon1" class="form-control border-0 bg-light">
             <div class="input-group-append">
               <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
             </div>
           </div>
-          </div>
+        </div>
       </form>
       <div class="row justify-center" id="Group">
         <div class="col-12 box">
@@ -86,7 +86,8 @@ export default {
     page: 0,
     nrPerPage: 4,
     librariesFilter: [],
-    selected: null
+    selected: null,
+    search: null
   }),
   mounted: function () {
     const user = UserHandler.get()
@@ -99,6 +100,9 @@ export default {
     async getLibraries () {
       this.libraries = await ApiLibraries.libraries()
       console.log(this.libraries)
+      this.filterLibraries()
+    },
+    filterLibraries () {
       var i = 0
       var p = 0
       var page = []
@@ -133,6 +137,13 @@ export default {
       console.log(req)
       this.getLibraries()
       this.$bvModal.hide('modal-scoped')
+    },
+    async searchLibrary () {
+      console.log(this.search)
+      if (this.search != null) {
+        this.libraries = await ApiLibraries.searchLibrary(this.search)
+        this.filterLibraries()
+      }
     }
   },
   computed: {}

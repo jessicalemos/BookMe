@@ -57,10 +57,10 @@
 <div class="col-8 mx-auto my-5">
   <div v-if="user_type=='Responsavel'" class="row">
     <div class="col-10">
-      <form action="">
+      <form @submit.prevent="searchBook">
         <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
           <div class="input-group">
-            <input type="search" placeholder="Qual o livro que procura?" aria-describedby="button-addon1" class="form-control border-0 bg-light">
+            <input type="search" placeholder="Qual o livro que procura?" v-model="search" aria-describedby="button-addon1" class="form-control border-0 bg-light">
             <div class="input-group-append">
               <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
             </div>
@@ -78,10 +78,10 @@
     </div>
   </div>
   <div v-else>
-    <form action="">
+    <form @submit.prevent="searchBook">
         <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
           <div class="input-group">
-            <input type="search" placeholder="Qual o livro que procura?" aria-describedby="button-addon1" class="form-control border-0 bg-light">
+            <input type="search" placeholder="Qual o livro que procura?" v-model="search" aria-describedby="button-addon1" class="form-control border-0 bg-light">
             <div class="input-group-append">
               <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
             </div>
@@ -138,7 +138,8 @@ export default {
     nrPerPage: 8,
     booksFilter: [],
     autores: {},
-    editores: {}
+    editores: {},
+    search: null
   }),
   mounted: function () {
     const user = UserHandler.get()
@@ -153,6 +154,9 @@ export default {
     async getBooks () {
       this.books = await ApiUsers.getBooks()
       console.log(this.books)
+      this.filterBooks()
+    },
+    filterBooks () {
       var i = 0
       var p = 0
       var page = []
@@ -188,6 +192,13 @@ export default {
         this.$router.push({ name: 'Book-user' })
       } else {
         this.$router.push({ name: 'Book-library' })
+      }
+    },
+    async searchBook () {
+      console.log(this.search)
+      if (this.search != null) {
+        this.books = await ApiUsers.searchBook(this.search)
+        this.filterBooks()
       }
     }
   }

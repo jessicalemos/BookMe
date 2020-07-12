@@ -210,4 +210,52 @@ ApiUsers.getNotifications = async (idRequistante) => {
   }
 }
 
+ApiUsers.searchBook = async (title) => {
+  try {
+    const req = await axios.get(`${HOST}` + 'livros/' + title, token)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
+ApiUsers.librariesBook = async (isbn) => {
+  try {
+    const req = await axios.get(`${HOST}` + 'bibliotecas/livro/' + isbn, token)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
+ApiUsers.bookAvailability = async (info) => {
+  try {
+    const req = await axios.post(`${HOST}` + 'disponibilidade/reservar', info, token)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
+ApiUsers.requestBook = async (idRequisitante, process) => {
+  try {
+    const req = await axios.post(`${HOST}` + 'reservar/' + idRequisitante, process, token)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
 export default ApiUsers
