@@ -37,6 +37,18 @@
               <button class="btn btn-secondary btn-block" type="submit" style="background-color: rgb(140,138,138);">
                 Registar biblioteca
               </button>
+              <div v-if="error === 1">
+              <b-alert class="alert" variant="danger" show dismissible>
+                <b>Error</b><br/>
+                <span class="alert-text">Email já em uso</span>
+              </b-alert>
+            </div>
+            <div v-if="error === -1">
+              <b-alert class="alert" variant="success" show dismissible>
+                <b>Sucesso</b><br/>
+                <span class="alert-text">Registado com sucesso</span>
+              </b-alert>
+            </div>
         </form>
     </div>
 </template>
@@ -47,6 +59,7 @@ import ApiLibraries from '@/api/ApiLibraries'
 export default {
   name: 'RegisterLibrary',
   data: () => ({
+    error: 0,
     library: {
       type: 'responsavel'
     },
@@ -60,10 +73,9 @@ export default {
   methods: {
     async register () {
       const idLibrary = await ApiLibraries.registerLibrary(this.library)
-      this.employee.biblioteca_id = idLibrary
-      console.log(this.employee)
-      const req = await ApiLibraries.registerEmployee(this.employee)
+      const req = await ApiLibraries.registerEmployee(idLibrary, this.employee)
       console.log(req)
+      this.error = -1
     }
   }
 }

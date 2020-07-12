@@ -138,4 +138,124 @@ ApiUsers.getBook = async (idBook) => {
   }
 }
 
+ApiUsers.getProcesses = async (idRequistante) => {
+  try {
+    const req = await axios.get(`${HOST}` + 'processos/requisitante/' + idRequistante, token)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
+ApiUsers.removeReservation = async (info) => {
+  try {
+    const req = await axios.post(`${HOST}` + 'cancelar/reserva', info, token)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
+ApiUsers.renewRequest = async (info) => {
+  try {
+    const req = await axios.post(`${HOST}` + 'renovar/reserva', info, token)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
+ApiUsers.getAutores = async () => {
+  try {
+    const req = await axios.get(`${HOST}` + 'Autores', token)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
+ApiUsers.getEditores = async () => {
+  try {
+    const req = await axios.get(`${HOST}` + 'Editores', token)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
+ApiUsers.getNotifications = async (idRequistante) => {
+  try {
+    const req = await axios.get(`${HOST}` + 'notificacoes/requisitante/' + idRequistante, token)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
+ApiUsers.searchBook = async (title) => {
+  try {
+    const req = await axios.get(`${HOST}` + 'livros/' + title, token)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
+ApiUsers.librariesBook = async (isbn) => {
+  try {
+    const req = await axios.get(`${HOST}` + 'bibliotecas/livro/' + isbn, token)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
+ApiUsers.bookAvailability = async (info) => {
+  try {
+    const req = await axios.post(`${HOST}` + 'disponibilidade/reservar', info, token)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
+ApiUsers.requestBook = async (idRequisitante, process) => {
+  try {
+    const req = await axios.post(`${HOST}` + 'reservar/' + idRequisitante, process, token)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
 export default ApiUsers

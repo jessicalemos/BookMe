@@ -1,5 +1,5 @@
 <template>
-<div class="col-10 mx-auto my-5 py-5">
+<div class="col-10 mx-auto my-5">
   <div class="row">
     <div class="col-lg-6">
       <div class="row">
@@ -36,11 +36,11 @@
                   </button>
                 </div>
               </a>
-              <a class="list-group-item list-group-item-action">
+              <a v-for="g in books" :key="g.id" class="list-group-item list-group-item-action">
                 <div class="d-flex align-items-center justify-content-between">
                   <div class="text-left">
-                    <strong>Memorial do Convento</strong><br>
-                    <div class="author">José Saramago</div>
+                    <strong>{{g.titulo}}</strong><br>
+                    <div class="author">{{g.autor}}</div>
                   </div>
                 </div>
               </a>
@@ -60,12 +60,16 @@
                   </button>
                 </div>
               </a>
-              <a class="list-group-item list-group-item-action">
+              <a v-for="g in processes" :key="g.id" class="list-group-item list-group-item-action">
                 <div class="d-flex align-items-center justify-content-between">
                   <div class="text-left">
-                    <div class="date">20-04-2020 11:30h</div>
-                    <strong>Memorial do Convento</strong><br>
-                    Biblioteca Pública de Braga<br>
+                    <div class="date">
+                    {{moment(g.processo.dataInicio).format('DD/MM/YYYY')}}
+                    <i class="fas fa-arrows-alt-h"></i>
+                    {{moment(g.processo.dataFim).format('DD/MM/YYYY')}}
+                    </div>
+                    <strong>{{g.processo.livro.titulo}}</strong><br>
+                    {{g.biblioteca.nome}}<br>
                   </div>
                 </div>
               </a>
@@ -76,11 +80,34 @@
 </template>
 
 <script>
+import ApiUsers from '@/api/ApiUsers'
+import UserHandler from '@/utils/UserHandler.js'
+import moment from 'moment'
+/* import ApiLibraries from '@/api/ApiLibraries' */
+
 export default {
   name: 'HomePage',
   data: () => ({
-    history: {}
-  })
+    processes: {},
+    books: {}
+  }),
+  mounted: function () {
+    this.getProcesses()
+    this.getBooks()
+  },
+  methods: {
+    async getProcesses () {
+      const user = UserHandler.get()
+      const req = await ApiUsers.getProcesses(user.id)
+      this.processes = req.slice(0, 4)
+      console.log(this.processes)
+    },
+    async getBooks () {
+      const req = await ApiUsers.getBooks()
+      this.books = req.slice(0, 2)
+    },
+    moment
+  }
 }
 </script>
 

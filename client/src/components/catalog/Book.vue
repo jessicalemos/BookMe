@@ -1,5 +1,16 @@
 <template>
     <div class="col-8 mx-auto my-5">
+        <div v-if="error === 1">
+          <b-alert class="alert" variant="danger" show dismissible>
+            <b>Error</b><br/>
+          </b-alert>
+        </div>
+        <div v-if="error === -1">
+          <b-alert class="alert" variant="success" show dismissible>
+            <b>Sucesso</b><br/>
+            <span class="alert-text">Livro reservado com sucesso, tem 4 dias para efetuar o levantamento.</span>
+          </b-alert>
+        </div>
         <div class="row">
             <div class="col-md-6 align-self-center">
                 <img :src="book.imagem" class="img-responsive"/>
@@ -20,22 +31,24 @@
               </div>
               <div v-else>
                 <select class="libraries custom-select" v-on:change="select($event);" value="branchid">
-                  <option :selected="branchid === 1">Biblioteca Pública de Braga</option>
-                  <option :selected="branchid === 2">Biblioteca Lúcio Craveiro da Silva</option>
+                  <option selected="">Selecione a sua biblioteca</option>
+                  <option v-for="option in libraries" :key="option" :selected="library === option">
+                    {{option}}
+                  </option>
                 </select>
-                <div v-if="branchid != 0 && success != 1">
+                <div v-if="estado == 2">
                   <p class="unavailable">
                     <i class="far fa-times-circle"></i>
-                    &nbsp;Indisponível
+                    &nbsp;{{msg}}
                   </p>
                 </div>
-                <div v-if="branchid != 0 && success != 0">
+                <div v-if="estado == 1">
                   <p class="available">
-                    <i class="far fa-times-circle"></i>
-                    &nbsp;Indisponível
+                    <i class="far fa-check-circle"></i>
+                    &nbsp;{{msg}}
                   </p>
                 </div>
-              <button class="btn btn-secondary" type="button" style="background-color: rgb(140,138,138);">
+              <button class="btn btn-secondary" type="button" style="background-color: rgb(140,138,138);" @click="reservar()">
                 Reservar
               </button>
             </div>
@@ -68,33 +81,78 @@ export default {
   name: 'Book',
   data () {
     return {
-      branchid: 0,
-      success: 0,
+      error: 0,
+      library: null,
+      estado: -1,
+      msg: null,
+      process: null,
       user_type: null,
-      book: {}
+      user_id: null,
+      book: {},
+      libraries: []
     }
   },
   mounted: function () {
     const user = UserHandler.get()
     this.user_type = user.role
+    this.user_id = user.id
     this.getBook()
   },
   methods: {
     select: function (evt) {
-      this.branchid = evt.target.value
+      const selected = evt.target.value
+      if (selected !== '') {
+        this.library = evt.target.value
+        const info = {
+          biblioteca: this.library,
+          livro: this.book.isbn
+        }
+        console.log(info)
+        this.availability(info)
+      } else {
+        this.estado = -1
+      }
+    },
+    async availability (info) {
+      console.log(info)
+      const req = await ApiUsers.bookAvailability(info)
+      if (req.estado === 'disponivel') {
+        this.estado = 1 // pode reservar
+        this.msg = 'Disponível'
+        this.process = req
+      } else if (req.estado === 'requisitado') {
+        this.estado = 2 // pode reservar
+        this.msg = 'Temporariamente Indisponível. Previsão de levantamento: ' + req.dataFim
+        this.process = req
+      } else if (req.estado === 'reservado') {
+        this.estado = 2 // não pode reservar
+        this.msg = 'Indisponível'
+      }
+      console.log(req)
+      console.log(this.msg)
     },
     async getBook () {
       const idBook = localStorage.getItem('Book')
       this.book = await ApiUsers.getBook(idBook)
       console.log(this.book)
+      this.libraries = await ApiUsers.librariesBook(this.book.isbn)
+      console.log(this.libraries)
     },
     remove () {
       this.$router.push('/catalogo')
+    },
+    async reservar () {
+      const req = await ApiUsers.requestBook(this.user_id, this.process)
+      console.log(req)
+      this.estado = -1
+      this.error = -1
+      this.getBook()
     }
   }
 }
 </script>
 
+<style scoped src="@/assets/css/style.css"></style>
 <style scoped>
 .libraries {
   margin-bottom: 10px;
