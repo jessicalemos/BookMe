@@ -2,6 +2,7 @@ package com.app.BookMe.repositories;
 
 import com.app.BookMe.model.Funcionario;
 import org.springframework.data.jpa.repository.JpaRepository;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -14,3 +15,4 @@ public interface FuncionarioRep extends JpaRepository<Funcionario, Long> {
     @Query(" SELECT id,nome,email FROM Funcionario WHERE biblioteca_id = :bId")
     List<Object> findByBiblioteca(@Param("bId") long bibliotecaId);
 }
+

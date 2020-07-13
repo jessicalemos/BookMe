@@ -25,10 +25,12 @@ public class Livro {
 	private String isbn;
 	private Boolean disponibilidade;
 	private String imagem;
+
 	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "biblioteca_id")
     @JsonIgnore
     private Biblioteca biblioteca ;
+
 
     public Livro(){}
 
@@ -140,4 +142,5 @@ public class Livro {
     public void setBiblioteca(Biblioteca biblioteca) {
         this.biblioteca = biblioteca;
     }
+
 }

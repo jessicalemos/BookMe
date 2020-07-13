@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Entity
 public class Funcionario extends Utilizador{
     private String nome;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "biblioteca_id")
     @JsonIgnore
@@ -31,6 +32,7 @@ public class Funcionario extends Utilizador{
         this.nome = nome;
     }
 
+
     public Biblioteca getBiblioteca() {
         return biblioteca;
     }
@@ -39,4 +41,3 @@ public class Funcionario extends Utilizador{
         this.biblioteca = biblioteca;
     }
 }
-
