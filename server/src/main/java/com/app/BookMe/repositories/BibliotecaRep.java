@@ -3,6 +3,8 @@ package com.app.BookMe.repositories;
 import com.app.BookMe.model.Biblioteca;
 import com.app.BookMe.model.Livro;
 import com.app.BookMe.model.Processo;
+import com.app.BookMe.model.Responsavel;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,5 +22,6 @@ public interface BibliotecaRep extends JpaRepository<Biblioteca, Long> {
     Optional<Biblioteca> findBibliotecaByLivrosContains(Livro l);
     List<Biblioteca> findBibliotecasByNomeContainsAndAtivaTrue(String nome);
     List<Biblioteca> findBibliotecasByAtiva(boolean ativa);
+    Optional<Biblioteca> findByResponsavel(Responsavel r);
 }
 

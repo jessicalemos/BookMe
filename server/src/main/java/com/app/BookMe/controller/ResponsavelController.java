@@ -25,26 +25,27 @@ public class ResponsavelController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    @PostMapping("/registarFunc")
-    public String registarFunc(@RequestBody Funcionario f, Authentication auth) {
+    @PostMapping("/registarFunc/{responsavelID}")
+    public String registarFunc(@RequestBody Funcionario f, @PathVariable long responsavelID) {
         Optional<Funcionario> find = fr.findByEmail(f.getEmail());
         if(find.isPresent()){
             return "Username already exists";
         }
 
-        Optional<Responsavel> findresp = rp.findByEmail(auth.getName());
+        Optional<Responsavel> findresp = rp.findById(responsavelID);
         if(!findresp.isPresent()){
             return "Sem permissão";
         }
         Responsavel r = findresp.get();
 
-        Optional<Biblioteca> findb = br.findById(r.getBiblioteca().getID());
+        Optional<Biblioteca> findb = br.findByResponsavel(r);
         if(!findb.isPresent()){
             return "Biblioteca não existe";
         }
         Biblioteca bib = findb.get();
         
-        Funcionario func = new Funcionario(f.getEmail(), passwordEncoder.encode(f.getPassword()), f.getNome(), bib);
+        Funcionario func = new Funcionario(f.getEmail(), passwordEncoder.encode(f.getPassword()), f.getNome());
+        func.setBiblioteca(bib);
 
         BookMe.registarFunc(func);
         return "Funcionário registado com sucesso";
@@ -52,21 +53,10 @@ public class ResponsavelController {
 
 
     @PostMapping("/removerFunc/{funcionarioID}")
-    public String removerFunc(@PathVariable long funcionarioID, Authentication auth) {
+    public String removerFunc(@PathVariable long funcionarioID) {
         Optional<Funcionario> find = fr.findById(funcionarioID);
         if(!find.isPresent()){
             return "Funcionário não existe";
-        }
-
-        Optional<Responsavel> findresp = rp.findByEmail(auth.getName());
-        Responsavel r = findresp.get();
-        if(!find.isPresent()){
-            return "Sem permissão";
-        }
-
-        Funcionario f = find.get();
-        if(f.getBiblioteca().getID() != r.getBiblioteca().getID()){
-            return "Sem permissão";
         }
 
         BookMe.removerFunc(funcionarioID);
@@ -78,18 +68,18 @@ public class ResponsavelController {
         Optional<Responsavel> find = rp.findById(responsavelID);
         Responsavel r = find.get();
 
-        return fr.findByBiblioteca(r.getBiblioteca().getID());
+        Optional<Biblioteca> findb = br.findByResponsavel(r);
+
+        return fr.findByBiblioteca(findb.get().getID());
     }
 
-    @PostMapping("/editarBiblioteca")
-    public Biblioteca editarBiblioteca(@RequestBody Biblioteca b, Authentication auth) {
-        Optional<Responsavel> find = rp.findByEmail(auth.getName());
-        System.out.println(auth.getName());
-        if(!find.isPresent()){
-            return null;
-        }
+    @PostMapping("/editarBiblioteca/{responsavelID}")
+    public Biblioteca editarBiblioteca(@RequestBody Biblioteca b, @PathVariable long responsavelID) {
+        Optional<Responsavel> find = rp.findById(responsavelID);
+        Responsavel r = find.get();
+        Optional<Biblioteca> findb = br.findByResponsavel(r);
         
-        return BookMe.editarBiblioteca(find.get().getBiblioteca().getID(), 
+        return BookMe.editarBiblioteca(findb.get().getID(), 
                             b.getMorada(), b.getNome(), b.getTelemovel(), b.getEmail());
     }
 }

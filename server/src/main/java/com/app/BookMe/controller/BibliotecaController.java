@@ -37,9 +37,6 @@ public class BibliotecaController {
         return BookMe.registaLivro(biblioteca, livro);
     }
 
-
-
-
     @PostMapping("/editaLivro")
     public Livro editarLivro(@RequestBody Livro l) {
         return BookMe.editarLivro(l.getID(), l.getTitulo(), l.getCategoria(), l.getDescricao(), l.getAutor(),
@@ -53,10 +50,6 @@ public class BibliotecaController {
         return BookMe.consultarLivrosBiblioteca(func.getBiblioteca().getID());
     }
 
-    @GetMapping("/{bibliotecaID}")
-    public Biblioteca consultarBiblioteca(@PathVariable long bibliotecaID) {
-        return BookMe.consultarBiblioteca(bibliotecaID);
-    }
 
     @PostMapping("/requisita/{processoID}")
     public String requisita(@PathVariable long processoID) {

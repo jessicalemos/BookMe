@@ -18,10 +18,9 @@ public class Funcionario extends Utilizador{
         super();
     }
 
-    public Funcionario(String email, String password, String nome, Biblioteca biblioteca) {
+    public Funcionario(String email, String password, String nome) {
         super(email, password);
         this.nome = nome;
-        this.biblioteca = biblioteca;
     }
 
     public String getNome() {
