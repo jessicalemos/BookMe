@@ -1,14 +1,19 @@
 package com.app.BookMe.repositories;
 
+
+import java.util.List;
+import java.util.Optional;
+
 import com.app.BookMe.model.Livro;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
-import java.util.Optional;
-
 public interface LivroRep extends JpaRepository<Livro, Long> {
+
+    @Query(" FROM Livro WHERE biblioteca_id = :bid")
+    List<Livro> findByBiblioteca(@Param("bid") long bibliotecaID);
+
     @Query(value="select * From livro where id in (select min(id) from livro group by isbn)", nativeQuery = true)
     List<Livro> findDistinctIsbn();
     @Query("FROM Livro WHERE biblioteca_id = :bId and isbn = :i and disponibilidade = :disp")
@@ -22,4 +27,5 @@ public interface LivroRep extends JpaRepository<Livro, Long> {
     List<Livro> findLivrosByAutorInAndEditorInAndIDIn(List<String> autores, List<String> editores, List<Long> ids);
     @Query(value="select l.id From livro l where id in (select min(id) from livro where livro.biblioteca_id in :bId group by isbn)", nativeQuery = true)
     List<Long> findLivrosByDintinctIsbnAndBiblioteca(@Param("bId") List<Long> bIds);
+
 }

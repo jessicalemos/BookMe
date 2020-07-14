@@ -3,6 +3,9 @@ package com.app.BookMe.model;
 import com.app.BookMe.beans.AdministradorBean;
 import com.app.BookMe.beans.BibliotecaBean;
 import com.app.BookMe.beans.RequisitanteBean;
+import com.app.BookMe.beans.BibliotecaBean;
+import com.app.BookMe.beans.FuncionarioBean;
+import com.app.BookMe.beans.ResponsavelBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -15,17 +18,22 @@ import java.util.Set;
 @Service
 public class BookMe {
 	private static RequisitanteBean rb;
-	private static AdministradorBean ab;
 	private static BibliotecaBean bb;
+	private static ResponsavelBean respb;
+	private static FuncionarioBean fb;
+	private static AdministradorBean ab;
+
 	public Administrador admin;
 	public HashSet<Biblioteca> bibliotecas = new HashSet<Biblioteca>();
 	public HashSet<Requisitante> requisitantes = new HashSet<Requisitante>();
 
 	@Autowired
-	public BookMe(RequisitanteBean reqb, AdministradorBean adminb, BibliotecaBean bibliob){
+	public BookMe(RequisitanteBean reqb, BibliotecaBean bibb, ResponsavelBean resb, FuncionarioBean fb, AdministradorBean adminb){
 		this.rb = reqb;
+		this.bb = bibb;
+		this.respb = resb;
+		this.fb = fb;
 		this.ab = adminb;
-		this.bb = bibliob;
 	}
 
     /**
@@ -116,6 +124,13 @@ public class BookMe {
 		throw new UnsupportedOperationException();
 	}
 
+
+
+	
+	public static void registarFunc(Biblioteca b, Funcionario f){
+		respb.registarFunc(b, f);
+    }
+
     /**
      * Editar as informações do requisitante
      * @param id
@@ -137,17 +152,51 @@ public class BookMe {
      */
 	public static Responsavel editarResponsavel(long id, String email, String password, String nome) {return ab.editarResponsavel(id,email,password,nome);}
 
-	public void requisita(Biblioteca b, int idProcesso) {
-		throw new UnsupportedOperationException();
+
+
+	public static void removerFunc(Biblioteca b, Funcionario f){
+		respb.removerFunc(b,f);
 	}
 
-	public void devolve(Biblioteca b, int idProcesso) {
-		throw new UnsupportedOperationException();
+	public static Biblioteca editarBiblioteca(long id, String morada, String nome, String telemovel, String email){
+		return respb.editarBiblioteca(id, morada, nome, telemovel, email);
 	}
 
-	public Livro removeLivro(Biblioteca b, int idlLivro) {
-		throw new UnsupportedOperationException();
+	
+	public static Funcionario editarPerfil(long id, String nome, String password, String email){
+		return fb.editarPerfil(id, nome, password, email);
 	}
+
+	
+	public static long registaLivro(Biblioteca b, Livro l){
+		return bb.registaLivro(b,l);
+	}
+
+	public static Livro editarLivro(long id, String titulo, String categoria, String descricao, String autor, String edicao, String editor, int ano, String isbn, Boolean disponibilidade, String imagem){
+		return bb.editarLivro(id, titulo, categoria, descricao, autor, edicao, editor, ano, isbn, disponibilidade, imagem);
+	}
+
+	public static Set<Livro> consultarLivrosBiblioteca(Biblioteca b){
+		return bb.consultarLivrosBiblioteca(b);
+	}
+
+	public static Biblioteca consultarBiblioteca(long id){
+		return bb.consultarBiblioteca(id);
+	}
+
+
+	public static void requisita(long idProcesso) {
+		bb.requisita(idProcesso);
+	}
+
+	public static void devolve(long idProcesso) {
+		bb.devolve(idProcesso);
+	}
+
+	public static List<Processo> getProcessosBib(Biblioteca biblioteca, String estado) {
+		return bb.getProcessosBib(biblioteca,estado);
+	}
+
 
     /**
      * Consulta os livros do sistema

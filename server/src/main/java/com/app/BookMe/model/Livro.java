@@ -1,9 +1,14 @@
 package com.app.BookMe.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Livro {
@@ -20,6 +25,7 @@ public class Livro {
 	private String isbn;
 	private Boolean disponibilidade;
 	private String imagem;
+
 
     public Livro(){}
 
@@ -123,4 +129,7 @@ public class Livro {
 	public void setDisponibilidade(Boolean disponibilidade) {
 		this.disponibilidade = disponibilidade;
 	}
+
+
+
 }

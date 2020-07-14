@@ -12,6 +12,7 @@ public class Biblioteca {
     @Id
     @GeneratedValue(strategy =  GenerationType.AUTO)
     private long ID;
+
 	@Column(unique = true)
 	private String morada;
 	private String nome;
@@ -89,6 +90,7 @@ public class Biblioteca {
 		this.email = email;
 	}
 
+
 	public boolean isAtiva() {
 		return ativa;
 	}
@@ -106,12 +108,14 @@ public class Biblioteca {
     }
 
     public Set<Processo> getProcessos() {
+
 		return processos;
 	}
 
 	public void setProcessos(Set<Processo> processos) {
 		this.processos = processos;
 	}
+
 
     public void addProcesso(Processo p){
         processos.add(p);
@@ -121,6 +125,7 @@ public class Biblioteca {
         processos.remove(p);
     }
 
+
 	public Set<Funcionario> getFuncionarios() {
 		return funcionarios;
 	}
@@ -128,6 +133,7 @@ public class Biblioteca {
 	public void setFuncionarios(Set<Funcionario> funcionarios) {
 		this.funcionarios = funcionarios;
 	}
+
 
     public void addFuncionario(Funcionario f){
         funcionarios.add(f);
@@ -137,6 +143,7 @@ public class Biblioteca {
         funcionarios.remove(f);
     }
 
+
 	public Set<Livro> getLivros() {
 		return livros;
 	}
@@ -144,6 +151,14 @@ public class Biblioteca {
 	public void setLivros(Set<Livro> livros) {
 		this.livros = livros;
 	}
+
+	public void addLivro(Livro l){
+        livros.add(l);
+    }
+
+    public void removeLivro(Livro l){
+        livros.remove(l);
+    }
 
 	public void registarFunc(String nome, String password, String email, String telemovel) {
 		throw new UnsupportedOperationException();
