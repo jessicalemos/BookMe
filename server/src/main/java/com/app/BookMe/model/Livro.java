@@ -26,11 +26,6 @@ public class Livro {
 	private Boolean disponibilidade;
 	private String imagem;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "biblioteca_id")
-    @JsonIgnore
-    private Biblioteca biblioteca ;
-
 
     public Livro(){}
 
@@ -135,12 +130,6 @@ public class Livro {
 		this.disponibilidade = disponibilidade;
 	}
 
-	public Biblioteca getBiblioteca() {
-        return biblioteca;
-    }
 
-    public void setBiblioteca(Biblioteca biblioteca) {
-        this.biblioteca = biblioteca;
-    }
 
 }

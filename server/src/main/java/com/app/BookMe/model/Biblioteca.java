@@ -152,6 +152,14 @@ public class Biblioteca {
 		this.livros = livros;
 	}
 
+	public void addLivro(Livro l){
+        livros.add(l);
+    }
+
+    public void removeLivro(Livro l){
+        livros.remove(l);
+    }
+
 	public void registarFunc(String nome, String password, String email, String telemovel) {
 		throw new UnsupportedOperationException();
 	}

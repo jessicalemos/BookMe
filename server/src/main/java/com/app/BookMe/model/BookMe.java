@@ -127,9 +127,9 @@ public class BookMe {
 
 
 	
-	public static void registarFunc(Funcionario f){
-		respb.registarFunc(f);
-  }
+	public static void registarFunc(Biblioteca b, Funcionario f){
+		respb.registarFunc(b, f);
+    }
 
     /**
      * Editar as informações do requisitante
@@ -154,8 +154,8 @@ public class BookMe {
 
 
 
-	public static void removerFunc(long id){
-		respb.removerFunc(id);
+	public static void removerFunc(Biblioteca b, Funcionario f){
+		respb.removerFunc(b,f);
 	}
 
 	public static Biblioteca editarBiblioteca(long id, String morada, String nome, String telemovel, String email){
@@ -176,8 +176,8 @@ public class BookMe {
 		return bb.editarLivro(id, titulo, categoria, descricao, autor, edicao, editor, ano, isbn, disponibilidade, imagem);
 	}
 
-	public static List<Livro> consultarLivrosBiblioteca(long id){
-		return bb.consultarLivrosBiblioteca(id);
+	public static Set<Livro> consultarLivrosBiblioteca(Biblioteca b){
+		return bb.consultarLivrosBiblioteca(b);
 	}
 
 	public static Biblioteca consultarBiblioteca(long id){
@@ -193,8 +193,8 @@ public class BookMe {
 		bb.devolve(idProcesso);
 	}
 
-	public static List<Processo> getProcessosBib(long bibliotecaID, String estado) {
-		return bb.getProcessosBib(bibliotecaID,estado);
+	public static List<Processo> getProcessosBib(Biblioteca biblioteca, String estado) {
+		return bb.getProcessosBib(biblioteca,estado);
 	}
 
 

@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/biblioteca")
@@ -24,15 +25,12 @@ public class BibliotecaController {
     public Object registarLivro(@RequestBody Livro l, Authentication auth) {
         Optional<Funcionario> f = fr.findByEmail(auth.getName());
         Funcionario func = f.get();
-        Optional<Biblioteca> b = br.findById(func.getBiblioteca().getID());
+        Optional<Biblioteca> b = br.findBibliotecaByFuncionariosContains(func);
         Biblioteca biblioteca = b.get();
-        //return func.getBiblioteca().getID();
  
         Livro livro = new Livro(l.getTitulo(), l.getCategoria(), l.getDescricao(), l.getAutor(),
                         l.getEdicao(), l.getEditor(), l.getAno(), l.getIsbn(),
                         l.getDisponibilidade(), l.getImagem());
-
-
 
         return BookMe.registaLivro(biblioteca, livro);
     }
@@ -44,10 +42,12 @@ public class BibliotecaController {
     }
 
     @GetMapping("/livros")
-    public List<Livro> consultarLivrosBiblioteca(Authentication auth) {
+    public Set<Livro> consultarLivrosBiblioteca(Authentication auth) {
         Optional<Funcionario> f = fr.findByEmail(auth.getName());
         Funcionario func = f.get();
-        return BookMe.consultarLivrosBiblioteca(func.getBiblioteca().getID());
+        Optional<Biblioteca> b = br.findBibliotecaByFuncionariosContains(func);
+        Biblioteca biblioteca = b.get();
+        return BookMe.consultarLivrosBiblioteca(biblioteca);
     }
 
 
@@ -67,20 +67,26 @@ public class BibliotecaController {
     public List<Processo> requisitados(Authentication auth) {
         Optional<Funcionario> f = fr.findByEmail(auth.getName());
         Funcionario func = f.get();
-        return BookMe.getProcessosBib(func.getBiblioteca().getID(),"requisitado");
+        Optional<Biblioteca> b = br.findBibliotecaByFuncionariosContains(func);
+        Biblioteca biblioteca = b.get();
+        return BookMe.getProcessosBib(biblioteca,"requisitado");
     }
 
     @GetMapping("/devolvidos")
     public List<Processo> devolvidos(Authentication auth) {
         Optional<Funcionario> f = fr.findByEmail(auth.getName());
         Funcionario func = f.get();
-        return BookMe.getProcessosBib(func.getBiblioteca().getID(),"devolvido");
+        Optional<Biblioteca> b = br.findBibliotecaByFuncionariosContains(func);
+        Biblioteca biblioteca = b.get();
+        return BookMe.getProcessosBib(biblioteca,"devolvido");
     }
 
     @GetMapping("/reservados")
     public List<Processo> reservados(Authentication auth) {
         Optional<Funcionario> f = fr.findByEmail(auth.getName());
         Funcionario func = f.get();
-        return BookMe.getProcessosBib(func.getBiblioteca().getID(),"reservado");
+        Optional<Biblioteca> b = br.findBibliotecaByFuncionariosContains(func);
+        Biblioteca biblioteca = b.get();
+        return BookMe.getProcessosBib(biblioteca,"reservado");
     }
 }

@@ -45,9 +45,8 @@ public class ResponsavelController {
         Biblioteca bib = findb.get();
         
         Funcionario func = new Funcionario(f.getEmail(), passwordEncoder.encode(f.getPassword()), f.getNome());
-        func.setBiblioteca(bib);
 
-        BookMe.registarFunc(func);
+        BookMe.registarFunc(bib,func);
         return "Funcionário registado com sucesso";
     }
 
@@ -58,8 +57,10 @@ public class ResponsavelController {
         if(!find.isPresent()){
             return "Funcionário não existe";
         }
+        Funcionario f = find.get();
+        Optional<Biblioteca> findb = br.findBibliotecaByFuncionariosContains(f);
 
-        BookMe.removerFunc(funcionarioID);
+        BookMe.removerFunc(findb.get(),f);
         return "Funcionário removido com sucesso";
     }
 

@@ -27,16 +27,20 @@ public class ResponsavelBean {
      * Regista funcionário.
      * @param f
      */
-    public void registarFunc(Funcionario f) {
+    public void registarFunc(Biblioteca b, Funcionario f) {
         fr.save(f);
+        b.addFuncionario(f);
+        br.save(b);
     }
 
     /**
      * Eliminar funcionário.
      * @param id
      */
-    public void removerFunc(long id){
-        fr.deleteById(id);
+    public void removerFunc(Biblioteca b, Funcionario f){
+        b.removeFuncionario(f);
+        br.save(b);
+        fr.deleteById(f.getiD());
     }
 
 

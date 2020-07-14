@@ -9,10 +9,6 @@ import javax.persistence.*;
 public class Funcionario extends Utilizador{
     private String nome;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "biblioteca_id")
-    @JsonIgnore
-    private Biblioteca biblioteca ;
     
     public Funcionario(){
         super();
@@ -32,11 +28,4 @@ public class Funcionario extends Utilizador{
     }
 
 
-    public Biblioteca getBiblioteca() {
-        return biblioteca;
-    }
-
-    public void setBiblioteca(Biblioteca biblioteca) {
-        this.biblioteca = biblioteca;
-    }
 }

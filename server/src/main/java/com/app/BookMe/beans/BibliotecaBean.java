@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.sql.Date;
 import java.util.List;
-
+import java.util.Set;
 @Service
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class BibliotecaBean {
@@ -38,8 +38,9 @@ public class BibliotecaBean {
      * @param l
      */
     public long registaLivro(Biblioteca b, Livro l) {
-        l.setBiblioteca(b);
         lr.save(l);
+        b.addLivro(l);        
+        br.save(b);
         return l.getID();
     }
 
@@ -71,8 +72,8 @@ public class BibliotecaBean {
      * @param id
      * @return
      */
-    public List<Livro> consultarLivrosBiblioteca(long id){
-        return lr.findByBiblioteca(id);
+    public Set<Livro> consultarLivrosBiblioteca(Biblioteca b){
+        return b.getLivros();
     }
 
     /**
@@ -106,6 +107,18 @@ public class BibliotecaBean {
         Processo processo = p.get();
         processo.setEstado("devolvido");
         pr.save(processo);
+        
+        Livro l = processo.getLivro();
+        List<Processo> lproc = pr.findProcessoByLivroAndEstado(l, "reservado");
+
+        if(lproc.size()==0){
+            l.setDisponibilidade(true);
+            lr.save(l);
+        }
+        else{
+            notificaAgendamentos(lproc.get(0));
+        }
+        
     }
 
     /**
@@ -114,9 +127,9 @@ public class BibliotecaBean {
      * @param estado
      * @return
      */
-    public List<Processo> getProcessosBib(long bibliotecaID, String estado){
-        System.out.println(bibliotecaID + estado);
-        return pr.findByEstadoBib(bibliotecaID,estado);
+    public List<Processo> getProcessosBib(Biblioteca b, String estado){
+        
+        return pr.findByEstadoBib(b.getID(),estado);
     }
 
 
