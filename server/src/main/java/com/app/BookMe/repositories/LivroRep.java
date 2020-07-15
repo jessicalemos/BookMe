@@ -25,6 +25,9 @@ public interface LivroRep extends JpaRepository<Livro, Long> {
     List<Livro> findByAutor(String autor);
     List<Livro> findLivrosByIDInAndTituloContains(List<Long> ids, String titulo);
     List<Livro> findLivrosByAutorInAndEditorInAndIDIn(List<String> autores, List<String> editores, List<Long> ids);
+    List<Livro> findLivrosByAutorInAndIDIn(List<String> autores, List<Long> ids);
+    List<Livro> findLivrosByEditorInAndIDIn(List<String> editores, List<Long> ids);
+    List<Livro> findLivrosByIDIn(List<Long> ids);
     @Query(value="select l.id From livro l where id in (select min(id) from livro where livro.biblioteca_id in :bId group by isbn)", nativeQuery = true)
     List<Long> findLivrosByDintinctIsbnAndBiblioteca(@Param("bId") List<Long> bIds);
 
