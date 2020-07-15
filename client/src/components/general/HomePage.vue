@@ -55,12 +55,12 @@
 .container-fluid.slides {
   background-color: rgb(38,40,41);
   height: 280px;
-  margin-top: 60px;
+  margin-top: -40px;
 }
 
 .carouselExampleControls {
   background-color: rgb(38,40,41);
   height: 280px;
-  margin-top: 60px;
+  margin-top: -40px;
 }
 </style>

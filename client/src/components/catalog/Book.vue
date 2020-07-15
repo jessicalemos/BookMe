@@ -1,14 +1,15 @@
 <template>
-    <div class="col-8 mx-auto my-5">
-        <div v-if="error === 1">
-          <b-alert class="alert" variant="danger" show dismissible>
-            <b>Error</b><br/>
-          </b-alert>
-        </div>
+    <div class="col-8 mx-auto my-4">
         <div v-if="error === -1">
           <b-alert class="alert" variant="success" show dismissible>
             <b>Sucesso</b><br/>
-            <span class="alert-text">Livro reservado com sucesso, tem 4 dias para efetuar o levantamento.</span>
+            <span class="alert-text">{{feedback}}</span>
+          </b-alert>
+        </div>
+        <div v-if="error === 1">
+          <b-alert class="alert" variant="danger" show dismissible>
+            <b>Error</b><br/>
+            <span class="alert-text">{{feedback}}</span>
           </b-alert>
         </div>
         <div class="row">
@@ -25,12 +26,12 @@
               <strong>Descrição </strong>{{book.descricao}}</p>
               <div v-if="user_type==='Requisitante'">
                 <select class="libraries custom-select" v-on:change="select($event);" value="branchid">
-                  <option selected="">Selecione a sua biblioteca</option>
+                  <option>Selecione a sua biblioteca</option>
                   <option v-for="option in libraries" :key="option" :selected="library === option">
                     {{option}}
                   </option>
                 </select>
-                <div v-if="estado == 2">
+                <div v-if="estado == 2 || estado == 3">
                   <p class="unavailable">
                     <i class="far fa-times-circle"></i>
                     &nbsp;{{msg}}
@@ -60,6 +61,7 @@ export default {
   data () {
     return {
       error: 0,
+      feedback: null,
       library: null,
       estado: -1,
       msg: null,
@@ -79,7 +81,8 @@ export default {
   methods: {
     select: function (evt) {
       const selected = evt.target.value
-      if (selected !== '') {
+      console.log(selected)
+      if (selected !== 'Selecione a sua biblioteca') {
         this.library = evt.target.value
         const info = {
           biblioteca: this.library,
@@ -92,9 +95,12 @@ export default {
       }
     },
     async availability (info) {
-      console.log(info)
       const req = await ApiUsers.bookAvailability(info)
-      if (req.estado === 'disponivel') {
+      console.log(req)
+      if (req === '') {
+        this.estado = 3 // não pode reservar
+        this.msg = 'Indisponível'
+      } else if (req.estado === 'disponivel') {
         this.estado = 1 // pode reservar
         this.msg = 'Disponível'
         this.process = req
@@ -102,9 +108,6 @@ export default {
         this.estado = 2 // pode reservar
         this.msg = 'Temporariamente Indisponível. Previsão de levantamento: ' + req.dataFim
         this.process = req
-      } else if (req.estado === 'reservado') {
-        this.estado = 2 // não pode reservar
-        this.msg = 'Indisponível'
       }
       console.log(req)
       console.log(this.msg)
@@ -122,8 +125,18 @@ export default {
     async reservar () {
       const req = await ApiUsers.requestBook(this.user_id, this.process)
       console.log(req)
+      if (this.estado === 1) {
+        this.error = -1
+        this.feedback = 'Livro reservado com sucesso, tem 4 dias para efetuar o levantamento'
+      } else if (this.estado === 2) {
+        this.error = -1
+        this.feedback = 'Livro reservado com sucesso, irá receber uma notificação para ' +
+        'efetuar o levantamento dentro de 4 dias'
+      } else {
+        this.error = 1
+        this.feedback = 'Não foi possível efetuar a reserva'
+      }
       this.estado = -1
-      this.error = -1
       this.getBook()
     }
   }

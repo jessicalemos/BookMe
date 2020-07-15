@@ -12,7 +12,7 @@
               <router-link v-if="!loggedIn" to="/login" class="nav-item nav-link"><i class="fas fa-sign-in-alt"></i> Sign In</router-link>
               <router-link v-if="loggedIn && user_type==='Funcionario'" to="/reservas" class="nav-item nav-link"><i class="fas fa-bookmark"></i> Reservas</router-link>
               <router-link v-if="loggedIn && user_type==='Funcionario'" to="/requisicoes" class="nav-item nav-link"><i class="fas fa-book"></i> Requisições</router-link>
-              <router-link v-if="loggedIn && user_type==='Responsavel'" to="/editar-biblioteca" class="nav-item nav-link"><i class="fas fa-home"></i>Biblioteca</router-link>
+              <router-link v-if="loggedIn && user_type==='Responsavel'" to="/editar-biblioteca" class="nav-item nav-link"><i class="fas fa-home"></i> Biblioteca</router-link>
               <router-link v-if="loggedIn && user_type==='Responsavel'" to="/funcionarios" class="nav-item nav-link"><i class="fas fa-user-friends"></i> Funcionários</router-link>
               <div v-if="loggedIn && user_type==='Requisitante'" class="btn-group">
                 <a class="dropdown-toggle nav-item nav-link info-number" data-toggle="dropdown">

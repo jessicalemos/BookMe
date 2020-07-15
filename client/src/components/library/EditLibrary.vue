@@ -29,6 +29,7 @@
 
 <script>
 import ApiEmployee from '@/api/ApiEmployee'
+import UserHandler from '@/utils/UserHandler.js'
 
 export default {
   name: 'EditLibrary',
@@ -36,6 +37,12 @@ export default {
     library: {}
   }),
   mounted: function () {
+    const user = UserHandler.get()
+    if (this.user === false) {
+      this.$router.push('/')
+    } else if (user.role !== 'Responsavel') {
+      this.$router.push('/access-denied')
+    }
     this.getLibrary()
   },
   methods: {

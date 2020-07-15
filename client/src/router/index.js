@@ -17,6 +17,7 @@ import EditLibrary from '../components/library/EditLibrary.vue'
 import EditProfile from '../components/common/EditProfile.vue'
 import History from '../components/user/History.vue'
 import UserHome from '../components/user/HomePage.vue'
+import AccessDenied from '../components/common/AccessDenied.vue'
 
 Vue.use(VueRouter)
 
@@ -192,6 +193,11 @@ const routes = [
     path: '/home',
     name: 'UserHomePage',
     component: UserHome
+  },
+  {
+    path: '/access-denied',
+    name: 'AccessDenied',
+    component: AccessDenied
   }
 ]
 

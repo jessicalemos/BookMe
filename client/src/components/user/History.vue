@@ -130,11 +130,16 @@ export default {
     select: null
   }),
   mounted: function () {
+    this.user = UserHandler.get()
+    if (this.user === false) {
+      this.$router.push('/')
+    } else if (this.user.role !== 'Requisitante') {
+      this.$router.push('/access-denied')
+    }
     this.getUserInfo()
   },
   methods: {
     async getUserInfo () {
-      this.user = UserHandler.get()
       this.reserved = await ApiUsers.getReserved(this.user.id)
       console.log(this.reserved)
       this.returned = await ApiUsers.getReturned(this.user.id)

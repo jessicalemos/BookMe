@@ -85,6 +85,11 @@ export default {
   }),
   mounted: function () {
     const user = UserHandler.get()
+    if (this.user === false) {
+      this.$router.push('/')
+    } else if (user.role !== 'Responsavel') {
+      this.$router.push('/access-denied')
+    }
     if (user !== false) {
       this.user_id = user.id
     }

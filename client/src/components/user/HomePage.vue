@@ -98,6 +98,11 @@ export default {
   methods: {
     async getProcesses () {
       const user = UserHandler.get()
+      if (user === false) {
+        this.$router.push('/')
+      } else if (user.role !== 'Requisitante') {
+        this.$router.push('/access-denied')
+      }
       const req = await ApiUsers.getProcesses(user.id)
       this.processes = req.slice(0, 4)
       console.log(this.processes)
