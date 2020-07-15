@@ -325,7 +325,20 @@ public class RequisitanteBean {
     }
 
     public  List<Livro> consultaLivrosFiltro(List<String> autores, List<String> editores, List<Long> bibliotecas) {
-        List<Long> ids = lr.findLivrosByDintinctIsbnAndBiblioteca(bibliotecas);
-        return lr.findLivrosByAutorInAndEditorInAndIDIn(autores, editores, ids);
+        List<Long> ids = new ArrayList<>();
+        if(bibliotecas.isEmpty()){
+            List<Livro> livrosDiferentes = lr.findDistinctIsbn();
+            for(Livro l: livrosDiferentes){
+                ids.add(l.getID());
+            }
+        }
+        else
+            ids = lr.findLivrosByDintinctIsbnAndBiblioteca(bibliotecas);
+        if(!autores.isEmpty() && !editores.isEmpty())
+            return lr.findLivrosByAutorInAndEditorInAndIDIn(autores, editores, ids);
+        else if(!autores.isEmpty())
+            return lr.findLivrosByAutorInAndIDIn(autores,ids);
+        else if (!editores.isEmpty()) return lr.findLivrosByEditorInAndIDIn(editores,ids);
+        return lr.findLivrosByIDIn(ids);
     }
 }
