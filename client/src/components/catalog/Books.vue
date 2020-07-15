@@ -55,7 +55,7 @@
     </b-sidebar>
   </div>
 <div class="col-8 mx-auto my-5">
-  <div v-if="user_type=='Responsavel'" class="row">
+  <div v-if="user_type=='Funcionario'" class="row">
     <div class="col-10">
       <form @submit.prevent="searchBook">
         <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
@@ -128,6 +128,7 @@
 <script>
 import UserHandler from '@/utils/UserHandler.js'
 import ApiUsers from '@/api/ApiUsers'
+import ApiEmployee from '@/api/ApiEmployee'
 
 export default {
   name: 'Books',
@@ -145,6 +146,7 @@ export default {
     const user = UserHandler.get()
     if (user !== false) {
       this.user_type = user.role
+      console.log(this.user_type)
     }
     this.getBooks()
     this.getAutores()
@@ -152,8 +154,15 @@ export default {
   },
   methods: {
     async getBooks () {
-      this.books = await ApiUsers.getBooks()
-      console.log(this.books)
+      console.log(this.user_type)
+      if (this.user_type === 'Requisitante') {
+        this.books = await ApiUsers.getBooks()
+        console.log('req' + this.books)
+      }
+      if (this.user_type === 'Funcionario') {
+        this.books = await ApiEmployee.getBooks()
+        console.log('func' + this.books)
+      }
       this.filterBooks()
     },
     filterBooks () {

@@ -1,6 +1,6 @@
 <template>
   <div style="min-height: 100%">
-    <div class="col-8 mx-auto my-5 py-5">
+    <div class="col-8 mx-auto my-5">
       <div class="row justify-center" id="Group">
         <div class="col-12">
           <div class="list-group">
@@ -9,7 +9,7 @@
                   <i class="fas fa-list-ul"></i><strong>&nbsp; Reservas</strong>
                 </div>
               </a>
-              <a class="list-group-item list-group-item-action">
+              <a v-for="g in bookings" :key="g[0]" class="list-group-item list-group-item-action">
                 <div class="d-flex align-items-center justify-content-between">
                   <div class="text-left">
                     <i class="fas fa-book"></i>&nbsp;
@@ -18,23 +18,6 @@
                     &nbsp;joao.teixeira@hotmail.com<br>
                     <i class="fa fa-user"></i>&nbsp;
                     João Teixeira
-                  </div>
-                  <div class="d-inline">
-                    <button class="btn btn-secondary" type="button">
-                      <i class="far fa-check-circle"></i>
-                    </button>
-                  </div>
-                </div>
-              </a>
-              <a class="list-group-item list-group-item-action">
-                <div class="d-flex align-items-center justify-content-between">
-                  <div class="text-left">
-                    <i class="fas fa-book"></i>&nbsp;
-                    <strong>LP01 - A Mensagem</strong><br>
-                    <i class="fa fa-envelope"></i>
-                    &nbsp;ana.pereira9@gmail.com<br>
-                    <i class="fa fa-user"></i>&nbsp;
-                    Ana Santos<br>
                   </div>
                   <div class="d-inline">
                     <button class="btn btn-secondary" type="button">
@@ -73,3 +56,25 @@
   margin-bottom: 10px;
 }
 </style>
+
+<script>
+import ApiEmployee from '@/api/ApiEmployee'
+
+export default {
+  name: 'Employees',
+  data: () => ({
+    bookings: {},
+    error: 0
+  }),
+  mounted: function () {
+    this.getReserved()
+  },
+  methods: {
+    async getReserved () {
+      this.resquests = await ApiEmployee.getReserved()
+      console.log(this.resquests)
+      this.error = -1
+    }
+  }
+}
+</script>

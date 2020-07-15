@@ -23,13 +23,7 @@
               <strong>Editor </strong>{{book.editor}}<br/>
               <strong>Categoria </strong>{{book.categoria}}<br/>
               <strong>Descrição </strong>{{book.descricao}}</p>
-              <div v-if="user_type!=='Requisitante'">
-                <button
-                  class="btn btn-danger remove" @click="$bvModal.show('modal-scoped')" type="button">
-                  <i class="far fa-trash-alt"></i>
-                </button>
-              </div>
-              <div v-else>
+              <div v-if="user_type==='Requisitante'">
                 <select class="libraries custom-select" v-on:change="select($event);" value="branchid">
                   <option selected="">Selecione a sua biblioteca</option>
                   <option v-for="option in libraries" :key="option" :selected="library === option">
@@ -53,22 +47,6 @@
               </button>
             </div>
             </div>
-      </div>
-      <div>
-        <b-modal id="modal-scoped">
-          <template v-slot:modal-header>
-            <b>Remover Livro</b>
-          </template>
-          <template v-slot:default>Tem a certeza que pretende remover este livro?</template>
-          <template v-slot:modal-footer>
-            <b-button size="sm" variant="outline-danger" @click="$bvModal.hide('modal-scoped')">
-              <i class="fas fa-times"></i> Não
-            </b-button>
-            <b-button size="sm" variant="outline-success" @click="remove()">
-              <i class="fas fa-check"></i> Sim
-            </b-button>
-          </template>
-        </b-modal>
       </div>
     </div>
 </template>

@@ -7,7 +7,7 @@
             <div class="form-group">
               <input class="form-control" v-model="credentials.email" type="email" name="email" placeholder="Email" required>
             </div>
-            <div class="form-group">
+            <div v-if="user_type === 'Requisitante'" class="form-group">
               <input class="form-control" v-model="credentials.telemovel" type="text" name="telemovel" placeholder="Telemóvel" required>
             </div>
             <div class="form-group">
@@ -33,28 +33,48 @@
 
 <script>
 import ApiUsers from '@/api/ApiUsers'
+import ApiEmployee from '@/api/ApiEmployee'
 import UserHandler from '@/utils/UserHandler.js'
 
 export default {
   name: 'EditProfile',
   data: () => ({
     error: 0,
-    credentials: {}
+    credentials: {},
+    user: null,
+    user_type: null
   }),
   mounted: function () {
+    this.user = UserHandler.get()
+    this.user_type = this.user.role
+    console.log(this.user)
     this.getUserInfo()
   },
   methods: {
     async getUserInfo () {
-      const user = UserHandler.get()
-      this.credentials = await ApiUsers.getRequester(user.id)
-      this.credentials.type = 'requisitante'
-      this.credentials.password = ''
+      if (this.user.role === 'Requisitante') {
+        this.credentials = await ApiUsers.getRequester(this.user.id)
+        this.credentials.type = 'requisitante'
+        this.credentials.password = ''
+      }
+      if (this.user.role === 'Funcionario') {
+        this.credentials = await ApiEmployee.getEmployee(this.user.id)
+        this.credentials.type = 'funcionario'
+        this.credentials.password = ''
+      }
     },
     async editRequester () {
-      const req = await ApiUsers.editRequester(this.credentials)
-      console.log(req)
-      this.error = -1
+      if (this.user.role === 'Requisitante') {
+        const req = await ApiUsers.editRequester(this.credentials)
+        console.log(req)
+        this.error = -1
+      }
+      if (this.user.role === 'Funcionario') {
+        const req = await ApiEmployee.editEmployee(this.credentials)
+        console.log(this.credentials)
+        console.log(req)
+        this.error = -1
+      }
     }
   }
 }
