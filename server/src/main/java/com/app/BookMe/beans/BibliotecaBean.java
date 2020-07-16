@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.sql.Date;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 @Service
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
@@ -130,6 +131,56 @@ public class BibliotecaBean {
     public List<Processo> getProcessosBib(Biblioteca b, String estado){
         
         return pr.findByEstadoBib(b.getID(),estado);
+    }
+
+    public List<String> consultaBibliotecaAutores(Biblioteca b){
+        return lr.findDistinctAutorInBiblioteca(b.getID());
+    }
+
+    public List<String> consultaBibliotecaEditores(Biblioteca b){
+        return lr.findDistinctEditorInBiblioteca(b.getID());
+    }
+
+    public List<Livro> consultaBibliotecaLivroTitulo(String titulo, Biblioteca b){
+        List<Livro> ll = lr.findByBiblioteca(b.getID());
+        List<Livro> r = new ArrayList<>();
+
+        for(Livro l : ll)
+            if(l.getTitulo().equals(titulo))
+                r.add(l);
+        
+        return r;
+    }
+
+    public List<Livro> consultaBibliotecaLivroAutor(String autor, Biblioteca b){
+        List<Livro> ll = lr.findByBiblioteca(b.getID());
+        List<Livro> r = new ArrayList<>();
+
+        for(Livro l : ll)
+            if(l.getAutor().equals(autor))
+                r.add(l);
+        
+        return r;
+    }
+
+    public List<Livro> consultaBibliotecaLivroEditor(String editor, Biblioteca b){
+        List<Livro> ll = lr.findByBiblioteca(b.getID());
+        List<Livro> r = new ArrayList<>();
+
+        for(Livro l : ll)
+            if(l.getEditor().equals(editor))
+                r.add(l);
+        
+        return r;
+    }
+
+    public List<Livro> consultaBibliotecaLivrosFiltro(List<String> autores, List<String> editores, Biblioteca b){
+        List<Livro> ll = lr.findByBiblioteca(b.getID());
+        List<Long> ids = new ArrayList<>();
+        for(Livro l: ll)
+            ids.add(l.getID());
+        
+        return lr.findLivrosByAutorInAndEditorInAndIDIn(autores, editores, ids);
     }
 
 
