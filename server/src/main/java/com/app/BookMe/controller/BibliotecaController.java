@@ -152,23 +152,6 @@ public class BibliotecaController {
         return BookMe.consultaBibliotecaLivroTitulo(titulo, b);
     }
 
-
-    @GetMapping("/livros/autor/{autor}")
-    public List<Livro> consultaBibliotecaLivroAutor(@PathVariable String autor, Authentication auth) {
-        Biblioteca b = getBiblioteca(auth);
-        if(b == null) 
-            return null;
-        return BookMe.consultaBibliotecaLivroAutor(autor, b);
-    }
-
-    @GetMapping("/livros/editor/{editor}")
-    public List<Livro> consultaBibliotecaLivroEditor(@PathVariable String editor, Authentication auth) {
-        Biblioteca b = getBiblioteca(auth);
-        if(b == null) 
-            return null;
-        return BookMe.consultaBibliotecaLivroEditor(editor, b);
-    }
-
     @GetMapping("/livros/filtro")
     public List<Livro> consultaBibliotecaLivrosFiltro(@RequestBody Filtro f, Authentication auth) {
         Biblioteca b = getBiblioteca(auth);

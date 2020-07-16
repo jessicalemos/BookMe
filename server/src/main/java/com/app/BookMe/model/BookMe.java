@@ -196,14 +196,6 @@ public class BookMe {
         return bb.consultaBibliotecaLivroTitulo(titulo, b);
     }
 
-    public static List<Livro> consultaBibliotecaLivroAutor(String autor, Biblioteca b) {
-        return bb.consultaBibliotecaLivroAutor(autor, b);
-    }
-
-    public static List<Livro> consultaBibliotecaLivroEditor(String editor, Biblioteca b) {
-        return bb.consultaBibliotecaLivroEditor(editor, b);
-    }
-
     public static List<Livro> consultaBibliotecaLivrosFiltro(List<String> autores, List<String> editores, Biblioteca b) {
         return bb.consultaBibliotecaLivrosFiltro(autores, editores, b);
     }

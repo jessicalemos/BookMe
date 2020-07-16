@@ -152,35 +152,20 @@ public class BibliotecaBean {
         return r;
     }
 
-    public List<Livro> consultaBibliotecaLivroAutor(String autor, Biblioteca b){
-        List<Livro> ll = lr.findByBiblioteca(b.getID());
-        List<Livro> r = new ArrayList<>();
-
-        for(Livro l : ll)
-            if(l.getAutor().equals(autor))
-                r.add(l);
-        
-        return r;
-    }
-
-    public List<Livro> consultaBibliotecaLivroEditor(String editor, Biblioteca b){
-        List<Livro> ll = lr.findByBiblioteca(b.getID());
-        List<Livro> r = new ArrayList<>();
-
-        for(Livro l : ll)
-            if(l.getEditor().equals(editor))
-                r.add(l);
-        
-        return r;
-    }
-
     public List<Livro> consultaBibliotecaLivrosFiltro(List<String> autores, List<String> editores, Biblioteca b){
         List<Livro> ll = lr.findByBiblioteca(b.getID());
         List<Long> ids = new ArrayList<>();
         for(Livro l: ll)
             ids.add(l.getID());
-        
-        return lr.findLivrosByAutorInAndEditorInAndIDIn(autores, editores, ids);
+
+        if(!autores.isEmpty() && !editores.isEmpty())
+            return lr.findLivrosByAutorInAndEditorInAndIDIn(autores, editores, ids);
+        else if(!autores.isEmpty())
+            return lr.findLivrosByAutorInAndIDIn(autores,ids);
+        else if (!editores.isEmpty()) 
+            return lr.findLivrosByEditorInAndIDIn(editores,ids);
+
+        return lr.findLivrosByIDIn(ids);
     }
 
 
