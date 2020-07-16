@@ -1,12 +1,6 @@
 package com.app.BookMe.model;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -17,6 +11,7 @@ public class Livro {
 	private long ID;
 	private String titulo;
 	private String categoria;
+	@Column(columnDefinition="TEXT")
 	private String descricao;
 	private String autor;
 	private String edicao;
