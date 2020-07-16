@@ -21,6 +21,7 @@ public class Biblioteca {
 	private String email;
 	private boolean ativa;
 	@OneToOne
+	@JsonIgnore
 	public Responsavel responsavel;
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "biblioteca_id")

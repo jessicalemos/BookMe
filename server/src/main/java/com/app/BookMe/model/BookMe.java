@@ -182,7 +182,23 @@ public class BookMe {
 
 	public static Biblioteca consultarBiblioteca(long id){
 		return bb.consultarBiblioteca(id);
-	}
+    }
+    
+    public static List<String> consultaBibliotecaAutores(Biblioteca b) {
+        return bb.consultaBibliotecaAutores(b);
+    }
+
+    public static List<String> consultaBibliotecaEditores(Biblioteca b) {
+        return bb.consultaBibliotecaEditores(b);
+    }
+
+    public static List<Livro> consultaBibliotecaLivroTitulo(String titulo, Biblioteca b) {
+        return bb.consultaBibliotecaLivroTitulo(titulo, b);
+    }
+
+    public static List<Livro> consultaBibliotecaLivrosFiltro(List<String> autores, List<String> editores, Biblioteca b) {
+        return bb.consultaBibliotecaLivrosFiltro(autores, editores, b);
+    }
 
 
 	public static void requisita(long idProcesso) {
