@@ -142,6 +142,7 @@ export default {
       console.log(req)
       this.getLibraries()
       this.$bvModal.hide('modal-scoped')
+      this.makeToast('success', 'Sucesso', 'Biblioteca removida com sucesso')
     },
     async searchLibrary () {
       console.log(this.search)
@@ -149,11 +150,25 @@ export default {
         this.libraries = await ApiLibraries.searchLibrary(this.search)
         this.filterLibraries()
       }
+    },
+    makeToast (variant, titlemsg, msg) {
+      this.$bvToast.toast(`${msg}`, {
+        title: `${titlemsg || 'default'}`,
+        variant: variant,
+        solid: true
+      })
     }
   },
   computed: {}
 }
 </script>
+
+<style>
+.b-toaster.b-toaster-top-right .b-toaster-slot {
+    top: 82px !important;
+    right: 12px;
+}
+</style>
 
 <style scoped>
 input {

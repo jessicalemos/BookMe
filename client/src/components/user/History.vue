@@ -127,7 +127,8 @@ export default {
     reserved: {},
     returned: {},
     requested: {},
-    select: null
+    select: null,
+    toastCount: 0
   }),
   mounted: function () {
     this.user = UserHandler.get()
@@ -162,6 +163,7 @@ export default {
       this.reserved = await ApiUsers.getReserved(this.user.id)
       console.log(this.reserved)
       this.$bvModal.hide('modal-remove')
+      this.makeToast('success', 'Sucesso', req)
     },
     async renew () {
       const info = {}
@@ -172,11 +174,30 @@ export default {
       this.requested = await ApiUsers.getRequested(this.user.id)
       console.log(this.requested)
       this.$bvModal.hide('modal-renew')
+      if (req === 'A renovação foi efetuada com sucesso') {
+        this.makeToast('success', 'Sucesso', req)
+      } else {
+        this.makeToast('danger', 'Error', req)
+      }
     },
-    moment
+    moment,
+    makeToast (variant, titlemsg, msg) {
+      this.$bvToast.toast(`${msg}`, {
+        title: `${titlemsg || 'default'}`,
+        variant: variant,
+        solid: true
+      })
+    }
   }
 }
 </script>
+
+<style>
+.b-toaster.b-toaster-top-right .b-toaster-slot {
+    top: 82px !important;
+    right: 12px;
+}
+</style>
 
 <style scoped>
 .date {

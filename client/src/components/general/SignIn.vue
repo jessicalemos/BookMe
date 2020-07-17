@@ -1,4 +1,5 @@
 <template>
+  <div class="col-8 mx-auto my-5 py-5">
     <div class="login-clean">
         <form @submit.prevent="login" style="padding-top: 0px;">
             <div class="illustration">
@@ -25,6 +26,7 @@
             </div>
         </form>
     </div>
+  </div>
 </template>
 
 <style scoped src="@/assets/css/style.css"></style>

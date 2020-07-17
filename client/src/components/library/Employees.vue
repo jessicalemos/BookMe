@@ -47,6 +47,13 @@
   </div>
 </template>
 
+<style>
+.b-toaster.b-toaster-top-right .b-toaster-slot {
+    top: 82px !important;
+    right: 12px;
+}
+</style>
+
 <style scoped>
 .btn.config {
   background-color: rgb(140, 138, 138);
@@ -110,6 +117,14 @@ export default {
       console.log(req)
       this.getEmployees()
       this.$bvModal.hide('modal-scoped')
+      this.makeToast('success', 'Sucesso', req)
+    },
+    makeToast (variant, titlemsg, msg) {
+      this.$bvToast.toast(`${msg}`, {
+        title: `${titlemsg || 'default'}`,
+        variant: variant,
+        solid: true
+      })
     }
   }
 }

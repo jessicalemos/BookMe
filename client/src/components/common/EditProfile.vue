@@ -1,4 +1,5 @@
 <template>
+  <div class="col-8 mx-auto my-5 py-5">
     <div class="login-clean">
         <form @submit.prevent="editRequester" style="max-width: 600px;">
             <div class="form-group">
@@ -29,6 +30,7 @@
             </div>
         </form>
     </div>
+  </div>
 </template>
 
 <script>

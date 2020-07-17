@@ -1,17 +1,5 @@
 <template>
     <div class="col-8 mx-auto my-5 py-5">
-        <div v-if="error === -1">
-          <b-alert class="alert" variant="success" show dismissible>
-            <b>Sucesso</b><br/>
-            <span class="alert-text">{{feedback}}</span>
-          </b-alert>
-        </div>
-        <div v-if="error === 1">
-          <b-alert class="alert" variant="danger" show dismissible>
-            <b>Error</b><br/>
-            <span class="alert-text">{{feedback}}</span>
-          </b-alert>
-        </div>
         <div class="row">
             <div class="col-md-6 align-self-center">
                 <img :src="book.imagem" class="img-responsive"/>
@@ -135,22 +123,36 @@ export default {
       const req = await ApiUsers.requestBook(this.user_id, this.process)
       console.log(req)
       if (this.estado === 1) {
-        this.error = -1
         this.feedback = 'Livro reservado com sucesso, tem 4 dias para efetuar o levantamento'
+        this.makeToast('success', 'Sucesso', this.feedback)
       } else if (this.estado === 2) {
-        this.error = -1
         this.feedback = 'Livro reservado com sucesso, irá receber uma notificação para ' +
         'efetuar o levantamento dentro de 4 dias'
+        this.makeToast('success', 'Sucesso', this.feedback)
       } else {
-        this.error = 1
         this.feedback = 'Não foi possível efetuar a reserva'
+        this.makeToast('danger', 'Error', this.feedback)
       }
       this.estado = -1
       this.getBook()
+    },
+    makeToast (variant, titlemsg, msg) {
+      this.$bvToast.toast(`${msg}`, {
+        title: `${titlemsg || 'default'}`,
+        variant: variant,
+        solid: true
+      })
     }
   }
 }
 </script>
+
+<style>
+.b-toaster.b-toaster-top-right .b-toaster-slot {
+    top: 82px !important;
+    right: 12px;
+}
+</style>
 
 <style scoped src="@/assets/css/style.css"></style>
 <style scoped>

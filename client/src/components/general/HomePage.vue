@@ -8,7 +8,7 @@
             alt="First slide">
         </div>
         <div class="carousel-item">
-          <img class="image" src="@/assets/img/slide.png"
+          <img class="image" src="@/assets/img/slide7.png"
             alt="Second slide">
         </div>
       </div>
@@ -54,7 +54,7 @@
 
 .container-fluid.slides {
   background-color: rgb(38,40,41);
-  height: 280px;
+  height: 468px;
   margin-top: -40px;
 }
 
