@@ -152,7 +152,7 @@ public class BibliotecaController {
         return BookMe.consultaBibliotecaLivroTitulo(titulo, b);
     }
 
-    @GetMapping("/livros/filtro")
+    @PostMapping("/livros/filtro")
     public List<Livro> consultaBibliotecaLivrosFiltro(@RequestBody Filtro f, Authentication auth) {
         Biblioteca b = getBiblioteca(auth);
         if(b == null) 
