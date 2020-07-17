@@ -109,7 +109,7 @@ export default {
     },
     async getBooks () {
       const req = await ApiUsers.getBooks()
-      this.books = req.slice(0, 2)
+      this.books = req.slice(0, 4)
     },
     moment
   }

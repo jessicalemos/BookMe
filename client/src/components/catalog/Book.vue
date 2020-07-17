@@ -1,5 +1,5 @@
 <template>
-    <div class="col-8 mx-auto my-4">
+    <div class="col-8 mx-auto my-5 py-5">
         <div v-if="error === -1">
           <b-alert class="alert" variant="success" show dismissible>
             <b>Sucesso</b><br/>

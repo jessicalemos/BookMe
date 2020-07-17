@@ -6,48 +6,30 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title">
-              <a data-toggle="collapse" data-parent="#accordion" class="filter" href="#collapse">
-              Biblioteca <i class="fas fa-angle-down"></i></a>
-            </h4>
-          </div>
-          <div id="collapse" class="panel-collapse collapse">
-            <div class="panel-body">
-              <div class="custom-control custom-radio">
-                <input type="radio" class="custom-control-input" id="defaultUnchecked" name="biblioteca">
-                <label class="custom-control-label" for="defaultUnchecked">Default unchecked</label>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
               <a data-toggle="collapse" data-parent="#accordion" class="filter" href="#collapse2">
-              Autor <i class="fas fa-angle-down"></i></a>
+              Editor <i class="fas fa-angle-down"></i></a>
             </h4>
           </div>
           <div id="collapse2" class="panel-collapse collapse">
-            <div class="panel-body">
-              <div v-for="g in autores" :key="g" class="custom-control custom-radio">
-                <input type="radio" class="custom-control-input" :id="g" name="autor">
-                <label class="custom-control-label" :for="g">{{g}}</label>
-              </div>
+            <div v-for="(item, index) in editores" :key="index">
+              <input type="checkbox" :value="item" @change="check(checkedEditores, editores[index])">
+              <label>{{item}}</label>
             </div>
           </div>
         </div>
+      </div>
+      <div class="panel-group" id="accordion">
         <div class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title">
               <a data-toggle="collapse" data-parent="#accordion" class="filter" href="#collapse3">
-              Editores <i class="fas fa-angle-down"></i></a>
+              Autor <i class="fas fa-angle-down"></i></a>
             </h4>
           </div>
           <div id="collapse3" class="panel-collapse collapse">
-            <div class="panel-body">
-              <div v-for="g in editores" :key="g" class="custom-control custom-radio">
-                <input type="radio" class="custom-control-input" :id="g" name="editor">
-                <label class="custom-control-label" :for="g">{{g}}</label>
-              </div>
+            <div v-for="(item, index) in autores" :key="index">
+              <input type="checkbox" :value="item" @change="check(checkedAutores, autores[index])">
+              <label>{{item}}</label>
             </div>
           </div>
         </div>
@@ -129,6 +111,7 @@
 import UserHandler from '@/utils/UserHandler.js'
 import ApiUsers from '@/api/ApiUsers'
 import ApiEmployee from '@/api/ApiEmployee'
+import $ from 'jquery'
 
 export default {
   name: 'Books',
@@ -138,9 +121,12 @@ export default {
     page: 0,
     nrPerPage: 8,
     booksFilter: [],
-    autores: {},
-    editores: {},
-    search: null
+    autores: [],
+    editores: [],
+    search: null,
+    checkedAutores: [],
+    checkedEditores: [],
+    checkedBibliotecas: []
   }),
   mounted: function () {
     const user = UserHandler.get()
@@ -148,6 +134,7 @@ export default {
       this.user_type = user.role
       console.log(this.user_type)
     }
+    console.log('book')
     this.getBooks()
     this.getAutores()
     this.getEditores()
@@ -186,11 +173,11 @@ export default {
     },
     async getAutores () {
       this.autores = await ApiUsers.getAutores()
-      console.log(this.editores)
+      console.log(this.autores[0])
     },
     async getEditores () {
       this.editores = await ApiUsers.getEditores()
-      console.log(this.editores)
+      console.log(this.editores[0])
     },
     range (start, end) {
       return Array(end - start + 1).fill().map((_, idx) => start + idx)
@@ -209,6 +196,35 @@ export default {
         this.books = await ApiUsers.searchBook(this.search)
         this.filterBooks()
       }
+    },
+    async filter () {
+      const filtro = {
+        autores: this.checkedAutores,
+        editores: this.checkedEditores,
+        bibliotecas: this.checkedBibliotecas
+      }
+      console.log(filtro)
+      this.books = await ApiUsers.filterBooks(filtro)
+      console.log(this.books)
+      this.filterBooks()
+    },
+    clean () {
+      $('input:checkbox').removeAttr('checked')
+      this.checkedAutores = []
+      this.checkedEditores = []
+      this.checkedBibliotecas = []
+      console.log(this.checkedAutores)
+    },
+    check (list, item) {
+      if (list !== null && list.includes(item)) {
+        const index = list.indexOf(item)
+        list.splice(index, 1)
+      } else {
+        list.push(item)
+      }
+      this.filter()
+      console.log(this.checkedEditores)
+      console.log(this.checkedAutores)
     }
   }
 }
@@ -265,5 +281,15 @@ a {
 }
 .btn {
   margin-top: 5px;
+}
+.custom-control {
+  font-weight: bold;
+  font-size: 14px;
+}
+.filter-select {
+  color: #212529;
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 20px;
 }
 </style>
