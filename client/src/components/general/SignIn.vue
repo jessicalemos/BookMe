@@ -53,13 +53,13 @@ export default {
         const user = UserHandler.get()
         console.log(user)
         if (user.role === 'Requisitante') {
-          this.$router.push('/Home')
+          this.$router.push('/home')
         }
         if (user.role === 'Administrador') {
-          this.$router.push({ name: 'Libraries-admin' })
+          this.$router.push('/gerir-bibliotecas')
         }
-        if (user.role === 'Responsavel') {
-          this.$router.push('/Catalogo')
+        if (user.role === 'Responsavel' || user.role === 'Funcionario') {
+          this.$router.push('/catalogo-biblioteca')
         }
       } else {
         this.error = 1

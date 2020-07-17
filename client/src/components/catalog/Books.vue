@@ -6,48 +6,30 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title">
-              <a data-toggle="collapse" data-parent="#accordion" class="filter" href="#collapse">
-              Biblioteca <i class="fas fa-angle-down"></i></a>
-            </h4>
-          </div>
-          <div id="collapse" class="panel-collapse collapse">
-            <div class="panel-body">
-              <div class="custom-control custom-radio">
-                <input type="radio" class="custom-control-input" id="defaultUnchecked" name="biblioteca">
-                <label class="custom-control-label" for="defaultUnchecked">Default unchecked</label>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
               <a data-toggle="collapse" data-parent="#accordion" class="filter" href="#collapse2">
-              Autor <i class="fas fa-angle-down"></i></a>
+              Editor <i class="fas fa-angle-down"></i></a>
             </h4>
           </div>
           <div id="collapse2" class="panel-collapse collapse">
-            <div class="panel-body">
-              <div v-for="g in autores" :key="g" class="custom-control custom-radio">
-                <input type="radio" class="custom-control-input" :id="g" name="autor">
-                <label class="custom-control-label" :for="g">{{g}}</label>
-              </div>
+            <div v-for="(item, index) in editores" :key="index">
+              <input type="checkbox" :value="item" @change="check(checkedEditores, editores[index])">
+              <label>{{item}}</label>
             </div>
           </div>
         </div>
+      </div>
+      <div class="panel-group" id="accordion">
         <div class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title">
               <a data-toggle="collapse" data-parent="#accordion" class="filter" href="#collapse3">
-              Editores <i class="fas fa-angle-down"></i></a>
+              Autor <i class="fas fa-angle-down"></i></a>
             </h4>
           </div>
           <div id="collapse3" class="panel-collapse collapse">
-            <div class="panel-body">
-              <div v-for="g in editores" :key="g" class="custom-control custom-radio">
-                <input type="radio" class="custom-control-input" :id="g" name="editor">
-                <label class="custom-control-label" :for="g">{{g}}</label>
-              </div>
+            <div v-for="(item, index) in autores" :key="index">
+              <input type="checkbox" :value="item" @change="check(checkedAutores, autores[index])">
+              <label>{{item}}</label>
             </div>
           </div>
         </div>
@@ -55,7 +37,7 @@
     </b-sidebar>
   </div>
 <div class="col-8 mx-auto my-5">
-  <div v-if="user_type=='Responsavel'" class="row">
+  <div v-if="user_type=='Funcionario' || user_type=='Responsavel'" class="row">
     <div class="col-10">
       <form @submit.prevent="searchBook">
         <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
@@ -128,6 +110,7 @@
 <script>
 import UserHandler from '@/utils/UserHandler.js'
 import ApiUsers from '@/api/ApiUsers'
+import ApiEmployee from '@/api/ApiEmployee'
 
 export default {
   name: 'Books',
@@ -137,14 +120,26 @@ export default {
     page: 0,
     nrPerPage: 8,
     booksFilter: [],
-    autores: {},
-    editores: {},
-    search: null
+    autores: [],
+    editores: [],
+    search: null,
+    checkedAutores: [],
+    checkedEditores: [],
+    checkedBibliotecas: []
   }),
   mounted: function () {
     const user = UserHandler.get()
     if (user !== false) {
       this.user_type = user.role
+      console.log(this.user_type)
+      if (this.user_type !== 'Funcionario' &&
+          this.user_type !== 'Responsavel' &&
+          this.user_type !== 'Requisitante') {
+        this.$router.push('/access-denied')
+      }
+      console.log(this.user_type)
+    } else {
+      this.$router.push('/')
     }
     this.getBooks()
     this.getAutores()
@@ -152,8 +147,15 @@ export default {
   },
   methods: {
     async getBooks () {
-      this.books = await ApiUsers.getBooks()
-      console.log(this.books)
+      console.log(this.user_type)
+      if (this.user_type === 'Requisitante') {
+        this.books = await ApiUsers.getBooks()
+        console.log('req' + this.books)
+      }
+      if (this.user_type === 'Funcionario' || this.user_type === 'Responsavel') {
+        this.books = await ApiEmployee.getBooks()
+        console.log('func' + this.books)
+      }
       this.filterBooks()
     },
     filterBooks () {
@@ -176,12 +178,22 @@ export default {
       this.booksFilter = page
     },
     async getAutores () {
-      this.autores = await ApiUsers.getAutores()
-      console.log(this.editores)
+      if (this.user_type === 'Requisitante') {
+        this.autores = await ApiUsers.getAutores()
+        console.log(this.autores)
+      } else if (this.user_type === 'Funcionario' || this.user_type === 'Responsavel') {
+        this.autores = await ApiEmployee.getAutores()
+        console.log(this.autores)
+      }
     },
     async getEditores () {
-      this.editores = await ApiUsers.getEditores()
-      console.log(this.editores)
+      if (this.user_type === 'Requisitante') {
+        this.editores = await ApiUsers.getEditores()
+        console.log(this.editores)
+      } else if (this.user_type === 'Funcionario' || this.user_type === 'Responsavel') {
+        this.editores = await ApiEmployee.getEditores()
+        console.log(this.editores)
+      }
     },
     range (start, end) {
       return Array(end - start + 1).fill().map((_, idx) => start + idx)
@@ -197,9 +209,40 @@ export default {
     async searchBook () {
       console.log(this.search)
       if (this.search != null) {
-        this.books = await ApiUsers.searchBook(this.search)
+        if (this.user_type === 'Requisitante') {
+          this.books = await ApiUsers.searchBook(this.search)
+        } else if (this.user_type === 'Funcionario' || this.user_type === 'Responsavel') {
+          this.book = await ApiEmployee.searchBook(this.search)
+        }
         this.filterBooks()
       }
+    },
+    async filter () {
+      const filtro = {
+        autores: this.checkedAutores,
+        editores: this.checkedEditores,
+        bibliotecas: this.checkedBibliotecas
+      }
+      console.log(filtro)
+      if (this.user_type === 'Requisitante') {
+        this.books = await ApiUsers.filterBooks(filtro)
+        console.log(this.books)
+      } else if (this.user_type === 'Funcionario' || this.user_type === 'Responsavel') {
+        this.books = await ApiEmployee.filterBooks(filtro)
+        console.log(this.books)
+      }
+      this.filterBooks()
+    },
+    check (list, item) {
+      if (list !== null && list.includes(item)) {
+        const index = list.indexOf(item)
+        list.splice(index, 1)
+      } else {
+        list.push(item)
+      }
+      this.filter()
+      console.log(this.checkedEditores)
+      console.log(this.checkedAutores)
     }
   }
 }
@@ -208,6 +251,7 @@ export default {
 <style scoped src="@/assets/css/style.css"></style>
 <style scoped>
 input {
+  margin-top: 4px;
   border-radius: 50rem !important;
 }
 .text-primary {
@@ -256,5 +300,15 @@ a {
 }
 .btn {
   margin-top: 5px;
+}
+.custom-control {
+  font-weight: bold;
+  font-size: 14px;
+}
+.filter-select {
+  color: #212529;
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 20px;
 }
 </style>

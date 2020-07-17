@@ -55,6 +55,7 @@
 
 <script>
 import ApiLibraries from '@/api/ApiLibraries'
+import UserHandler from '@/utils/UserHandler.js'
 
 export default {
   name: 'RegisterLibrary',
@@ -68,7 +69,12 @@ export default {
     }
   }),
   mounted: function () {
-
+    const user = UserHandler.get()
+    if (this.user === false) {
+      this.$router.push('/')
+    } else if (user.role !== 'Administrador') {
+      this.$router.push('/access-denied')
+    }
   },
   methods: {
     async register () {

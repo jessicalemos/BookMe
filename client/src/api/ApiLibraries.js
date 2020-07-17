@@ -115,4 +115,43 @@ ApiLibraries.searchLibrary = async (library) => {
   }
 }
 
+ApiLibraries.registerResponsible = async (idResponsible, credentials) => {
+  try {
+    const req = await axios.post(`${HOST}` + 'responsavel/registarFunc/' + idResponsible, credentials, token)
+    console.log(req)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
+ApiLibraries.getEmployees = async (idResponsible) => {
+  try {
+    const req = await axios.get(`${HOST}` + 'responsavel/consultarFunc/' + idResponsible, token)
+    console.log(req)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
+ApiLibraries.removeEmployee = async (idEmployee) => {
+  try {
+    const req = await axios.post(`${HOST}` + 'responsavel/removerFunc/' + idEmployee, {}, token)
+    console.log(req)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
 export default ApiLibraries

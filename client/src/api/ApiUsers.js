@@ -258,4 +258,16 @@ ApiUsers.requestBook = async (idRequisitante, process) => {
   }
 }
 
+ApiUsers.filterBooks = async (filters) => {
+  try {
+    const req = await axios.post(`${HOST}` + 'livros/filtro', filters, token)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
 export default ApiUsers

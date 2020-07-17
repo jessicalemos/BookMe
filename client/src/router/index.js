@@ -17,6 +17,7 @@ import EditLibrary from '../components/library/EditLibrary.vue'
 import EditProfile from '../components/common/EditProfile.vue'
 import History from '../components/user/History.vue'
 import UserHome from '../components/user/HomePage.vue'
+import AccessDenied from '../components/common/AccessDenied.vue'
 
 Vue.use(VueRouter)
 
@@ -58,7 +59,7 @@ const routes = [
     component: RegisterLibrary,
     meta: {
       breadcrumb: [
-        { text: 'Bibliotecas', href: '/bibliotecas' },
+        { text: 'Bibliotecas', href: '/gerir-bibliotecas' },
         { text: 'Registar Biblioteca', active: true }
       ]
     }
@@ -93,7 +94,13 @@ const routes = [
   {
     path: '/editar-livro',
     name: 'Book-library',
-    component: Book
+    component: Book,
+    meta: {
+      breadcrumb: [
+        { text: 'Catálogo', href: '/catalogo-biblioteca' },
+        { text: 'Consultar Livro', active: true }
+      ]
+    }
   },
   {
     path: '/livro',
@@ -113,8 +120,7 @@ const routes = [
     component: RegisterBook,
     meta: {
       breadcrumb: [
-        { text: 'Home', href: '/home' },
-        { text: 'Catálogo', href: '/catalogo' },
+        { text: 'Catálogo', href: '/catalogo-biblioteca' },
         { text: 'Registar Livro', active: true }
       ]
     }
@@ -122,27 +128,63 @@ const routes = [
   {
     path: '/funcionarios',
     name: 'Employees',
-    component: Employees
+    component: Employees,
+    meta: {
+      breadcrumb: [
+        { text: 'Catálogo', href: '/catalogo-biblioteca' },
+        { text: 'Funcionários', href: '/funcionarios' }
+      ]
+    }
   },
   {
     path: '/registar-funcionario',
     name: 'RegisterEmployee',
-    component: RegisterEmployee
+    component: RegisterEmployee,
+    meta: {
+      breadcrumb: [
+        { text: 'Catálogo', href: '/catalogo-biblioteca' },
+        { text: 'Funcionários', href: '/funcionarios' },
+        { text: 'Registar Funcionário', active: true }
+      ]
+    }
   },
   {
     path: '/reservas',
     name: 'Bookings',
-    component: Bookings
+    component: Bookings,
+    meta: {
+      breadcrumb: [
+        { text: 'Catálogo', href: '/catalogo-biblioteca' },
+        { text: 'Reservas', active: true }
+      ]
+    }
   },
   {
     path: '/requisicoes',
     name: 'Requests',
-    component: Requests
+    component: Requests,
+    meta: {
+      breadcrumb: [
+        { text: 'Catálogo', href: '/catalogo-biblioteca' },
+        { text: 'Requisições', active: true }
+      ]
+    }
   },
   {
     path: '/editar-biblioteca',
     name: 'EditLibrary',
-    component: EditLibrary
+    component: EditLibrary,
+    meta: {
+      breadcrumb: [
+        { text: 'Catálogo', href: '/catalogo-biblioteca' },
+        { text: 'Editar Biblioteca', active: true }
+      ]
+    }
+  },
+  {
+    path: '/perfil-funcionario',
+    name: 'EditEmployee',
+    component: EditProfile
   },
   {
     path: '/perfil',
@@ -170,6 +212,11 @@ const routes = [
     path: '/home',
     name: 'UserHomePage',
     component: UserHome
+  },
+  {
+    path: '/access-denied',
+    name: 'AccessDenied',
+    component: AccessDenied
   }
 ]
 

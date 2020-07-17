@@ -10,8 +10,10 @@
             <div class="navbar-nav ml-auto">
               <router-link v-if="!loggedIn" to="/registar" class="nav-item nav-link"><i class="fas fa-user"></i> Sign Up</router-link>
               <router-link v-if="!loggedIn" to="/login" class="nav-item nav-link"><i class="fas fa-sign-in-alt"></i> Sign In</router-link>
-              <!--<router-link to="/reservas" class="nav-item nav-link"><i class="fas fa-bookmark"></i> Reservas</router-link>
-              <router-link to="/requisicoes" class="nav-item nav-link"><i class="fas fa-book"></i> Requisições</router-link>-->
+              <router-link v-if="loggedIn && user_type==='Funcionario'" to="/reservas" class="nav-item nav-link"><i class="fas fa-bookmark"></i> Reservas</router-link>
+              <router-link v-if="loggedIn && user_type==='Funcionario'" to="/requisicoes" class="nav-item nav-link"><i class="fas fa-book"></i> Requisições</router-link>
+              <router-link v-if="loggedIn && user_type==='Responsavel'" to="/editar-biblioteca" class="nav-item nav-link"><i class="fas fa-home"></i> Biblioteca</router-link>
+              <router-link v-if="loggedIn && user_type==='Responsavel'" to="/funcionarios" class="nav-item nav-link"><i class="fas fa-user-friends"></i> Funcionários</router-link>
               <div v-if="loggedIn && user_type==='Requisitante'" class="btn-group">
                 <a class="dropdown-toggle nav-item nav-link info-number" data-toggle="dropdown">
                   <strong><i class="far fa-bell"></i></strong>
@@ -19,7 +21,8 @@
                 </a>
                 <ul v-if="notifications.length!=0" class="dropdown-menu" role="menu">
                   <li v-for="g in notifications" :key="g.id">
-                  <a>{{g}}</a>
+                  <span class="not-date">{{moment(g.data).format('DD/MM/YYYY')}}</span><br/>
+                  <span class="notification">{{g.aviso}}</span>
                   </li>
                 </ul>
               </div>
@@ -28,7 +31,10 @@
                   <strong><i class="fas fa-user"></i> {{username}}</strong>
                 </a>
                 <div class="dropdown-menu">
-                  <router-link to="/perfil" class="dropdown-item nav-item">
+                  <router-link
+                    v-if="user_type!='Responsavel'"
+                    :to="user_type==='Funcionario' ? { name: 'EditEmployee'} : {name: 'EditProfile'}"
+                    class="dropdown-item nav-item">
                     <i class="far fa-user-circle"></i>
                     <strong>&nbsp;Perfil</strong>
                   </router-link>
@@ -61,6 +67,18 @@
 </template>
 
 <style scoped>
+  ul.dropdown-menu > li {
+    width: 230px;
+  }
+  .notification {
+    font-size: 12px;
+    font-weight: bold;
+  }
+  .not-date {
+    font-size: 10px;
+    font-weight: bold;
+    color: #7d8285;
+  }
   .sidebar {
     position:absolute;
     right:1rem;
@@ -129,6 +147,7 @@
 <script>
 import UserHandler from '@/utils/UserHandler.js'
 import ApiUsers from '@/api/ApiUsers'
+import moment from 'moment'
 
 export default {
   name: 'Header',
@@ -176,7 +195,8 @@ export default {
         this.notifications = await ApiUsers.getNotifications(this.user)
         console.log(this.notifications)
       }
-    }
+    },
+    moment
   }
 }
 </script>

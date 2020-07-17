@@ -1,23 +1,32 @@
 <template>
     <div class="login-clean">
-        <form method="post" style="max-width: 600px;">
+        <form @submit.prevent="register" style="max-width: 600px;">
             <div class="form-group">
-              <input class="form-control" type="text" name="titulo" placeholder="Título" required>
+              <input class="form-control" v-model="book.titulo" type="text" placeholder="Título" required>
             </div>
             <div class="form-group">
-              <input class="form-control" type="text" name="autor" placeholder="Autor" required>
+              <input class="form-control" v-model="book.autor" type="text" placeholder="Autor" required>
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" name="edicao" placeholder="Edição" required>
+                <input class="form-control" v-model="book.edicao" type="text" placeholder="Edição" required>
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" name="editor" placeholder="Editor" required>
+                <input class="form-control" v-model="book.editor" type="text" placeholder="Editor" required>
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" name="categoria" placeholder="Categoria" required>
+                <input class="form-control" v-model="book.categoria" type="text" placeholder="Categoria" required>
             </div>
             <div class="form-group">
-              <input id="file" class="rounded d-lg-flex form-control" type="file" placeholder="Categoria" required>
+                <input class="form-control" v-model="book.ano" type="text" placeholder="Ano" required>
+            </div>
+            <div class="form-group">
+                <input class="form-control" v-model="book.isbn" type="text" placeholder="ISBN" required>
+            </div>
+            <div class="form-group">
+                <input class="form-control" v-model="book.descricao" type="text" placeholder="Descrição" required>
+            </div>
+            <div class="form-group">
+                <input class="form-control" v-model="book.imagem" type="text" placeholder="Imagem" required>
             </div>
             <button class="btn btn-secondary btn-block" type="submit" style="background-color: rgb(140,138,138);">
               Registar livro
@@ -32,3 +41,32 @@
   margin-top: 2rem;
 }
 </style>
+
+<script>
+import ApiEmployee from '@/api/ApiEmployee'
+import UserHandler from '@/utils/UserHandler.js'
+
+export default {
+  name: 'RegisterBook',
+  data: () => ({
+    book: {
+      disponibilidade: true
+    }
+  }),
+  mounted: function () {
+    this.user = UserHandler.get()
+    if (this.user === false) {
+      this.$router.push('/')
+    } else if (this.user.role !== 'Funcionario' && this.user.role !== 'Responsavel') {
+      this.$router.push('/access-denied')
+    }
+  },
+  methods: {
+    async register () {
+      const req = await ApiEmployee.registerBooks(this.book)
+      console.log(req)
+      this.error = -1
+    }
+  }
+}
+</script>

@@ -24,10 +24,10 @@
                   {{g.nome}}
                 </strong>
                 <div v-if="user_type == 'Administrador'" class="d-inline">
-                  <button class="btn btn-secondary config" type="button" @click="setLibrary(g.id)">
+                  <button class="btn btn-secondary config" v-b-tooltip.hover title="Editar" type="button" @click="setLibrary(g.id)">
                     <i class="fas fa-cog"></i>
                   </button>
-                  <button class="btn btn-danger remove" @click="$bvModal.show('modal-scoped'); itemToRemove(g.id)" type="button">
+                  <button class="btn btn-danger remove" v-b-tooltip.hover title="Remover" @click="$bvModal.show('modal-scoped'); itemToRemove(g.id)" type="button">
                     <i class="far fa-trash-alt"></i>
                   </button>
                 </div>
@@ -93,6 +93,11 @@ export default {
     const user = UserHandler.get()
     if (user !== false) {
       this.user_type = user.role
+      if (this.user_type !== 'Administrador' && this.user_type !== 'Requisitante') {
+        this.$router.push('/access-denied')
+      }
+    } else {
+      this.$router.push('/')
     }
     this.getLibraries()
   },

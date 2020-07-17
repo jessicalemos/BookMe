@@ -23,12 +23,12 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  height: 100%;
-  position: relative;
+  /* height: 100%;
+  position: relative; */
 }
 html, body {
   background-color: rgb(248,248,248) !important;
-  height: 100%;
-  position: relative;
+  /* height: 100%;
+  position: relative; */
 }
 </style>

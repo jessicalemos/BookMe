@@ -1,6 +1,6 @@
 <template>
   <div style="min-height: 100%">
-    <div class="col-10 mx-auto">
+    <div class="col-10 mx-auto my-5">
       <div class="row justify-center" id="Group">
         <div class="col-lg-4">
           <div class="list-group">
@@ -43,7 +43,7 @@
                     {{g.biblioteca.nome}}<br>
                   </div>
                   <div class="d-inline">
-                    <button class="btn btn-secondary" @click="$bvModal.show('modal-renew'); selectProcess(g)" type="button">
+                    <button class="btn btn-secondary" @click="$bvModal.show('modal-renew'); selectProcess(g)" type="button" v-b-tooltip.hover title="Renovar requisição">
                       <i class="far fa-check-circle"></i>
                     </button>
                   </div>
@@ -70,7 +70,7 @@
                     {{g.biblioteca.nome}}<br>
                   </div>
                   <div class="d-inline">
-                    <button class="btn btn-danger" @click="$bvModal.show('modal-remove'); selectProcess(g)" type="button">
+                    <button class="btn btn-danger" @click="$bvModal.show('modal-remove'); selectProcess(g)" type="button" v-b-tooltip.hover title="Remover reserva">
                       <i class="far fa-trash-alt"></i>
                     </button>
                   </div>
@@ -130,11 +130,16 @@ export default {
     select: null
   }),
   mounted: function () {
+    this.user = UserHandler.get()
+    if (this.user === false) {
+      this.$router.push('/')
+    } else if (this.user.role !== 'Requisitante') {
+      this.$router.push('/access-denied')
+    }
     this.getUserInfo()
   },
   methods: {
     async getUserInfo () {
-      this.user = UserHandler.get()
       this.reserved = await ApiUsers.getReserved(this.user.id)
       console.log(this.reserved)
       this.returned = await ApiUsers.getReturned(this.user.id)
