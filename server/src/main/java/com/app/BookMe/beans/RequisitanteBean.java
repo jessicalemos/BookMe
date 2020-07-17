@@ -109,7 +109,7 @@ public class RequisitanteBean {
         return b;
     }
 
-    public List<String> consultarBibliotecasLivro(@PathVariable String isbn){
+    public List<String> consultarBibliotecasLivro(String isbn){
         return br.findDistinctFirstByLivroIsbn(isbn);
     }
 

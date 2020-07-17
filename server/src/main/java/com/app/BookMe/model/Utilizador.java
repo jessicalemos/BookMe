@@ -24,7 +24,7 @@ import java.util.Collection;
 })
 public abstract class Utilizador implements UserDetails {
     @Id
-    @GeneratedValue(strategy =  GenerationType.AUTO)
+    @GeneratedValue(strategy =  GenerationType.SEQUENCE)
 	private long iD;
     @Column(unique = true)
 	private String email;
