@@ -37,7 +37,7 @@
     </b-sidebar>
   </div>
 <div class="col-8 mx-auto my-5">
-  <div v-if="user_type=='Funcionario'" class="row">
+  <div v-if="user_type=='Funcionario' || user_type=='Responsavel'" class="row">
     <div class="col-10">
       <form @submit.prevent="searchBook">
         <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
@@ -111,7 +111,6 @@
 import UserHandler from '@/utils/UserHandler.js'
 import ApiUsers from '@/api/ApiUsers'
 import ApiEmployee from '@/api/ApiEmployee'
-import $ from 'jquery'
 
 export default {
   name: 'Books',
@@ -146,7 +145,7 @@ export default {
         this.books = await ApiUsers.getBooks()
         console.log('req' + this.books)
       }
-      if (this.user_type === 'Funcionario') {
+      if (this.user_type === 'Funcionario' || this.user_type === 'Responsavel') {
         this.books = await ApiEmployee.getBooks()
         console.log('func' + this.books)
       }
@@ -172,12 +171,22 @@ export default {
       this.booksFilter = page
     },
     async getAutores () {
-      this.autores = await ApiUsers.getAutores()
-      console.log(this.autores[0])
+      if (this.user_type === 'Requisitante') {
+        this.autores = await ApiUsers.getAutores()
+        console.log(this.autores)
+      } else if (this.user_type === 'Funcionario' || this.user_type === 'Responsavel') {
+        this.autores = await ApiEmployee.getAutores()
+        console.log(this.autores)
+      }
     },
     async getEditores () {
-      this.editores = await ApiUsers.getEditores()
-      console.log(this.editores[0])
+      if (this.user_type === 'Requisitante') {
+        this.editores = await ApiUsers.getEditores()
+        console.log(this.editores)
+      } else if (this.user_type === 'Funcionario' || this.user_type === 'Responsavel') {
+        this.editores = await ApiEmployee.getEditores()
+        console.log(this.editores)
+      }
     },
     range (start, end) {
       return Array(end - start + 1).fill().map((_, idx) => start + idx)
@@ -193,7 +202,11 @@ export default {
     async searchBook () {
       console.log(this.search)
       if (this.search != null) {
-        this.books = await ApiUsers.searchBook(this.search)
+        if (this.user_type === 'Requisitante') {
+          this.books = await ApiUsers.searchBook(this.search)
+        } else if (this.user_type === 'Funcionario' || this.user_type === 'Responsavel') {
+          this.book = await ApiEmployee.searchBook(this.search)
+        }
         this.filterBooks()
       }
     },
@@ -204,16 +217,14 @@ export default {
         bibliotecas: this.checkedBibliotecas
       }
       console.log(filtro)
-      this.books = await ApiUsers.filterBooks(filtro)
-      console.log(this.books)
+      if (this.user_type === 'Requisitante') {
+        this.books = await ApiUsers.filterBooks(filtro)
+        console.log(this.books)
+      } else if (this.user_type === 'Funcionario' || this.user_type === 'Responsavel') {
+        this.books = await ApiEmployee.filterBooks(filtro)
+        console.log(this.books)
+      }
       this.filterBooks()
-    },
-    clean () {
-      $('input:checkbox').removeAttr('checked')
-      this.checkedAutores = []
-      this.checkedEditores = []
-      this.checkedBibliotecas = []
-      console.log(this.checkedAutores)
     },
     check (list, item) {
       if (list !== null && list.includes(item)) {
@@ -233,6 +244,7 @@ export default {
 <style scoped src="@/assets/css/style.css"></style>
 <style scoped>
 input {
+  margin-top: 4px;
   border-radius: 50rem !important;
 }
 .text-primary {

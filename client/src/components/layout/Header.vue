@@ -21,7 +21,8 @@
                 </a>
                 <ul v-if="notifications.length!=0" class="dropdown-menu" role="menu">
                   <li v-for="g in notifications" :key="g.id">
-                  <a>{{g}}</a>
+                  <span class="not-date">{{moment(g.data).format('DD/MM/YYYY')}}</span><br/>
+                  <span class="notification">{{g.aviso}}</span>
                   </li>
                 </ul>
               </div>
@@ -31,6 +32,7 @@
                 </a>
                 <div class="dropdown-menu">
                   <router-link
+                    v-if="user_type!='Responsavel'"
                     :to="user_type==='Funcionario' ? { name: 'EditEmployee'} : {name: 'EditProfile'}"
                     class="dropdown-item nav-item">
                     <i class="far fa-user-circle"></i>
@@ -65,6 +67,18 @@
 </template>
 
 <style scoped>
+  ul.dropdown-menu > li {
+    width: 230px;
+  }
+  .notification {
+    font-size: 12px;
+    font-weight: bold;
+  }
+  .not-date {
+    font-size: 10px;
+    font-weight: bold;
+    color: #7d8285;
+  }
   .sidebar {
     position:absolute;
     right:1rem;
@@ -133,6 +147,7 @@
 <script>
 import UserHandler from '@/utils/UserHandler.js'
 import ApiUsers from '@/api/ApiUsers'
+import moment from 'moment'
 
 export default {
   name: 'Header',
@@ -180,7 +195,8 @@ export default {
         this.notifications = await ApiUsers.getNotifications(this.user)
         console.log(this.notifications)
       }
-    }
+    },
+    moment
   }
 }
 </script>

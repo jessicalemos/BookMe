@@ -18,7 +18,7 @@
                     <strong>{{g[2]}}</strong>
                   </div>
                   <div class="d-inline">
-                    <button class="btn btn-danger remove" @click="$bvModal.show('modal-scoped'); itemToRemove(g[0])" type="button">
+                    <button class="btn btn-danger remove" v-b-tooltip.hover title="Remover" @click="$bvModal.show('modal-scoped'); itemToRemove(g[0])" type="button">
                       <i class="far fa-trash-alt"></i>
                     </button>
                   </div>

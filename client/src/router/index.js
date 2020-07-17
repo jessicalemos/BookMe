@@ -59,7 +59,7 @@ const routes = [
     component: RegisterLibrary,
     meta: {
       breadcrumb: [
-        { text: 'Bibliotecas', href: '/bibliotecas' },
+        { text: 'Bibliotecas', href: '/gerir-bibliotecas' },
         { text: 'Registar Biblioteca', active: true }
       ]
     }
@@ -94,7 +94,13 @@ const routes = [
   {
     path: '/editar-livro',
     name: 'Book-library',
-    component: Book
+    component: Book,
+    meta: {
+      breadcrumb: [
+        { text: 'Catálogo', href: '/catalogo-biblioteca' },
+        { text: 'Consultar Livro', active: true }
+      ]
+    }
   },
   {
     path: '/livro',
@@ -122,12 +128,25 @@ const routes = [
   {
     path: '/funcionarios',
     name: 'Employees',
-    component: Employees
+    component: Employees,
+    meta: {
+      breadcrumb: [
+        { text: 'Catálogo', href: '/catalogo-biblioteca' },
+        { text: 'Funcionários', href: '/funcionarios' }
+      ]
+    }
   },
   {
     path: '/registar-funcionario',
     name: 'RegisterEmployee',
-    component: RegisterEmployee
+    component: RegisterEmployee,
+    meta: {
+      breadcrumb: [
+        { text: 'Catálogo', href: '/catalogo-biblioteca' },
+        { text: 'Funcionários', href: '/funcionarios' },
+        { text: 'Registar Funcionário', active: true }
+      ]
+    }
   },
   {
     path: '/reservas',

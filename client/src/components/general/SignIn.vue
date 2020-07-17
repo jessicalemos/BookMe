@@ -56,7 +56,7 @@ export default {
           this.$router.push('/home')
         }
         if (user.role === 'Administrador') {
-          this.$router.push({ name: 'Libraries-admin' })
+          this.$router.push('/gerir-bibliotecas')
         }
         if (user.role === 'Responsavel' || user.role === 'Funcionario') {
           this.$router.push('/catalogo-biblioteca')
