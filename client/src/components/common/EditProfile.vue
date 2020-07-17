@@ -47,6 +47,11 @@ export default {
   mounted: function () {
     this.user = UserHandler.get()
     this.user_type = this.user.role
+    if (this.user === false) {
+      this.$router.push('/')
+    } else if (this.user.role !== 'Requisitante' && this.user.role !== 'Funcionario') {
+      this.$router.push('/access-denied')
+    }
     console.log(this.user)
     this.getUserInfo()
   },

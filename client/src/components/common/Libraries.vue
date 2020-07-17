@@ -93,6 +93,11 @@ export default {
     const user = UserHandler.get()
     if (user !== false) {
       this.user_type = user.role
+      if (this.user_type !== 'Administrador' && this.user_type !== 'Requisitante') {
+        this.$router.push('/access-denied')
+      }
+    } else {
+      this.$router.push('/')
     }
     this.getLibraries()
   },

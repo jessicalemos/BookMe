@@ -75,6 +75,15 @@ export default {
   mounted: function () {
     const user = UserHandler.get()
     this.user_type = user.role
+    if (user === false) {
+      this.$router.push('/')
+    } else {
+      if (this.user_type !== 'Funcionario' &&
+          this.user_type !== 'Responsavel' &&
+          this.user_type !== 'Requisitante') {
+        this.$router.push('/access-denied')
+      }
+    }
     this.user_id = user.id
     this.getBook()
   },

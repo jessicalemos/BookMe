@@ -132,8 +132,15 @@ export default {
     if (user !== false) {
       this.user_type = user.role
       console.log(this.user_type)
+      if (this.user_type !== 'Funcionario' &&
+          this.user_type !== 'Responsavel' &&
+          this.user_type !== 'Requisitante') {
+        this.$router.push('/access-denied')
+      }
+      console.log(this.user_type)
+    } else {
+      this.$router.push('/')
     }
-    console.log('book')
     this.getBooks()
     this.getAutores()
     this.getEditores()

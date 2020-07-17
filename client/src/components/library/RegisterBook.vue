@@ -44,6 +44,7 @@
 
 <script>
 import ApiEmployee from '@/api/ApiEmployee'
+import UserHandler from '@/utils/UserHandler.js'
 
 export default {
   name: 'RegisterBook',
@@ -52,6 +53,14 @@ export default {
       disponibilidade: true
     }
   }),
+  mounted: function () {
+    this.user = UserHandler.get()
+    if (this.user === false) {
+      this.$router.push('/')
+    } else if (this.user.role !== 'Funcionario' && this.user.role !== 'Responsavel') {
+      this.$router.push('/access-denied')
+    }
+  },
   methods: {
     async register () {
       const req = await ApiEmployee.registerBooks(this.book)
