@@ -104,7 +104,6 @@ export default {
   methods: {
     async getLibraries () {
       this.libraries = await ApiLibraries.libraries()
-      console.log(this.libraries)
       this.filterLibraries()
     },
     filterLibraries () {
@@ -135,25 +134,38 @@ export default {
     },
     itemToRemove (library) {
       this.selected = library
-      console.log(this.selected)
     },
     async removeLibrary () {
       const req = await ApiLibraries.removeLibrary(this.selected)
       console.log(req)
       this.getLibraries()
       this.$bvModal.hide('modal-scoped')
+      this.makeToast('success', 'Sucesso', 'Biblioteca removida com sucesso')
     },
     async searchLibrary () {
-      console.log(this.search)
       if (this.search != null) {
         this.libraries = await ApiLibraries.searchLibrary(this.search)
         this.filterLibraries()
       }
+    },
+    makeToast (variant, titlemsg, msg) {
+      this.$bvToast.toast(`${msg}`, {
+        title: `${titlemsg || 'default'}`,
+        variant: variant,
+        solid: true
+      })
     }
   },
   computed: {}
 }
 </script>
+
+<style>
+.b-toaster.b-toaster-top-right .b-toaster-slot {
+    top: 82px !important;
+    right: 12px;
+}
+</style>
 
 <style scoped>
 input {

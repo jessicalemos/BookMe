@@ -1,4 +1,5 @@
 <template>
+  <div class="col-8 mx-auto my-5 py-5">
     <div class="login-clean">
         <form @submit.prevent="login" style="padding-top: 0px;">
             <div class="illustration">
@@ -25,6 +26,7 @@
             </div>
         </form>
     </div>
+  </div>
 </template>
 
 <style scoped src="@/assets/css/style.css"></style>
@@ -34,9 +36,12 @@
   }
 </style>
 
+<script src="@/api/ApiUsers.js?t=<?=time()?>" type="text/javascript"></script>
 <script>
 import UserHandler from '@/utils/UserHandler.js'
 import ApiUsers from '@/api/ApiUsers'
+import ApiEmployee from '@/api/ApiEmployee'
+import ApiLibraries from '@/api/ApiLibraries'
 
 export default {
   data: () => ({
@@ -51,14 +56,16 @@ export default {
       if (req.success) {
         UserHandler.save(req.token.token)
         const user = UserHandler.get()
-        console.log(user)
         if (user.role === 'Requisitante') {
+          ApiUsers.refresh(req.token.token)
           this.$router.push('/home')
         }
         if (user.role === 'Administrador') {
+          ApiLibraries.refresh(req.token.token)
           this.$router.push('/gerir-bibliotecas')
         }
         if (user.role === 'Responsavel' || user.role === 'Funcionario') {
+          ApiEmployee.refresh(req.token.token)
           this.$router.push('/catalogo-biblioteca')
         }
       } else {

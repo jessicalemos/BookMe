@@ -1,17 +1,5 @@
 <template>
     <div class="col-8 mx-auto my-5 py-5">
-        <div v-if="error === -1">
-          <b-alert class="alert" variant="success" show dismissible>
-            <b>Sucesso</b><br/>
-            <span class="alert-text">{{feedback}}</span>
-          </b-alert>
-        </div>
-        <div v-if="error === 1">
-          <b-alert class="alert" variant="danger" show dismissible>
-            <b>Error</b><br/>
-            <span class="alert-text">{{feedback}}</span>
-          </b-alert>
-        </div>
         <div class="row">
             <div class="col-md-6 align-self-center">
                 <img :src="book.imagem" class="img-responsive"/>
@@ -43,7 +31,7 @@
                     &nbsp;{{msg}}
                   </p>
                 </div>
-              <button class="btn btn-secondary" type="button" style="background-color: rgb(140,138,138);" @click="reservar()">
+              <button class="btn btn-secondary" type="button" style="background-color: rgb(140,138,138);" v-b-tooltip.hover.bottom :title="description" @click="reservar()">
                 Reservar
               </button>
             </div>
@@ -69,7 +57,8 @@ export default {
       user_type: null,
       user_id: null,
       book: {},
-      libraries: []
+      libraries: [],
+      description: null
     }
   },
   mounted: function () {
@@ -90,14 +79,12 @@ export default {
   methods: {
     select: function (evt) {
       const selected = evt.target.value
-      console.log(selected)
       if (selected !== 'Selecione a sua biblioteca') {
         this.library = evt.target.value
         const info = {
           biblioteca: this.library,
           livro: this.book.isbn
         }
-        console.log(info)
         this.availability(info)
       } else {
         this.estado = -1
@@ -105,28 +92,25 @@ export default {
     },
     async availability (info) {
       const req = await ApiUsers.bookAvailability(info)
-      console.log(req)
       if (req === '') {
         this.estado = 3 // não pode reservar
         this.msg = 'Indisponível'
       } else if (req.estado === 'disponivel') {
         this.estado = 1 // pode reservar
         this.msg = 'Disponível'
+        this.description = 'Levantamento até 4 dias'
         this.process = req
       } else if (req.estado === 'requisitado') {
         this.estado = 2 // pode reservar
         this.msg = 'Temporariamente Indisponível. Previsão de levantamento: ' + req.dataFim
+        this.description = 'Levantamento até 4 dias após receber notificação'
         this.process = req
       }
-      console.log(req)
-      console.log(this.msg)
     },
     async getBook () {
       const idBook = localStorage.getItem('Book')
       this.book = await ApiUsers.getBook(idBook)
-      console.log(this.book)
       this.libraries = await ApiUsers.librariesBook(this.book.isbn)
-      console.log(this.libraries)
     },
     remove () {
       this.$router.push('/catalogo')
@@ -135,22 +119,36 @@ export default {
       const req = await ApiUsers.requestBook(this.user_id, this.process)
       console.log(req)
       if (this.estado === 1) {
-        this.error = -1
         this.feedback = 'Livro reservado com sucesso, tem 4 dias para efetuar o levantamento'
+        this.makeToast('success', 'Sucesso', this.feedback)
       } else if (this.estado === 2) {
-        this.error = -1
         this.feedback = 'Livro reservado com sucesso, irá receber uma notificação para ' +
         'efetuar o levantamento dentro de 4 dias'
+        this.makeToast('success', 'Sucesso', this.feedback)
       } else {
-        this.error = 1
         this.feedback = 'Não foi possível efetuar a reserva'
+        this.makeToast('danger', 'Error', this.feedback)
       }
       this.estado = -1
       this.getBook()
+    },
+    makeToast (variant, titlemsg, msg) {
+      this.$bvToast.toast(`${msg}`, {
+        title: `${titlemsg || 'default'}`,
+        variant: variant,
+        solid: true
+      })
     }
   }
 }
 </script>
+
+<style>
+.b-toaster.b-toaster-top-right .b-toaster-slot {
+    top: 82px !important;
+    right: 12px;
+}
+</style>
 
 <style scoped src="@/assets/css/style.css"></style>
 <style scoped>

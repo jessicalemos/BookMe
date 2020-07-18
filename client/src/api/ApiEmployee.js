@@ -4,9 +4,17 @@ import UserHandler from '@/utils/UserHandler.js'
 const HOST = 'http://localhost:9000/'
 const ApiEmployee = {}
 
-const token = {
+let token = {
   headers: {
     Authorization: `Bearer ${UserHandler.getToken()}`
+  }
+}
+
+ApiEmployee.refresh = async (newtoken) => {
+  token = {
+    headers: {
+      Authorization: `Bearer ${newtoken}`
+    }
   }
 }
 

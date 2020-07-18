@@ -31,6 +31,18 @@
             <button class="btn btn-secondary btn-block" type="submit" style="background-color: rgb(140,138,138);">
               Registar livro
             </button>
+            <div v-if="error === 1">
+              <b-alert class="alert" variant="danger" show dismissible>
+                <b>Error</b><br/>
+                <span class="alert-text">{{msg}}</span>
+              </b-alert>
+            </div>
+            <div v-if="error === -1">
+              <b-alert class="alert" variant="success" show dismissible>
+                <b>Sucesso</b><br/>
+                <span class="alert-text">Livro registado com sucesso</span>
+              </b-alert>
+            </div>
         </form>
     </div>
 </template>
@@ -51,7 +63,8 @@ export default {
   data: () => ({
     book: {
       disponibilidade: true
-    }
+    },
+    error: 0
   }),
   mounted: function () {
     this.user = UserHandler.get()

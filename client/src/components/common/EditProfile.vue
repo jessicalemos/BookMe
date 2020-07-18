@@ -1,4 +1,5 @@
 <template>
+  <div class="col-8 mx-auto my-5 py-5">
     <div class="login-clean">
         <form @submit.prevent="editRequester" style="max-width: 600px;">
             <div class="form-group">
@@ -29,6 +30,7 @@
             </div>
         </form>
     </div>
+  </div>
 </template>
 
 <script>
@@ -52,7 +54,6 @@ export default {
     } else if (this.user.role !== 'Requisitante' && this.user.role !== 'Funcionario') {
       this.$router.push('/access-denied')
     }
-    console.log(this.user)
     this.getUserInfo()
   },
   methods: {
@@ -76,7 +77,6 @@ export default {
       }
       if (this.user.role === 'Funcionario') {
         const req = await ApiEmployee.editEmployee(this.credentials)
-        console.log(this.credentials)
         console.log(req)
         this.error = -1
       }

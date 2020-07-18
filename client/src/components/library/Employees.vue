@@ -47,6 +47,13 @@
   </div>
 </template>
 
+<style>
+.b-toaster.b-toaster-top-right .b-toaster-slot {
+    top: 82px !important;
+    right: 12px;
+}
+</style>
+
 <style scoped>
 .btn.config {
   background-color: rgb(140, 138, 138);
@@ -98,18 +105,23 @@ export default {
   methods: {
     async getEmployees () {
       this.employess = await ApiLibraries.getEmployees(this.user_id)
-      console.log(this.employess)
       this.error = -1
     },
     itemToRemove (employee) {
       this.selected = employee
-      console.log(this.selected)
     },
     async removeEmployee () {
       const req = await ApiLibraries.removeEmployee(this.selected)
-      console.log(req)
       this.getEmployees()
       this.$bvModal.hide('modal-scoped')
+      this.makeToast('success', 'Sucesso', req)
+    },
+    makeToast (variant, titlemsg, msg) {
+      this.$bvToast.toast(`${msg}`, {
+        title: `${titlemsg || 'default'}`,
+        variant: variant,
+        solid: true
+      })
     }
   }
 }

@@ -1,4 +1,5 @@
 <template>
+  <div class="col-8 mx-auto my-5 py-5">
     <div class="login-clean">
         <form @submit.prevent="editResponsible" style="max-width: 600px;">
             <div class="form-group">
@@ -26,6 +27,7 @@
             </div>
         </form>
     </div>
+  </div>
 </template>
 
 <script>
@@ -50,7 +52,6 @@ export default {
   methods: {
     async getResponsibleInfo () {
       const idLibrary = localStorage.getItem('Library')
-      console.log(idLibrary)
       this.responsible = await ApiLibraries.responsibleInfo(idLibrary)
       this.responsible.password = ''
     },
