@@ -8,7 +8,7 @@ import java.sql.Date;
 @Entity
 public class Processo {
 	@Id
-	@GeneratedValue(strategy =  GenerationType.AUTO)
+	@GeneratedValue(strategy =  GenerationType.IDENTITY)
 	private long ID;
 	private String estado;
 	private Date dataInicio;
