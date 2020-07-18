@@ -31,7 +31,7 @@
                     &nbsp;{{msg}}
                   </p>
                 </div>
-              <button class="btn btn-secondary" type="button" style="background-color: rgb(140,138,138);" @click="reservar()">
+              <button class="btn btn-secondary" type="button" style="background-color: rgb(140,138,138);" v-b-tooltip.hover.bottom :title="description" @click="reservar()">
                 Reservar
               </button>
             </div>
@@ -57,7 +57,8 @@ export default {
       user_type: null,
       user_id: null,
       book: {},
-      libraries: []
+      libraries: [],
+      description: null
     }
   },
   mounted: function () {
@@ -78,14 +79,12 @@ export default {
   methods: {
     select: function (evt) {
       const selected = evt.target.value
-      console.log(selected)
       if (selected !== 'Selecione a sua biblioteca') {
         this.library = evt.target.value
         const info = {
           biblioteca: this.library,
           livro: this.book.isbn
         }
-        console.log(info)
         this.availability(info)
       } else {
         this.estado = -1
@@ -93,28 +92,25 @@ export default {
     },
     async availability (info) {
       const req = await ApiUsers.bookAvailability(info)
-      console.log(req)
       if (req === '') {
         this.estado = 3 // não pode reservar
         this.msg = 'Indisponível'
       } else if (req.estado === 'disponivel') {
         this.estado = 1 // pode reservar
         this.msg = 'Disponível'
+        this.description = 'Levantamento até 4 dias'
         this.process = req
       } else if (req.estado === 'requisitado') {
         this.estado = 2 // pode reservar
         this.msg = 'Temporariamente Indisponível. Previsão de levantamento: ' + req.dataFim
+        this.description = 'Levantamento até 4 dias após receber notificação'
         this.process = req
       }
-      console.log(req)
-      console.log(this.msg)
     },
     async getBook () {
       const idBook = localStorage.getItem('Book')
       this.book = await ApiUsers.getBook(idBook)
-      console.log(this.book)
       this.libraries = await ApiUsers.librariesBook(this.book.isbn)
-      console.log(this.libraries)
     },
     remove () {
       this.$router.push('/catalogo')

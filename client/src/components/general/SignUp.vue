@@ -1,4 +1,5 @@
 <template>
+  <div class="col-8 mx-auto my-5 py-5">
     <div class="login-clean">
         <form @submit.prevent="register" style="max-width: 600px;">
             <div class="form-group">
@@ -30,6 +31,7 @@
             </div>
         </form>
     </div>
+  </div>
 </template>
 
 <style scoped src="@/assets/css/style.css"></style>

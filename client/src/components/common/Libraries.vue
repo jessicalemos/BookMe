@@ -104,7 +104,6 @@ export default {
   methods: {
     async getLibraries () {
       this.libraries = await ApiLibraries.libraries()
-      console.log(this.libraries)
       this.filterLibraries()
     },
     filterLibraries () {
@@ -135,7 +134,6 @@ export default {
     },
     itemToRemove (library) {
       this.selected = library
-      console.log(this.selected)
     },
     async removeLibrary () {
       const req = await ApiLibraries.removeLibrary(this.selected)
@@ -145,7 +143,6 @@ export default {
       this.makeToast('success', 'Sucesso', 'Biblioteca removida com sucesso')
     },
     async searchLibrary () {
-      console.log(this.search)
       if (this.search != null) {
         this.libraries = await ApiLibraries.searchLibrary(this.search)
         this.filterLibraries()

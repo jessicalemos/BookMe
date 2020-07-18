@@ -131,13 +131,11 @@ export default {
     const user = UserHandler.get()
     if (user !== false) {
       this.user_type = user.role
-      console.log(this.user_type)
       if (this.user_type !== 'Funcionario' &&
           this.user_type !== 'Responsavel' &&
           this.user_type !== 'Requisitante') {
         this.$router.push('/access-denied')
       }
-      console.log(this.user_type)
     } else {
       this.$router.push('/')
     }
@@ -147,14 +145,11 @@ export default {
   },
   methods: {
     async getBooks () {
-      console.log(this.user_type)
       if (this.user_type === 'Requisitante') {
         this.books = await ApiUsers.getBooks()
-        console.log('req' + this.books)
       }
       if (this.user_type === 'Funcionario' || this.user_type === 'Responsavel') {
         this.books = await ApiEmployee.getBooks()
-        console.log('func' + this.books)
       }
       this.filterBooks()
     },
@@ -180,19 +175,15 @@ export default {
     async getAutores () {
       if (this.user_type === 'Requisitante') {
         this.autores = await ApiUsers.getAutores()
-        console.log(this.autores)
       } else if (this.user_type === 'Funcionario' || this.user_type === 'Responsavel') {
         this.autores = await ApiEmployee.getAutores()
-        console.log(this.autores)
       }
     },
     async getEditores () {
       if (this.user_type === 'Requisitante') {
         this.editores = await ApiUsers.getEditores()
-        console.log(this.editores)
       } else if (this.user_type === 'Funcionario' || this.user_type === 'Responsavel') {
         this.editores = await ApiEmployee.getEditores()
-        console.log(this.editores)
       }
     },
     range (start, end) {
@@ -207,7 +198,6 @@ export default {
       }
     },
     async searchBook () {
-      console.log(this.search)
       if (this.search != null) {
         if (this.user_type === 'Requisitante') {
           this.books = await ApiUsers.searchBook(this.search)
@@ -223,13 +213,10 @@ export default {
         editores: this.checkedEditores,
         bibliotecas: this.checkedBibliotecas
       }
-      console.log(filtro)
       if (this.user_type === 'Requisitante') {
         this.books = await ApiUsers.filterBooks(filtro)
-        console.log(this.books)
       } else if (this.user_type === 'Funcionario' || this.user_type === 'Responsavel') {
         this.books = await ApiEmployee.filterBooks(filtro)
-        console.log(this.books)
       }
       this.filterBooks()
     },
@@ -241,8 +228,6 @@ export default {
         list.push(item)
       }
       this.filter()
-      console.log(this.checkedEditores)
-      console.log(this.checkedAutores)
     }
   }
 }

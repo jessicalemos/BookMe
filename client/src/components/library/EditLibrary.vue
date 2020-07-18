@@ -16,6 +16,18 @@
             <button class="btn btn-secondary btn-block" type="submit" style="background-color: rgb(140,138,138);">
               Guardar
             </button>
+            <div v-if="error === 1">
+              <b-alert class="alert" variant="danger" show dismissible>
+                <b>Error</b><br/>
+                <span class="alert-text">{{msg}}</span>
+              </b-alert>
+            </div>
+            <div v-if="error === -1">
+              <b-alert class="alert" variant="success" show dismissible>
+                <b>Sucesso</b><br/>
+                <span class="alert-text">Biblioteca editada com sucesso</span>
+              </b-alert>
+            </div>
         </form>
     </div>
 </template>
@@ -34,7 +46,8 @@ import UserHandler from '@/utils/UserHandler.js'
 export default {
   name: 'EditLibrary',
   data: () => ({
-    library: {}
+    library: {},
+    error: 0
   }),
   mounted: function () {
     const user = UserHandler.get()
@@ -48,12 +61,11 @@ export default {
   methods: {
     async getLibrary () {
       this.library = await ApiEmployee.getLibrary()
-      console.log(this.library)
-      this.error = -1
     },
     async editLibrary () {
       const req = await ApiEmployee.editLibrary(this.library)
       console.log(req)
+      this.error = -1
     }
   }
 }

@@ -54,7 +54,6 @@ export default {
     } else if (this.user.role !== 'Requisitante' && this.user.role !== 'Funcionario') {
       this.$router.push('/access-denied')
     }
-    console.log(this.user)
     this.getUserInfo()
   },
   methods: {
@@ -78,7 +77,6 @@ export default {
       }
       if (this.user.role === 'Funcionario') {
         const req = await ApiEmployee.editEmployee(this.credentials)
-        console.log(this.credentials)
         console.log(req)
         this.error = -1
       }

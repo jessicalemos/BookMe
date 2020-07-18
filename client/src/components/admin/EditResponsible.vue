@@ -52,7 +52,6 @@ export default {
   methods: {
     async getResponsibleInfo () {
       const idLibrary = localStorage.getItem('Library')
-      console.log(idLibrary)
       this.responsible = await ApiLibraries.responsibleInfo(idLibrary)
       this.responsible.password = ''
     },

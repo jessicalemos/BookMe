@@ -36,9 +36,12 @@
   }
 </style>
 
+<script src="@/api/ApiUsers.js?t=<?=time()?>" type="text/javascript"></script>
 <script>
 import UserHandler from '@/utils/UserHandler.js'
 import ApiUsers from '@/api/ApiUsers'
+import ApiEmployee from '@/api/ApiEmployee'
+import ApiLibraries from '@/api/ApiLibraries'
 
 export default {
   data: () => ({
@@ -53,14 +56,16 @@ export default {
       if (req.success) {
         UserHandler.save(req.token.token)
         const user = UserHandler.get()
-        console.log(user)
         if (user.role === 'Requisitante') {
+          ApiUsers.refresh(req.token.token)
           this.$router.push('/home')
         }
         if (user.role === 'Administrador') {
+          ApiLibraries.refresh(req.token.token)
           this.$router.push('/gerir-bibliotecas')
         }
         if (user.role === 'Responsavel' || user.role === 'Funcionario') {
+          ApiEmployee.refresh(req.token.token)
           this.$router.push('/catalogo-biblioteca')
         }
       } else {

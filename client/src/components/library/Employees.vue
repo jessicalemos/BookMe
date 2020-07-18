@@ -105,16 +105,13 @@ export default {
   methods: {
     async getEmployees () {
       this.employess = await ApiLibraries.getEmployees(this.user_id)
-      console.log(this.employess)
       this.error = -1
     },
     itemToRemove (employee) {
       this.selected = employee
-      console.log(this.selected)
     },
     async removeEmployee () {
       const req = await ApiLibraries.removeEmployee(this.selected)
-      console.log(req)
       this.getEmployees()
       this.$bvModal.hide('modal-scoped')
       this.makeToast('success', 'Sucesso', req)

@@ -65,7 +65,6 @@ export default {
   },
   methods: {
     async register () {
-      console.log(this.credentials)
       this.msg = await ApiLibraries.registerResponsible(this.user_id, this.credentials)
       if (this.msg === 'Username already exists') {
         this.msg = 'Email já em uso'
