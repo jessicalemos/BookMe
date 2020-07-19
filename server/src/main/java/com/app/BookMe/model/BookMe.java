@@ -303,9 +303,22 @@ public class BookMe {
         return rb.consultaLivroTitulo(titulo);
     }
 
+	/**
+	 * Permite procurar os livros por filtro, relativos a autores, editores e biblioteca
+	 * @Param autores
+	 * @Param editores
+	 * @Param bibliotecas
+	 * @return Livros
+	 */
     public static List<Livro> consultaLivrosFiltro(List<String> autores, List<String> editores, List<Long> bibliotecas) {
         return rb.consultaLivrosFiltro(autores, editores, bibliotecas);
     }
+
+	/**
+	 * Consulta as bibliotecas do sistema
+	 * @return Biliotecas
+	 */
+	public static List<Biblioteca> getBiliotecas(){return rb.getBibliotecas();}
 
     @Scheduled(cron="0 0 0 * * *")
     public void vericaReservas(){

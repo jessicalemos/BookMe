@@ -128,6 +128,11 @@ public class RequisitanteController {
         return BookMe.conslutarBibliotecaProcesso(processoID);
     }
 
+    @GetMapping("/consulta/bibliotecas")
+    public List<Biblioteca> getBibliotecas(){
+        return BookMe.getBiliotecas();
+    }
+
     @PostMapping("/reservar/{requisitanteID}")
     public String reservar(@PathVariable long requisitanteID,@RequestBody Processo p){
         return BookMe.reservaLivro(requisitanteID, p);
