@@ -90,6 +90,10 @@ public class AdministradorBean {
         return responsavel;
     }
 
+    /**
+     * Obtem as bibliotecas do sistema
+     * @return
+     */
     public List<Biblioteca> consultaBibliotecas(){
         return br.findBibliotecasByAtiva(true);
     }

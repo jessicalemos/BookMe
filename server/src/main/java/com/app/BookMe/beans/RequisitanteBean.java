@@ -324,6 +324,13 @@ public class RequisitanteBean {
         return lr.findLivrosByIDInAndTituloContains(ids,titulo);
     }
 
+    /**
+     * Permite procurar os livros por filtro, relativos a autores, editores e biblioteca
+     * @Param autores
+     * @Param editores
+     * @Param bibliotecas
+     * @return
+     */
     public  List<Livro> consultaLivrosFiltro(List<String> autores, List<String> editores, List<Long> bibliotecas) {
         List<Long> ids = new ArrayList<>();
         if(bibliotecas.isEmpty()){
@@ -340,5 +347,13 @@ public class RequisitanteBean {
             return lr.findLivrosByAutorInAndIDIn(autores,ids);
         else if (!editores.isEmpty()) return lr.findLivrosByEditorInAndIDIn(editores,ids);
         return lr.findLivrosByIDIn(ids);
+    }
+
+    /**
+     * Obtem as bibliotecas do sistema
+     * @return
+     */
+    public List<Biblioteca> getBibliotecas(){
+        return br.findBibliotecasByAtiva(true);
     }
 }
