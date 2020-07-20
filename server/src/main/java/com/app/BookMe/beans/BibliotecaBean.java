@@ -143,13 +143,12 @@ public class BibliotecaBean {
 
     public List<Livro> consultaBibliotecaLivroTitulo(String titulo, Biblioteca b){
         List<Livro> ll = lr.findByBiblioteca(b.getID());
-        List<Livro> r = new ArrayList<>();
+        List<Long> r = new ArrayList<>();
 
         for(Livro l : ll)
-            if(l.getTitulo().equals(titulo))
-                r.add(l);
+            r.add(l.getID());
         
-        return r;
+        return lr.findLivrosByIDInAndTituloContains(r,titulo);
     }
 
     public List<Livro> consultaBibliotecaLivrosFiltro(List<String> autores, List<String> editores, Biblioteca b){
