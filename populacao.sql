@@ -1,3 +1,6 @@
+INSERT INTO `administrador` VALUES
+	(1,'admin@gmail.com','$2a$10$yDpg/zo7HnwtssazYswvROaNpCW0JSUEUcgAR17uI/PvACLEbDEM6');
+
 INSERT INTO `requisitante` VALUES 
 	(1,'ana23@hotmail.com','$2a$10$cbMnfN3JHS9KAawkvt2nbuWUA5Ec2g9rnX91CPcZvaZhHrXw7y2wG','Ana Maria da Silva Pereira','932343333'),
 	(2,'mariapereira@gmail.com','$2a$10$y8My/myYo9duVQxwac3eTeWZpUva2KRVh1VfJs9TC0oqShXzEqb4O','Maria João Carvalho Pereira','963442211'),

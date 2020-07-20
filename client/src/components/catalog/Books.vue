@@ -230,12 +230,13 @@ export default {
       }
     },
     async searchBook () {
-      if (this.search != null) {
+      if (this.search === '') {
+        this.getBooks()
+      } else if (this.search != null) {
         if (this.user_type === 'Requisitante') {
           this.books = await ApiUsers.searchBook(this.search)
         } else if (this.user_type === 'Funcionario' || this.user_type === 'Responsavel') {
           this.books = await ApiEmployee.searchBook(this.search)
-          console.log(this.books)
         }
         this.filterBooks()
       }
