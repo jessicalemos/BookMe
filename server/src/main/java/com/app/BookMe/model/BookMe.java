@@ -200,6 +200,15 @@ public class BookMe {
         return bb.consultaBibliotecaLivrosFiltro(autores, editores, b);
     }
 
+	/**
+	 * Filtra as bilbiotecas pelo nome
+	 * @param nome Biblioteca nome filtro
+	 * @return Bibliotecas
+	 */
+	public static List<Biblioteca> searchBibliotecaNome(String nome) {
+		return rb.searchBibliotecaNome(nome);
+	}
+
 
 	public static void requisita(long idProcesso) {
 		bb.requisita(idProcesso);

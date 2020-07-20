@@ -356,4 +356,13 @@ public class RequisitanteBean {
     public List<Biblioteca> getBibliotecas(){
         return br.findBibliotecasByAtiva(true);
     }
+
+    /**
+     * Filtra as bilbiotecas pelo nome
+     * @param nome
+     * @return
+     */
+    public List<Biblioteca> searchBibliotecaNome(String nome) {
+        return br.findBibliotecasByNomeContainsAndAtivaTrue(nome);
+    }
 }
