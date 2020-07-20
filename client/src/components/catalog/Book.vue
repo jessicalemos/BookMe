@@ -9,7 +9,7 @@
               <p class="author"><i class="fas fa-pencil-alt"></i>&nbsp; {{book.autor}}<p>
               <p><strong>ISBN </strong>{{book.isbn}}<br/>
               <strong>Edição ou reimpressão </strong>{{book.edicao}}<br/>
-               <strong>Ano </strong>{{book.ano}}<br/>
+              <strong>Ano </strong>{{book.ano}}<br/>
               <strong>Editor </strong>{{book.editor}}<br/>
               <strong>Categoria </strong>{{book.categoria}}<br/>
               <strong>Descrição </strong><br/>{{book.descricao}}</p>

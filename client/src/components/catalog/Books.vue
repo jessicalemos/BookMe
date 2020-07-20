@@ -2,6 +2,22 @@
 <div>
     <div>
     <b-sidebar id="sidebar-1" right>
+      <div v-if="user_type === 'Requisitante'" class="panel-group" id="accordion">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" data-parent="#accordion" class="filter" href="#collapse">
+              Bibliotecas <i class="fas fa-angle-down"></i></a>
+            </h4>
+          </div>
+          <div id="collapse" class="panel-collapse collapse">
+            <div class="line" v-for="(item, index) in bibliotecas" :key="index">
+              <input type="checkbox" :value="item.nome" @change="check(checkedBibliotecas, bibliotecas[index].id)">
+              <label>{{item.nome}}</label>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="panel-group" id="accordion">
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -122,10 +138,12 @@ export default {
     booksFilter: [],
     autores: [],
     editores: [],
+    bibliotecas: [],
     search: null,
     checkedAutores: [],
     checkedEditores: [],
-    checkedBibliotecas: []
+    checkedBibliotecas: [],
+    selectedLibrary: null
   }),
   mounted: function () {
     const user = UserHandler.get()
@@ -139,9 +157,16 @@ export default {
     } else {
       this.$router.push('/')
     }
-    this.getBooks()
+    this.selectedLibrary = localStorage.getItem('Library')
+    console.log(this.selectedLibrary)
+    if (this.selectedLibrary !== 'null') {
+      this.getLibrary()
+    } else {
+      this.getBooks()
+    }
     this.getAutores()
     this.getEditores()
+    this.getBibliotecas()
   },
   methods: {
     async getBooks () {
@@ -170,6 +195,7 @@ export default {
           page[p].push(c)
         }
       })
+      console.log(this.books)
       this.booksFilter = page
     },
     async getAutores () {
@@ -184,6 +210,12 @@ export default {
         this.editores = await ApiUsers.getEditores()
       } else if (this.user_type === 'Funcionario' || this.user_type === 'Responsavel') {
         this.editores = await ApiEmployee.getEditores()
+      }
+    },
+    async getBibliotecas () {
+      if (this.user_type === 'Requisitante') {
+        this.bibliotecas = await ApiUsers.getBibliotecas()
+        console.log(this.bibliotecas)
       }
     },
     range (start, end) {
@@ -228,6 +260,11 @@ export default {
         list.push(item)
       }
       this.filter()
+    },
+    async getLibrary () {
+      this.checkedBibliotecas = [this.selectedLibrary]
+      localStorage.setItem('Library', null)
+      this.filter()
     }
   }
 }
@@ -235,6 +272,10 @@ export default {
 
 <style scoped src="@/assets/css/style.css"></style>
 <style scoped>
+.line {
+  display: flex;
+  margin-left: 10px;
+}
 input {
   margin-top: 4px;
   border-radius: 50rem !important;

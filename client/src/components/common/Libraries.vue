@@ -31,6 +31,11 @@
                     <i class="far fa-trash-alt"></i>
                   </button>
                 </div>
+                <div v-else>
+                  <button class="btn btn-outline-secondary" v-b-tooltip.hover title="Selecionar" @click="selectLibrary(g.id)" type="button">
+                    <i class="fas fa-arrow-right"></i>
+                  </button>
+                </div>
               </a>
           </div>
         </div>
@@ -77,6 +82,7 @@
 <script>
 import UserHandler from '@/utils/UserHandler.js'
 import ApiLibraries from '@/api/ApiLibraries'
+import ApiUsers from '@/api/ApiUsers'
 
 export default {
   name: 'Libraries',
@@ -84,7 +90,7 @@ export default {
     user_type: null,
     libraries: {},
     page: 0,
-    nrPerPage: 4,
+    nrPerPage: 5,
     librariesFilter: [],
     selected: null,
     search: null
@@ -103,7 +109,11 @@ export default {
   },
   methods: {
     async getLibraries () {
-      this.libraries = await ApiLibraries.libraries()
+      if (this.user_type === 'Administrador') {
+        this.libraries = await ApiLibraries.libraries()
+      } else {
+        this.libraries = await ApiUsers.getBibliotecas()
+      }
       this.filterLibraries()
     },
     filterLibraries () {
@@ -154,6 +164,10 @@ export default {
         variant: variant,
         solid: true
       })
+    },
+    selectLibrary (idLibrary) {
+      localStorage.setItem('Library', idLibrary)
+      this.$router.push('/catalogo')
     }
   },
   computed: {}

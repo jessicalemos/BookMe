@@ -12,7 +12,7 @@
               <router-link v-if="!loggedIn" to="/login" class="nav-item nav-link"><i class="fas fa-sign-in-alt"></i> Sign In</router-link>
               <router-link v-if="loggedIn && user_type==='Funcionario'" to="/catalogo-biblioteca" class="nav-item nav-link"><i class="fas fa-book-open"></i> Catálogo</router-link>
               <router-link v-if="loggedIn && user_type==='Responsavel'" to="/catalogo-biblioteca" class="nav-item nav-link"><i class="fas fa-book-open"></i> Catálogo</router-link>
-              <router-link v-if="loggedIn && user_type==='Funcionario'" to="/catalogo" class="nav-item nav-link"><i class="fas fa-book-open"></i> Catálogo</router-link>
+              <router-link v-if="loggedIn && user_type==='Requisitante'" to="/catalogo" class="nav-item nav-link"><i class="fas fa-book-open"></i> Catálogo</router-link>
               <router-link v-if="loggedIn && user_type==='Funcionario'" to="/reservas" class="nav-item nav-link"><i class="fas fa-bookmark"></i> Reservas</router-link>
               <router-link v-if="loggedIn && user_type==='Funcionario'" to="/requisicoes" class="nav-item nav-link"><i class="fas fa-book"></i> Requisições</router-link>
               <router-link v-if="loggedIn && user_type==='Responsavel'" to="/editar-biblioteca" class="nav-item nav-link"><i class="fas fa-home"></i> Biblioteca</router-link>
