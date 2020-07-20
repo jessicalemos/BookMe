@@ -1,0 +1,43 @@
+version: '3.3'
+
+services:
+
+    bookme_db: 
+        image: mysql:5.7.26
+        environment:
+            MYSQL_DATABASE: bookme
+            MYSQL_ROOT_PASSWORD: password
+        volumes:
+            - './populacao.sql:/scripts/populacao.sql'
+        ports:
+            - 3300:3306
+        networks:
+            - network_backend
+
+    frontend:
+        build: ./client
+        volumes:
+            - './client:/app'
+        ports:
+            - 8081:8080
+
+    backend:
+        build: 
+            context: ./server
+        command: ["./wait-for-it.sh", "bookme_db:3306", "--", "mvn", "install"]
+        command: ["mvn", "spring-boot:run"]
+         
+        environment:
+            WAIT_HOSTS: mysql:3306
+            SPRING_DATASOURCE_URL: jdbc:mysql://bookme_db:3306/bookme?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Lisbon
+            SPRING_DATASOURCE_USERNAME: root
+            SPRING_DATASOURCE_PASSWORD: password
+        ports:
+            - 9000:8080
+        networks:
+            - network_backend
+        restart: always
+
+networks:
+    network_backend:
+        driver: "bridge"
