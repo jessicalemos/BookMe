@@ -41,11 +41,48 @@
             </div>
       </div>
     </div>
+  <section class="testimonials text-center bg-light">
+    <div class="container">
+      <h2 class="title">Book Me?</h2>
+      <div id="bookme" class="row">
+        <div class="col-lg-4">
+          <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+            <img class="img-fluid rounded-circle mb-3" src="@/assets/img/one.png" alt="">
+            <h5 class="name">Escolhe o teu livro e biblioteca</h5>
+            <p class="description">Se o teu livro estiver disponível efetua o levantamento até quatro dias após a tua reserva ou então fica atento às tuas notificações para saberes quando já está disponível</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+            <img class="img-fluid rounded-circle mb-3" src="@/assets/img/two.png" alt="">
+            <h5 class="name">Desfruta do teu livro</h5>
+            <p class="description">A requisição tem uma duração máxima de 15 dias</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+            <img class="img-fluid rounded-circle mb-3" src="@/assets/img/three.png" alt="">
+            <h5 class="name">Efetua a devolução ou renovação</h5>
+            <p class="description">Se ainda não terminaste a tua leitura não há problema! Podes renovar caso o mesmo já não tenha sido reservado, caso contrário não te esqueças de o devolver no prazo indicado</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
   </div>
 </template>
-
 <style scoped src="@/assets/css/style.css"></style>
 <style scoped>
+#bookme {
+  margin-top: 60px;
+  margin-bottom: 20px;
+}
+.img-fluid {
+  height: 40px;
+}
+.title {
+  font-weight: bold !important;
+}
 .container {
   padding: 20px;
   margin-top: 40px;
