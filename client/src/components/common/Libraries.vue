@@ -153,8 +153,14 @@ export default {
       this.makeToast('success', 'Sucesso', 'Biblioteca removida com sucesso')
     },
     async searchLibrary () {
-      if (this.search != null) {
-        this.libraries = await ApiLibraries.searchLibrary(this.search)
+      if (this.search === '') {
+        this.getLibraries()
+      } else if (this.search != null) {
+        if (this.user_type === 'Requisitante') {
+          this.libraries = await ApiUsers.searchLibrary(this.search)
+        } else if (this.user_type === 'Administrador') {
+          this.libraries = await ApiLibraries.searchLibrary(this.search)
+        }
         this.filterLibraries()
       }
     },
