@@ -33,7 +33,7 @@
         <template v-slot:modal-header>
           <b>Remover Funcionário</b>
         </template>
-        <template v-slot:default>Tem a certeza que pretende remover esta biblioteca?</template>
+        <template v-slot:default>Tem a certeza que pretende remover este funcionário?</template>
         <template v-slot:modal-footer="{}">
           <b-button size="sm" variant="outline-danger" @click="$bvModal.hide('modal-scoped')">
             <i class="fas fa-times"></i> Não

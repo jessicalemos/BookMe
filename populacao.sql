@@ -1,3 +1,6 @@
+INSERT INTO `administrador` VALUES
+	(1,'admin@gmail.com','$2a$10$yDpg/zo7HnwtssazYswvROaNpCW0JSUEUcgAR17uI/PvACLEbDEM6');
+
 INSERT INTO `requisitante` VALUES 
 	(1,'ana23@hotmail.com','$2a$10$cbMnfN3JHS9KAawkvt2nbuWUA5Ec2g9rnX91CPcZvaZhHrXw7y2wG','Ana Maria da Silva Pereira','932343333'),
 	(2,'mariapereira@gmail.com','$2a$10$y8My/myYo9duVQxwac3eTeWZpUva2KRVh1VfJs9TC0oqShXzEqb4O','Maria João Carvalho Pereira','963442211'),
@@ -823,3 +826,6 @@ INSERT INTO notificacao VALUES
 	(5,'O livro  Ganhei uma Vida Quando te Perdi que reservou, está disponível para levantamento, tem 4 dias para o fazer.','2020-06-15',4),
 	(6,'O livro  A Noite que reservou, está disponível para levantamento, tem 4 dias para o fazer.','2020-07-14',1),
 	(7,'A data de entrega da requisição do livro Os Lusíadas já foi ultrapassada, por favor regulariza a situação','2020-07-21',2);
+
+SET SQL_SAFE_UPDATES = 0;
+UPDATE hibernate_sequence SET next_val = 68;

@@ -4,7 +4,7 @@
       <form @submit.prevent="searchLibrary">
         <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
           <div class="input-group">
-            <input type="search" placeholder="Qual o livro que procura?" v-model="search" aria-describedby="button-addon1" class="form-control border-0 bg-light">
+            <input type="search" placeholder="Qual a biblioteca que procura?" v-model="search" aria-describedby="button-addon1" class="form-control border-0 bg-light">
             <div class="input-group-append">
               <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
             </div>
@@ -29,6 +29,11 @@
                   </button>
                   <button class="btn btn-danger remove" v-b-tooltip.hover title="Remover" @click="$bvModal.show('modal-scoped'); itemToRemove(g.id)" type="button">
                     <i class="far fa-trash-alt"></i>
+                  </button>
+                </div>
+                <div v-else>
+                  <button class="btn btn-outline-secondary" v-b-tooltip.hover title="Selecionar" @click="selectLibrary(g.id)" type="button">
+                    <i class="fas fa-arrow-right"></i>
                   </button>
                 </div>
               </a>
@@ -77,6 +82,7 @@
 <script>
 import UserHandler from '@/utils/UserHandler.js'
 import ApiLibraries from '@/api/ApiLibraries'
+import ApiUsers from '@/api/ApiUsers'
 
 export default {
   name: 'Libraries',
@@ -84,7 +90,7 @@ export default {
     user_type: null,
     libraries: {},
     page: 0,
-    nrPerPage: 4,
+    nrPerPage: 5,
     librariesFilter: [],
     selected: null,
     search: null
@@ -103,7 +109,11 @@ export default {
   },
   methods: {
     async getLibraries () {
-      this.libraries = await ApiLibraries.libraries()
+      if (this.user_type === 'Administrador') {
+        this.libraries = await ApiLibraries.libraries()
+      } else {
+        this.libraries = await ApiUsers.getBibliotecas()
+      }
       this.filterLibraries()
     },
     filterLibraries () {
@@ -143,8 +153,14 @@ export default {
       this.makeToast('success', 'Sucesso', 'Biblioteca removida com sucesso')
     },
     async searchLibrary () {
-      if (this.search != null) {
-        this.libraries = await ApiLibraries.searchLibrary(this.search)
+      if (this.search === '') {
+        this.getLibraries()
+      } else if (this.search != null) {
+        if (this.user_type === 'Requisitante') {
+          this.libraries = await ApiUsers.searchLibrary(this.search)
+        } else if (this.user_type === 'Administrador') {
+          this.libraries = await ApiLibraries.searchLibrary(this.search)
+        }
         this.filterLibraries()
       }
     },
@@ -154,6 +170,10 @@ export default {
         variant: variant,
         solid: true
       })
+    },
+    selectLibrary (idLibrary) {
+      localStorage.setItem('Library', idLibrary)
+      this.$router.push('/catalogo')
     }
   },
   computed: {}

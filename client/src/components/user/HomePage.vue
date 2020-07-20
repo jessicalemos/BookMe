@@ -15,10 +15,10 @@
                   </button>
                 </div>
               </a>
-              <a class="list-group-item list-group-item-action">
+              <a v-for="g in libraries" :key="g.id" class="list-group-item list-group-item-action">
                 <div class="d-flex align-items-center justify-content-between">
                   <div class="text-left">
-                    <strong>Biblioteca Pública de Braga</strong>
+                    <strong>{{g.nome}}</strong>
                   </div>
                 </div>
               </a>
@@ -89,11 +89,13 @@ export default {
   name: 'HomePage',
   data: () => ({
     processes: {},
-    books: {}
+    books: {},
+    libraries: {}
   }),
   mounted: function () {
     this.getProcesses()
     this.getBooks()
+    this.getLibraries()
   },
   methods: {
     async getProcesses () {
@@ -110,6 +112,11 @@ export default {
     async getBooks () {
       const req = await ApiUsers.getBooks()
       this.books = req.slice(0, 4)
+    },
+    async getLibraries () {
+      const req = await ApiUsers.getBibliotecas()
+      this.libraries = req.slice(0, 4)
+      console.log(this.libraries)
     },
     moment
   }

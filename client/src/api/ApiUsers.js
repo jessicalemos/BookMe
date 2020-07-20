@@ -278,4 +278,28 @@ ApiUsers.filterBooks = async (filters) => {
   }
 }
 
+ApiUsers.getBibliotecas = async () => {
+  try {
+    const req = await axios.get(`${HOST}` + 'consulta/bibliotecas', token)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
+ApiUsers.searchLibrary = async (library) => {
+  try {
+    const req = await axios.get(`${HOST}` + 'search/bibliotecas/' + library, token)
+    return req.data
+  } catch (e) {
+    console.error(e)
+    return {
+      success: false
+    }
+  }
+}
+
 export default ApiUsers

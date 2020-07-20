@@ -190,4 +190,9 @@ public class RequisitanteController {
         return BookMe.consultaLivrosFiltro(f.getAutores(), f.getEditores(), f.getBibliotecas());
     }
 
+    @GetMapping("/search/bibliotecas/{nome}")
+    public List<Biblioteca> searchBibliotecaNome(@PathVariable String nome) {
+        return BookMe.searchBibliotecaNome(nome);
+    }
+
 }
