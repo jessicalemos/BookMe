@@ -67,21 +67,21 @@ INSERT INTO biblioteca VALUES (9,1,'biblioraulbrandao@gamil.com',' Largo Cónego
 INSERT INTO biblioteca VALUES (10,1,'municipalcoimbra@gmail.com','329 Apartado 1189, R. Pedro Monteiro, Coimbra','Biblioteca Municipal de Coimbra','921679271',52);
 
 INSERT INTO `funcionario` VALUES 
-	(53,'paulo@gmail.com','$2a$10$tQy4WqQ5ychUUaTkEQ90du1N9RcpWKLV4mHoDuSDeNjYVFHuUpMEy','Paulo Carvalho',1),
-	(54,'francisco@gmail.com','$2a$10$EXYRWslF63qBN4TSTWkxM.IsLceDoRxS7dTiuFJf68HH4LwQ4VjPe','Francisco Alves',1),
-	(55,'pedropinto@gmail.com','$2a$10$lHbha/cj8h82wVVp5KV2oeSmQ.ZCEonYcIiPAx2Tgy3RqKHMSu2bu','Pedro Campos',2),
-	(56,'jessica@gmail.com','$2a$10$Paz20YO8kBYhOXqwHudqEeIO1zuDoivSk3h0mA6T1YnyQLkmLTSiC','Jéssica Moreira',3),
-	(57,'marta@gmail.com','$2a$10$LFDRhZh8lvWH5d4r/ZSN8.GokGxlncBbSVXYXS/jDf9QhgNKo/Fkq','Marta Campos',3),
-	(58,'diogo@gmail.com','$2a$10$aJ0ks1ietPRx5Wf4eHIA..hnqkbbmjI8tsfZAZ/WHVQZmvejzEB/S','Diogo Teixeira',3),
-	(59,'miguel@gmail.com','$2a$10$/5f2kfwQmfVa09fjep7u/.qHone32NCJv3vz8SvTytMaGyJtTY/kS','Miguel Barbosa',4),
-	(60,'barbosa@gmail.com','$2a$10$eyJmFx/31gxWBUpG4EGnwON1qj2Tq0wHdhhQWVPIdDkuqKFevq/0W','João Barbosa',5),
-	(61,'horacio@gmail.com','$2a$10$dn1hieaFfEiupiBfSkm86OmL7llVeaYwv4nzSbk/Qb4vjYZUWAMuq','Horácio Teixeira',5),
-	(62,'lima@gmail.com','$2a$10$jnCJYvqU1av2554JQ2mtNOox09sVLrpleqfJp8wDMLFW18w.wXnN.','Jorge Lima',6),
-	(63,'teixeira@gmail.com','$2a$10$/QefDj68TUh1DENKTInBEOfPssls15r33UKcxMxFpqnDWb/pJsuoa','Armando Teixeira',7),
-	(64,'laco@gmail.com','$2a$10$aP0kwKMO78QBKzbJk6FSAOsvhUSOqZQP50wxYwGzyZgq9huPLMRmi','Francisco Laço',8),
-	(65,'maria@gmail.com','$2a$10$/zt.AyRVQDqnpgrkSbNE/eT0X43aNB.YkKpWG2hgWoXVB4Yv/wecu','Maria Laço',9),
-	(66,'joanalaco@gmail.com','$2a$10$Q1uXCyirsUJn7OgZKUBOWuDAfEYkryheceV4oN/Wt4OJfeZJGx4O6','Joana Laço',10),
-	(67,'sofia@gmail.com','$2a$10$qpdaIH8os7znYKjIpQQNMetB5948/IPA74pIdN8JRrsiGcwuWz.C6','Sofia Gonçalves',10);
+(53,'paulo@gmail.com','$2a$10$TTPNqVQp/DMe8R.XVtO7E.NRFghOjszy7eIikTN8jR16mD.bh4fs.','Paulo Carvalho',1),
+(54,'francisco@gmail.com','$2a$10$vJiN/2Y7lDDpkoGFfsgwmuIdSy6GjjEA.P8G87erX.DY5R3kzya3O','Francisco Alves',1),
+(55,'pedropinto@gmail.com','$2a$10$UNTrnQ2xe50rqQJc/oVEneIpmYooCbAeLOHX73E3CUqb7XOnGXJoe','Pedro Campos',2),
+(56,'jessica@gmail.com','$2a$10$JXezLl7n12ixVkrGENOfAez0hR7EDwcQ/wf2W8FEE/aTn7D6Y04zC','Jéssica Moreira',3),
+(57,'marta@gmail.com','$2a$10$XWucEUfORA7FB8tuPPl0oe7lolWTp76GWFfExQJwSaMufRoPj5MUe','Marta Campos',3),
+(58,'diogo@gmail.com','$2a$10$L2nbDFTzqXFOSKnelbcUm.ceCIABVm/o5b7AXeY6QDklCJ5eLb/9G','Diogo Teixeira',3),
+(59,'miguel@gmail.com','$2a$10$3ty5p40fMwH/ESNUKbGYyuOWM5xZg4.hENq16mJrX3JDa7DS25wuO','Miguel Barbosa',4),
+(60,'barbosa@gmail.com','$2a$10$ScsFUPYGV9RIHhFuDx.WluPPIgFjOzQdSBLwK1E5G2Ugv7e5bbUwO','João Barbosa',5),
+(61,'horacio@gmail.com','$2a$10$USBXhbKggIbI18oj6u9VKebrenjvSe2/3ap4W0x2xLQiec5C3SQ7q','Horácio Teixeira',5),
+(62,'lima@gmail.com','$2a$10$KRVfOadwFEMwxWNB98IPrOnptEpUXdSJhMA4AngAbwMLgGSLprU2O','Jorge Lima',6),
+(63,'teixeira@gmail.com','$2a$10$17pVKJj7RZZ5mgsscbsXqezHtKJpZ3VpnVtZQ3Cm1vvwuLJUc0C36','Armando Teixeira',7),
+(64,'laco@gmail.com','$2a$10$H7b1WBLyJHECMPJ9DN1WIeKjHaay/kjUgmXR5MWbExaSNVlDjI/Ay','Francisco Laço',8),
+(65,'maria@gmail.com','$2a$10$8pxfeMf1DodGbd/zP5ZW1eRr4TTwHiu24GxL8BDPPrTWQWN7DRTzC','Maria Laço',9),
+(66,'joanalaco@gmail.com','$2a$10$vs4BSpQw6U6TBEwexJ0a1O2/jNGU7WlaY7k2lizJ.WAwUn8MCSMe6','Joana Laço',10),
+(67,'sofia@gmail.com','$2a$10$PEGRj9wifiFuxIIh3TC4j.zr.TTjtupB84jDjPxdNOKyd0nKxgE76','Sofia Gonçalves',10);
 
 
 INSERT INTO livro VALUES(1,'2020','Herberto Helder','Poesia','Há a tentação de escrever um texto inabitável, uma espécie de mapa solitário e limpo, diante do qual o engenheiro da fábula não possa maquinar o seu empenho de aventura humana, com as palavras: aqui fica uma rua, aqui uma ponte, aqui um parque, aqui a mancha cerrada de sentimentos e ideias com o nome de bairro de gente.
