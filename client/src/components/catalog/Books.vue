@@ -159,7 +159,7 @@ export default {
     }
     this.selectedLibrary = localStorage.getItem('Library')
     console.log(this.selectedLibrary)
-    if (this.selectedLibrary !== 'null') {
+    if (this.selectedLibrary != null && this.selectedLibrary !== 'null') {
       this.getLibrary()
     } else {
       this.getBooks()
@@ -234,7 +234,8 @@ export default {
         if (this.user_type === 'Requisitante') {
           this.books = await ApiUsers.searchBook(this.search)
         } else if (this.user_type === 'Funcionario' || this.user_type === 'Responsavel') {
-          this.book = await ApiEmployee.searchBook(this.search)
+          this.books = await ApiEmployee.searchBook(this.search)
+          console.log(this.books)
         }
         this.filterBooks()
       }

@@ -4,7 +4,7 @@
       <form @submit.prevent="searchLibrary">
         <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
           <div class="input-group">
-            <input type="search" placeholder="Qual o livro que procura?" v-model="search" aria-describedby="button-addon1" class="form-control border-0 bg-light">
+            <input type="search" placeholder="Qual a biblioteca que procura?" v-model="search" aria-describedby="button-addon1" class="form-control border-0 bg-light">
             <div class="input-group-append">
               <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
             </div>
